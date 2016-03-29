@@ -1,0 +1,68 @@
+\documentclass{beamer}
+
+\usetheme{Rochester}
+\usecolortheme{beaver}
+
+\title{Sequential Games}
+\author[M. Dewaskar]{Miheer Dewaskar}
+\institute[CMI]{Chennai Mathematical Institute}
+\subject{Computer Science}
+%
+% \AtBeginSection[]
+% {
+%   \begin{frame}
+%     \frametitle{Table of Contents}
+%     \tableofcontents[currentsection]
+%   \end{frame}
+% }
+
+\begin{document}
+  \frame{\titlepage}
+
+  \begin{frame}
+    \frametitle{Table of Contents}
+    \tableofcontents
+  \end{frame}
+
+  \section{Introduction}
+    \subsection{Definition of Parity Games}
+
+    \subsection{An alternative finite game}
+    % Shows decidability
+
+    \subsection{Some results}
+    \begin{itemize}
+      \item Positional winning strategies. Hence in NP $\cap$ Co-NP
+      \item In fact, in UP $\cap$ Co-UP. UP is the class of languages having unique a certificate.
+      %Interestingly  \cite{up} says that all problems in NP-Co-NP fall in this class too
+    \end{itemize}
+
+  \section{Complexity}
+    \begin{itemize}
+      \item Show to be in UP $\int$ Co-UP but no polynomial time algorithm is known yet
+      \item The problem is FPT in the number of colours.
+      \item \cite{subexp} gives a subexponential algorithm
+    \end{itemize}
+
+  \section{Approaches to solve Parity Games}
+    \begin{itemize}
+      \item Reduction to Mean-Payoff games
+      \item Policy Iteration Methods
+      \item Small progress Measures
+      \item Recursive approach
+    \end{itemize}
+
+  \section{Connection to other areas}
+    \begin{itemize}
+      \item Mean-payoff games seem like quantitative analogues of Parity Games
+      \item Randomized
+    \end{itemize}
+
+
+  \section{References}
+
+    \begin{thebibliography}{1}
+      \bibitem{up} Jurdziński, Marcin. “Deciding the Winner in Parity Games Is in UP∩ Co-UP.” Information Processing Letters 68, no. 3 (1998): 119–24.
+      \bibitem{subexp} Jurdzinski, Marcin, Mike Paterson, and Uri Zwick. “A Deterministic Subexponential Algorithm for Solving Parity Games.” SIAM Journal on Computing 38, no. 4 (2008): 1519–32.
+    \end{thebibliography}
+\end{document}
