@@ -5,7 +5,7 @@
 \usepackage{complexity}
 
 \usepackage{tikz}
-\usetikzlibrary{arrows,positioning,fit,shapes.multipart,decorations.pathmorphing}
+\usetikzlibrary{arrows,positioning,fit,shapes.multipart,decorations.pathmorphing,overlay-beamer-styles}
 
 \usetheme{Rochester}
 \usecolortheme{beaver}
@@ -88,13 +88,13 @@
     pre/.style = {<-, semithick, >=stealth', shorten <=1pt},
     post/.style= {->, semithick, >=stealth', shorten >=1pt}
   }
-  \tikzset{
-    invisible/.style={opacity=0},
-    visible on/.style={alt={#1{}{invisible}}},
-    alt/.code args={<#1>#2#3}{%
-      \alt<#1>{\pgfkeysalso{#2}}{\pgfkeysalso{#3}} % \pgfkeysalso doesn't change the path
-    },
-  }
+  %\tikzset{
+    %invisible/.style={opacity=0},
+    %visible on/.style={alt={#1{}{invisible}}},
+    %alt/.code args={<#1>#2#3}{%
+      %\alt<#1>{\pgfkeysalso{#2}}{\pgfkeysalso{#3}} % \pgfkeysalso doesn't change the path
+    %},
+  %}
 
   \begin{slide}
     \framesubtitle{An equivalent finite game}
