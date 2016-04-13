@@ -45,7 +45,7 @@
 \begin{standaloneframe}
     \frametitle{Finite games}
     \framesubtitle{Payoff game}
-    %\setcounter{beamerpauses}{7}
+    \setcounter{beamerpauses}{7}
     \begin{tikzpicture}[->,
     norm/.style={edge from parent/.style={draw,black,thin}},
     level 1/.style={sibling distance=3cm},
@@ -54,22 +54,22 @@
     every child/.style={norm}
     ]
     \begin{scope}[every node/.style={draw=black,thin}]
-        \node[p2, tok=<.(1)>] (1) {}
+        \node[p2, tok=<1>] (1) {\only<.(3)->{1}}
         child {
-                node[p1] (l) {}
-                child { node[p2] (ll) {4} }
+                node[p1] (l) {\only<.(2)->{4}}
+                child[ee=<.(2)->1] { node[p2] (ll) {4} }
                 child {	node[p1] (lr) {-1} }
         }
-        child {
-                node[p1] (r) {}
+        child[ee=<.(3)->2] {
+            node[p1, tok=<2>] (r) {\only<.(2)->{1}}
                 child {
-                    node [p2] (rl) {}
-                    child { node [p1] (rll) {-1} }
-                    child { node [p1] (rlr) {4}}
+                    node [p2, tok=<{3,5}>] (rl) {\only<.(1)->{-1}}
+                    child[ee=<.(1)->2] { node [p1, tok=<6>] (rll) {-1} }
+                    child { node [p1, tok=<4>] (rlr) {4}}
 				}
-                child {
-                    node[p1] (rr) {}
-                    child { node [p1] (rrr) {1} }
+                child[ee=<.(2)->1] {
+                    node[p1] (rr) {\only<.(1)->{1}}
+                    child[ee=<.(1)->1] { node [p1] (rrr) {1} }
                     child { node [p2] (rrl) {-2} }
 				}
 		};
