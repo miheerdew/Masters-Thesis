@@ -20,20 +20,20 @@
                 node[p1, nc=<.(3)->1] (l) {}
                 child[ee=<.(3)->1] { node[p2, ncolor=1] (ll) {} }
                 child {	node[p1, ncolor=2] (lr) {} }
-			}
+        }
         child [ee=<.(4)->2]{
                 node[p2, nc=<.(3)->2, tok=<2>] (r) {}
                 child {
-                    node [p1, nc=<.(2)->1, tok=<{3,5}>] (rrl) {}
-                    child { node [p1, ncolor=2, tok=<4>] (rrll) {} }
-                    child[ee=<.(2)->1] { node [p1, ncolor=1,tok=<6>] (rrlr) {}}
+                    node [p1, nc=<.(2)->1, tok=<{3,5}>] (rl) {}
+                    child { node [p1, ncolor=2, tok=<4>] (rll) {} }
+                    child[ee=<.(2)->1] { node [p1, ncolor=1,tok=<6>] (rlr) {}}
 				}
                 child[alt=<.(3)->{emph-edge=2}{}] {
                     node[p1, nc=<.(2)->2] (rr) {}
                     child { node [p1, ncolor=2] (rrr) {} }
                     child { node [p2, ncolor=2] (rrl) {} }
 				}
-			};
+		};
         \end{scope}
 
   		\node  (graph) [fit=(1) (ll) (rrl)] {};
