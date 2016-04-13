@@ -6,79 +6,104 @@
 \begin{standaloneframe}
     \frametitle{Finite games}
     \framesubtitle{Win-Loss game}
-    \setcounter{beamerpauses}{7}
-    \begin{tikzpicture}[->,
-    norm/.style={edge from parent/.style={draw,black,thin}},
-    level 1/.style={sibling distance=3cm},
-    level 2/.style={sibling distance=2cm},
-    level 3/.style={sibling distance=1.2cm},
-    every child/.style={norm}
-    ]
-    \begin{scope}[every node/.style={draw=black,thin}]
-        \node[p2, nc=<.(4)->2, tok=<1>] (1) {}
-        child[] {
-                node[p1, nc=<.(3)->1] (l) {}
-                child[ee=<.(3)->1] { node[p2, ncolor=1] (ll) {} }
-                child {	node[p1, ncolor=2] (lr) {} }
-        }
-        child [ee=<.(4)->2]{
-                node[p2, nc=<.(3)->2, tok=<2>] (r) {}
-                child {
-                    node [p1, nc=<.(2)->1, tok=<{3,5}>] (rl) {}
-                    child { node [p1, ncolor=2, tok=<4>] (rll) {} }
-                    child[ee=<.(2)->1] { node [p1, ncolor=1,tok=<6>] (rlr) {}}
-				}
-                child[ee=<.(3)->2] {
-                    node[p1, nc=<.(2)->2] (rr) {}
-                    child { node [p1, ncolor=2] (rrr) {} }
-                    child { node [p2, ncolor=2] (rrl) {} }
-				}
-		};
-        \end{scope}
+    \begin{columns}
+        \begin{column}{0.65\textwidth}
+            \setcounter{beamerpauses}{7}
+            \begin{tikzpicture}[->,
+            norm/.style={edge from parent/.style={draw,black,thin}},
+            level 1/.style={sibling distance=3cm},
+            level 2/.style={sibling distance=2cm},
+            level 3/.style={sibling distance=1.2cm},
+            every child/.style={norm}
+            ]
+            \begin{scope}[every node/.style={draw=black,thin}]
+                \node[p2, nc=<.(4)->2, tok=<1>] (1) {}
+                child[] {
+                        node[p1, nc=<.(3)->1] (l) {}
+                        child[ee=<.(3)->1] { node[p2, ncolor=1] (ll) {} }
+                        child {	node[p1, ncolor=2] (lr) {} }
+                }
+                child [ee=<.(4)->2]{
+                        node[p2, nc=<.(3)->2, tok=<2>] (r) {}
+                        child {
+                            node [p1, nc=<.(2)->1, tok=<{3,5}>] (rl) {}
+                            child { node [p1, ncolor=2, tok=<4>] (rll) {} }
+                            child[ee=<.(2)->1] { node [p1, ncolor=1,tok=<6>] (rlr) {}}
+                        }
+                        child[ee=<.(3)->2] {
+                            node[p1, nc=<.(2)->2] (rr) {}
+                            child { node [p1, ncolor=2] (rrr) {} }
+                            child { node [p2, ncolor=2] (rrl) {} }
+                        }
+                };
+                \end{scope}
 
-  		\node  (graph) [fit=(1) (ll) (rrl)] {};
-        \node (1-sym) [p1, ncolor=1, below=1pt of graph.south west, label={right:circle wins}] {};
-        \node [p2, ncolor=2, below=1pt of 1-sym,  label={right:box wins}] at (1-sym.south) {};
-\end{tikzpicture}
+                \node  (graph) [fit=(1) (ll) (rrl)] {};
+                \node (1-sym) [p1, ncolor=1, below=1pt of graph.south west, label={right:circle wins}] {};
+                \node [p2, ncolor=2, below=1pt of 1-sym,  label={right:box wins}] at (1-sym.south) {};
+        \end{tikzpicture}
+    \end{column}
+
+    \begin{column}{0.35\textwidth}
+        \only<4>{Circle wins}
+        \only<6>{Box wins}
+        \only<.(4)>{Box has a winning strategy}
+    \end{column}
+
+    \end{columns}
 \end{standaloneframe}
 
 \begin{standaloneframe}
     \frametitle{Finite games}
     \framesubtitle{Payoff game}
     \setcounter{beamerpauses}{7}
-    \begin{tikzpicture}[->,
-    norm/.style={edge from parent/.style={draw,black,thin}},
-    level 1/.style={sibling distance=3cm},
-    level 2/.style={sibling distance=2cm},
-    level 3/.style={sibling distance=1.2cm},
-    every child/.style={norm}
-    ]
-    \begin{scope}[every node/.style={draw=black,thin}]
-        \node[p2, tok=<1>] (1) {\only<.(3)->{1}}
-        child {
-                node[p1] (l) {\only<.(2)->{4}}
-                child[ee=<.(2)->1] { node[p2] (ll) {4} }
-                child {	node[p1] (lr) {-1} }
-        }
-        child[ee=<.(3)->2] {
-            node[p1, tok=<2>] (r) {\only<.(2)->{1}}
+    \begin{columns}
+        \begin{column}{0.6\textwidth}
+            \begin{tikzpicture}[->,
+            norm/.style={edge from parent/.style={draw,black,thin}},
+            level 1/.style={sibling distance=3cm},
+            level 2/.style={sibling distance=2cm},
+            level 3/.style={sibling distance=1.2cm},
+            every child/.style={norm},
+            ]
+            \begin{scope}[every node/.style={draw=black,thin}]
+                \node[p2, tok=<1>] (1) {\only<.(3)->{1}}
                 child {
-                    node [p2, tok=<{3,5}>] (rl) {\only<.(1)->{-1}}
-                    child[ee=<.(1)->2] { node [p1, tok=<6>] (rll) {-1} }
-                    child { node [p1, tok=<4>] (rlr) {4}}
-				}
-                child[ee=<.(2)->1] {
-                    node[p1] (rr) {\only<.(1)->{1}}
-                    child[ee=<.(1)->1] { node [p1] (rrr) {1} }
-                    child { node [p2] (rrl) {-2} }
-				}
-		};
-        \end{scope}
+                        node[p1] (l) {\only<.(2)->{4}}
+                        child[ee=<.(2)->1] { node[p2] (ll) {4} }
+                        child {	node[p1] (lr) {-1} }
+                }
+                child[ee=<.(3)->2] {
+                    node[p1, tok=<2>] (r) {\only<.(2)->{1}}
+                        child {
+                            node [p2, tok=<{3,5}>] (rl) {\only<.(1)->{-1}}
+                            child[ee=<.(1)->2] { node [p1, tok=<6>] (rll) {-1} }
+                            child { node [p1, tok=<4>] (rlr) {4}}
+                        }
+                        child[ee=<.(2)->1] {
+                            node[p1] (rr) {\only<.(1)->{1}}
+                            child[ee=<.(1)->1] { node [p1] (rrr) {1} }
+                            child { node [p2] (rrl) {-2} }
+                        }
+                };
+                \end{scope}
 
-  		\node  (graph) [fit=(1) (ll) (rrl)] {};
-        \node (1-sym) [p1, color1, below=1pt of graph.south west, label={right:Maximizer}] {};
-        \node [p2, color2, below=1pt of 1-sym,  label={right:Minimizer}] at (1-sym.south) {};
-\end{tikzpicture}
+                \node  (graph) [fit=(1) (ll) (rrl)] {};
+                \node (1-sym) [p1, color1, below=1pt of graph.south west, label={right:Maximizer}] {};
+                \node [p2, color2, below=1pt of 1-sym,  label={right:Minimizer}] at (1-sym.south) {};
+        \end{tikzpicture}
+    \end{column}
+    \begin{column}{0.4\textwidth}
+        \only<4>{Min pays 4 units to Max}
+        \only<6>{Min pays -1 units to Max}
+        \only<.(3)>{
+        \begin{itemize}
+            \item Min can ensure that he does not pay more than 1 unit.
+            \item Max can ensure that Min has to pay at least 1 unit.
+        \end{itemize}
+    }
+    \end{column}
+\end{columns}
 \end{standaloneframe}
 
 \end{document}
