@@ -12,8 +12,9 @@
     level 1/.style={sibling distance=3cm},
     level 2/.style={sibling distance=2cm},
     level 3/.style={sibling distance=1.2cm},
+    every child/.style={norm}
     ]
-    \begin{scope}[every node/.style={draw=black,thin}, every child/.style={norm}]
+    \begin{scope}[every node/.style={draw=black,thin}]
         \node[p2, nc=<.(4)->2, tok=<1>] (1) {}
         child[] {
                 node[p1, nc=<.(3)->1] (l) {}
