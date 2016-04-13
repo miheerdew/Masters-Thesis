@@ -1,0 +1,45 @@
+\documentclass[beamer]{standalone}
+\usepackage{mypackages}
+
+\begin{document}
+\begin{standaloneframe}[t]
+    \frametitle{Parity Games}
+    \begin{columns}
+        \begin{column}{0.4\textwidth}
+        \end{column}
+        \begin{column}{0.6\textwidth}
+            \scalebox{0.80}{
+            \begin{tikzpicture}[podd/.style=p1, peven/.style=p2]
+                  \node (origin) at (0,0) {};
+                    \node (5) [podd, left=of origin, tok-here=5] {5};
+                    \node (6) [peven, left=of 5, tok-here=6]  {6};
+                    \node (1) [podd, right=of origin, tok-here=1]  {1};
+                    \node (2) [peven, right=of 1, tok-here=2]  {2};
+                    \node (3) [peven, above=of 2, tok-here=3] {3};
+
+                    \draw (3) edge [post, loop, looseness=5] (3)
+                        (3) edge [pre] (2)
+                        (3) edge [post, bend right] (6)
+                        (2) edge [post, bend left] (1)
+                        (2) edge [pre, bend right] (1)
+                        (2) edge [pre, bend left=63] (5)
+                        (1) edge [post] (5)
+                        (6) edge [pre,bend left] (5)
+                        (6) edge [post, bend right] (5);
+
+                    \node (graph) [fit=(1) (2) (3) (6) (5)] {};
+                    \node (odd-sym) [podd, below=2cm of 6, label={right:Odd}] {};
+                        \node [peven, below=7pt of odd-sym, label={right:Even}] {};
+            \end{tikzpicture}
+        }
+
+            \foreach \x [count=\xi] in {1,5,2,1,2,3,3,\ldots} {
+            \only<+-> {
+                \global\let\TokenIsIn=\x
+                \x
+            }
+        }
+        \end{column}
+\end{columns}
+\end{standaloneframe}
+\end{document}
