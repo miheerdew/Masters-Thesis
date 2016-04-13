@@ -2,13 +2,7 @@
 \usepackage{mypackages}
 
 \begin{document}
-\begin{standaloneframe}[t]
-    \frametitle{Parity Games}
-    \begin{columns}
-        \begin{column}{0.4\textwidth}
-        \end{column}
-        \begin{column}{0.6\textwidth}
-            \scalebox{0.80}{
+\newcommand{\ParityPic}{
             \begin{tikzpicture}[podd/.style=p1, peven/.style=p2]
                   \node (origin) at (0,0) {};
                     \node (5) [podd, left=of origin, tok-here=5] {5};
@@ -28,18 +22,42 @@
                         (6) edge [post, bend right] (5);
 
                     \node (graph) [fit=(1) (2) (3) (6) (5)] {};
-                    \node (odd-sym) [podd, below=2cm of 6, label={right:Odd}] {};
+                    \node (odd-sym) [podd, below=1.5cm of 6, label={right:Odd}] {};
                         \node [peven, below=7pt of odd-sym, label={right:Even}] {};
             \end{tikzpicture}
-        }
+}
 
-            \foreach \x [count=\xi] in {1,5,2,1,2,3,3,\ldots} {
-            \only<+-> {
-                \global\let\TokenIsIn=\x
-                \x
-            }
-        }
+\newcommand{\splitCol}[2]{
+    \begin{columns}
+        \begin{column}{0.4\textwidth}
+            #1
         \end{column}
-\end{columns}
+        \begin{column}{0.6\textwidth}
+            #2 
+        \end{column}
+    \end{columns}
+}
+    
+\begin{standaloneframe}[t]{Parity Games}
+    \splitCol{
+
+            \bigskip 
+                
+
+                $\pi=$ %
+            \foreach \x in {1,5,2,1,2,1, $\ldots$ 2 1 $\ldots$} {
+                    \only<+> {
+                        \settok{\x}
+                    }
+                    \uncover<.(1)->{\x}
+                }
+
+                \bigskip
+
+            \visible<.(1)->{
+                $\inf(\pi)=\set{1,2}$ \quad $\max \inf(\pi) = 2$\\
+                \alert{Even wins}
+            }
+    }
 \end{standaloneframe}
 \end{document}
