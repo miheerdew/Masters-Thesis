@@ -28,7 +28,7 @@
                     child { node [p1, ncolor=2, tok=<4>] (rll) {} }
                     child[ee=<.(2)->1] { node [p1, ncolor=1,tok=<6>] (rlr) {}}
 				}
-                child[alt=<.(3)->{emph-edge=2}{}] {
+                child[ee=<.(3)->2] {
                     node[p1, nc=<.(2)->2] (rr) {}
                     child { node [p1, ncolor=2] (rrr) {} }
                     child { node [p2, ncolor=2] (rrl) {} }
@@ -41,4 +41,44 @@
         \node [p2, ncolor=2, below=1pt of 1-sym,  label={right:box wins}] at (1-sym.south) {};
 \end{tikzpicture}
 \end{standaloneframe}
+
+\begin{standaloneframe}
+    \frametitle{Finite games}
+    \framesubtitle{Payoff game}
+    %\setcounter{beamerpauses}{7}
+    \begin{tikzpicture}[->,
+    norm/.style={edge from parent/.style={draw,black,thin}},
+    level 1/.style={sibling distance=3cm},
+    level 2/.style={sibling distance=2cm},
+    level 3/.style={sibling distance=1.2cm},
+    every child/.style={norm}
+    ]
+    \begin{scope}[every node/.style={draw=black,thin}]
+        \node[p2, tok=<.(1)>] (1) {}
+        child {
+                node[p1] (l) {}
+                child { node[p2] (ll) {4} }
+                child {	node[p1] (lr) {-1} }
+        }
+        child {
+                node[p1] (r) {}
+                child {
+                    node [p2] (rl) {}
+                    child { node [p1] (rll) {-1} }
+                    child { node [p1] (rlr) {4}}
+				}
+                child {
+                    node[p1] (rr) {}
+                    child { node [p1] (rrr) {1} }
+                    child { node [p2] (rrl) {-2} }
+				}
+		};
+        \end{scope}
+
+  		\node  (graph) [fit=(1) (ll) (rrl)] {};
+        \node (1-sym) [p1, color1, below=1pt of graph.south west, label={right:Maximizer}] {};
+        \node [p2, color2, below=1pt of 1-sym,  label={right:Minimizer}] at (1-sym.south) {};
+\end{tikzpicture}
+\end{standaloneframe}
+
 \end{document}
