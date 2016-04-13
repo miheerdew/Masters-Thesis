@@ -17,15 +17,15 @@
         \node[p2, alt=<.(4)->{ncolor=2}{}, tok=<1>] (1) {}
         child[] {
                 node[p1, alt=<.(3)->{ncolor=1}{}] (l) {}
-                child[alt=<.(3)->{emph-edge=1}{}] { node[p2, ncolor=1] (ll) {} }
+                child[ee=<.(3)->1] { node[p2, ncolor=1] (ll) {} }
                 child[norm] {	node[p1, ncolor=2] (lr) {} }
 			}
-        child [alt=<.(4)->{emph-edge=2}{}]{
+        child [ee=<.(4)->2]{
                 node[p2, alt=<.(3)->{ncolor=2}{}, tok=<2>] (r) {}
                 child[norm] {
                     node [p1, alt=<.(2)->{ncolor=1}{}, tok=<{3,5}>] (rrl) {}
                     child[norm] { node [p1, ncolor=2, tok=<4>] (rrll) {} }
-                    child[alt=<.(2)->{emph-edge=1}{}] { node [p1, ncolor=1,tok=<6>] (rrlr) {}}
+                    child[ee=<.(2)->1] { node [p1, ncolor=1,tok=<6>] (rrlr) {}}
 				}
                 child[alt=<.(3)->{emph-edge=2}{}] {
                     node[p1, alt=<.(2)->{ncolor=2}{}] (rr) {}
