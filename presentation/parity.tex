@@ -3,7 +3,7 @@
 
 \begin{document}
 \newcommand{\ParityPic}{
-            \begin{tikzpicture}[podd/.style=p1, peven/.style=p2]
+            \begin{tikzpicture}
                   \node (origin) at (0,0) {};
                     \node (5) [podd, left=of origin, tok-here=5] {5};
                     \node (6) [peven, left=of 5, tok-here=6]  {6};
@@ -27,13 +27,64 @@
             \end{tikzpicture}
 }
 
-\newcommand{\splitCol}[2]{
+\newcommand{\ParityTree}{
+\begin{tikzpicture} [->,
+    every child/.style={norm},
+    every node/.style={draw=black,thin},
+    demph/.style={visible on=<-.(2)>},
+    empht/.style={eet=<.(2)->2},
+    emph/.style={ee=<.(2)->2},
+    norm/.style={edge from parent/.style={draw,black,thin}},
+]
+    \node[podd] (1) {1}
+			child {
+				node[podd] (l5) {5}
+				child { node[peven] (l6) {6} }
+				child {
+					node[peven] (l2) {2}
+                    child[empht] { node[peven] (l3) {3}
+                    child[empht] { node[peven] (l6') {6} }
+					}
+					child[missing] { node {} }
+					}
+			}
+			child {
+				node[peven] (r2) {2}
+				child[missing] { node {}
+				}
+                child[demph,every child/.append style={edge from parent/.append style=demph}] {
+					node[peven] (r3) {3}
+					child[missing] { node {}
+					}
+					child { node [peven] (r6) {6}
+						child { node [podd] (r5) {5}
+						}
+					}
+				}
+			};
+		\path[dashed, emph, color2] (r2) edge [ bend left=50] (1)
+			  (l6) edge [ out=230, in=-180, looseness=2] (l5)
+			  (l6') edge [ out=-120, in=-90] (l5);
+        \path[dashed, demph]
+			  (r3) edge [color1, loop, in=180, out=240, looseness=9] (r3)
+			  (l3) edge [color1, loop, in=0, out=-70, looseness=9] (l3)
+			  (r5) edge [color2, bend left, out=90] (r2)
+			  (r5) edge [color2, bend right, out=-120] (r6)
+			  (l2) edge [color1, out=-60, in=-120, looseness=1] (1);
+      \begin{scope}[inner sep=2pt, minimum size=1pt]
+          \node (odd-sym) [demph, podd, right=of r2, label={[demph]right:Odd Wins}, color1] {};
+        \node [peven, above=2mm of odd-sym, label={right:Even Wins}, color2] {};
+      \end{scope}
+\end{tikzpicture}
+}
+
+\DeclareDocumentCommand{\splitCol}{ O{0.4} O{0.6} m m}{
     \begin{columns}
-        \begin{column}{0.4\textwidth}
-            #1
+        \begin{column}{#1\textwidth}
+            #3
         \end{column}
-        \begin{column}{0.5\textwidth}
-            #2
+        \begin{column}{#2\textwidth}
+            #4
         \end{column}
     \end{columns}
 }
@@ -43,6 +94,8 @@
             \only<.>{\settok{\x}}
             \uncover<+->{\x}
     }
+    %\IfTokenIsIn 2 {}{Not} in 2
+
 }
 
 \begin{standaloneframe}[t]{Parity Games}
@@ -74,5 +127,14 @@
                 \alert{Parity $\max \inf (\pi)$ wins.}
             }
         }
+\end{standaloneframe}
+\begin{standaloneframe}{Finite Game}
+    \splitCol[0.7][0.3]{
+        \scalebox{0.70}{\ParityTree}
+        \scalebox{0.70}{\ParityPic}
+    }{
+        \only<.(2)>{Even has a winning strategy}
+        \only<.(3)>{Every cycle has max priority even}
+    }
 \end{standaloneframe}
 \end{document}

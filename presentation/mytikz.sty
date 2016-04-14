@@ -9,23 +9,30 @@
     node distance=1cm,
     shorten >=1pt,
     ncolor/.style={fill=color#1},
-    emph-edge/.style={edge from parent/.style={very thick,color#1,draw}},
-    no-emph/.style={opacity=0},
-    %level/.style={sibling distance=4cm/#1},
+    emph-edge-tree/.style={edge from parent/.style={very thick,color#1,draw}},
+    emph-edge/.style={very thick, color#1, draw},
+    %no-emph/.style={opacity=0},
+    level/.style={sibling distance=4cm/#1},
     mytoken/.style={thick, double},
     tok/.style={alt=#1{mytoken}{}},
+    eet/.style args={<#1>#2}{alt=<#1>{emph-edge-tree=#2}{}},
     ee/.style args={<#1>#2}{alt=<#1>{emph-edge=#2}{}},
     nc/.style args={<#1>#2}{alt=<#1>{ncolor=#2}{}},
-    tok-here/.code={ \if\TokenIsIn#1
-                        \pgfkeysalso{mytoken}
-                    \else
-                    \fi
-                   },
+    tok-here/.code={\IfTokenIsIn{#1}{\pgfkeysalso{mytoken}}{}},
+    podd/.style=p1, peven/.style=p2
   }
 
 \xdefinecolor{color1}{rgb}{1.0, 0, 0}
 \xdefinecolor{color2}{rgb}{0, 0, 1.0}
 
+\newcommand{\IfTokenIsIn}[3]{
+    \if\TokenIsIn#1
+        #2
+    \else
+        #3
+    \fi
+}
 \newcommand{\TokenIsIn}{}
 \newcommand{\settok}[1]{\global\let\TokenIsIn=#1}
+
 \setbeamercovered{transparent}
