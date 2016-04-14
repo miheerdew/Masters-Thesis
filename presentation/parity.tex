@@ -22,8 +22,8 @@
                         (6) edge [post, bend right] (5);
 
                     \node (graph) [fit=(1) (2) (3) (6) (5)] {};
-                    \node (odd-sym) [podd, below=1.5cm of 6, label={right:Odd}] {};
-                        \node [peven, below=7pt of odd-sym, label={right:Even}] {};
+                    \node (odd-sym) [podd, above=1cm of 6, label={right:Odd}] {};
+                        \node [peven, above=7pt of odd-sym, label={right:Even}] {};
             \end{tikzpicture}
 }
 
@@ -32,32 +32,47 @@
         \begin{column}{0.4\textwidth}
             #1
         \end{column}
-        \begin{column}{0.6\textwidth}
+        \begin{column}{0.5\textwidth}
             #2
         \end{column}
     \end{columns}
 }
 
-\begin{standaloneframe}[t]{Parity Games}
-    \splitCol{
-
-            \bigskip
-
-
-                $\pi=$ %
-            \foreach \x in {1,5,2,1,2,1, $\ldots$ 2 1 $\ldots$} {
-                    \only<+> {
-                        \settok{\x}
-                    }
-                    \uncover<.(1)->{\x}
-                }
-
-                \bigskip
-
-            \visible<.(1)->{
-                $\inf(\pi)=\set{1,2}$ \quad $\max \inf(\pi) = 2$\\
-                \alert{Even wins}
-            }
+\newcommand{\animatepath}[1]{
+    \foreach \x in {#1} {
+            \only<.>{\settok{\x}}
+            \uncover<+->{\x}
     }
+}
+
+\begin{standaloneframe}[t]{Parity Games}
+    \fbox{
+        \scalebox{0.70}{\ParityPic}
+    } \bigskip
+
+        \pause
+        $\pi_1=$ \animatepath{1,5,2,1,2,1, $\ldots$}{}
+
+        \visible<.->{
+                $\inf(\pi_1)=\set{1,2}$ \quad $\max \inf(\pi_1) = 2$\\
+                \alert{Even wins}
+        } \bigskip
+
+        \only<.>{\settok{2}}
+        \only<+->{
+            $\pi_2=$ \enskip 1 \enskip 5 \enskip 2 \animatepath{1,5,2,1,5, $\ldots$}
+
+            \visible<.->{
+                    $\inf(\pi_2)=\set{1,2,5}$ \quad $\max \inf(\pi_2) = 5$\\
+                    \alert{Odd wins}
+            }
+        } \bigskip
+
+        \only<+->{
+            $\pi=$ \animatepath{1,2,3,3,6,5,2,1,$\ldots$}
+            \visible<.->{
+                \alert{Parity $\max \inf (\pi)$ wins.}
+            }
+        }
 \end{standaloneframe}
 \end{document}
