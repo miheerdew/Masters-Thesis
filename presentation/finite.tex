@@ -10,27 +10,27 @@
         \begin{column}{0.65\textwidth}
             \setcounter{beamerpauses}{7}
             \begin{tikzpicture}[->,
-            norm/.style={edge from parent/.style={draw,black,thin}},
             level 1/.style={sibling distance=3cm},
             level 2/.style={sibling distance=2cm},
             level 3/.style={sibling distance=1.2cm},
-            every child/.style={norm}
+            every child/.style={norm},
+            norm/.style={edge from parent/.style={draw,black,thin}},
             ]
             \begin{scope}[every node/.style={draw=black,thin}]
                 \node[p2, nc=<.(4)->2, tok=<1>] (1) {}
                 child[] {
                         node[p1, nc=<.(3)->1] (l) {}
-                        child[ee=<.(3)->1] { node[p2, ncolor=1] (ll) {} }
+                        child[eet=<.(3)->1] { node[p2, ncolor=1] (ll) {} }
                         child {	node[p1, ncolor=2] (lr) {} }
                 }
-                child [ee=<.(4)->2]{
+                child [eet=<.(4)->2]{
                         node[p2, nc=<.(3)->2, tok=<2>] (r) {}
                         child {
                             node [p1, nc=<.(2)->1, tok=<{3,5}>] (rl) {}
                             child { node [p1, ncolor=2, tok=<4>] (rll) {} }
-                            child[ee=<.(2)->1] { node [p1, ncolor=1,tok=<6>] (rlr) {}}
+                            child[eet=<.(2)->1] { node [p1, ncolor=1,tok=<6>] (rlr) {}}
                         }
-                        child[ee=<.(3)->2] {
+                        child[eet=<.(3)->2] {
                             node[p1, nc=<.(2)->2] (rr) {}
                             child { node [p1, ncolor=2] (rrr) {} }
                             child { node [p2, ncolor=2] (rrl) {} }
@@ -70,19 +70,19 @@
                 \node[p2, tok=<1>] (1) {\only<.(3)->{1}}
                 child {
                         node[p1] (l) {\only<.(2)->{4}}
-                        child[ee=<.(2)->1] { node[p2] (ll) {4} }
+                        child[eet=<.(2)->1] { node[p2] (ll) {4} }
                         child {	node[p1] (lr) {-1} }
                 }
-                child[ee=<.(3)->2] {
+                child[eet=<.(3)->2] {
                     node[p1, tok=<2>] (r) {\only<.(2)->{1}}
                         child {
                             node [p2, tok=<{3,5}>] (rl) {\only<.(1)->{-1}}
-                            child[ee=<.(1)->2] { node [p1, tok=<6>] (rll) {-1} }
+                            child[eet=<.(1)->2] { node [p1, tok=<6>] (rll) {-1} }
                             child { node [p1, tok=<4>] (rlr) {4}}
                         }
-                        child[ee=<.(2)->1] {
+                        child[eet=<.(2)->1] {
                             node[p1] (rr) {\only<.(1)->{1}}
-                            child[ee=<.(1)->1] { node [p1] (rrr) {1} }
+                            child[eet=<.(1)->1] { node [p1] (rrr) {1} }
                             child { node [p2] (rrl) {-2} }
                         }
                 };

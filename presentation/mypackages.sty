@@ -1,6 +1,6 @@
 \usepackage{standalone}
 \usepackage{xparse}
-\usepackage{xstring}
+\usepackage{xstring, xifthen}
 \usepackage{tikz}
 
 \usepackage{lmodern}% http://ctan.org/pkg/lm
@@ -20,4 +20,7 @@
 {\end{frame}}
 
 \newcommand{\set}[1]{\{#1\}}
+
 \setbeamercovered{transparent}
+\setbeamersize{text margin left=5pt,text margin right=5pt}
+
