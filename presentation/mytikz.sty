@@ -34,8 +34,16 @@
 \setbeamercovered{transparent}
 
 \directlua{require('/Users/miheer/Dropbox/Thesis/presentation/stacker.lua')}
+\directlua{require('/Users/miheer/Dropbox/Thesis/presentation/mean.lua')}
+
 \newcommand{\animateStackedPath}[1]{%
     \directlua{animateStack(splitCommas(\luastring{#1}))}%
+}
+
+\newcommand{\animateMeanPath}[3][0.7]{%
+    \begin{overlayarea}{#1\textwidth}{2cm}
+        \directlua{CmdAnimateMeanPath(\luastring{#2}, \luastringN{#3})}%
+    \end{overlayarea}
 }
 
 \newwrite\luadebug
@@ -49,3 +57,6 @@
             \uncover<+->{\x}
     }
 }
+
+\newcommand{\mystring}{} % initialize
+\def\extendmystring#1#2{\xdef\mystring{#1\mystring#2}}

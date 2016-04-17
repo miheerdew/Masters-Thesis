@@ -29,7 +29,7 @@ function animateStack(items)
     end
 
     for i, tok in ipairs(items) do
-        v = tonumber(string.match(tok, "^%d+"))
+        v = string.sub(tok, 1, 1)
         assert(v)
 
         found = index(stack, v)
