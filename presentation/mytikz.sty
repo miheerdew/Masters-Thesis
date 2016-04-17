@@ -7,12 +7,13 @@
     pre/.style = {<-, semithick, >=stealth', shorten <=1pt},
     post/.style= {->, semithick, >=stealth', shorten >=1pt},
     node distance=1cm,
+    >=stealth',
     shorten >=1pt,
     ncolor/.style={fill=color#1},
     emph-edge-tree/.style={edge from parent/.append style={very thick,color#1}},
     emph-edge/.style={very thick, color#1, draw},
     %no-emph/.style={opacity=0},
-    level/.style={sibling distance=4cm/#1},
+    level/.style={sibling distance=3.5cm/#1},
     mytoken/.style={thick, double},
     tok/.style={alt=#1{mytoken}{}},
     eet/.style args={<#1>#2}{alt=<#1>{emph-edge-tree=#2}{}},
@@ -26,10 +27,25 @@
 \xdefinecolor{color2}{rgb}{0, 0, 1.0}
 
 \newcommand{\TokenIsIn}{}%
-\newcommand{\settok}[1]{\xdef\TokenIsIn{#1}}%
-\newcommand{\IfTokenIsIn}[3]{%
-    \IfBeginWith{\TokenIsIn}{#1}{#2}{#3}%
-}
+\newcommand{\settok}[1]{\xdef\TokenIsIn{#1}}
+\newcommand{\IfTokenIsIn}[3]{\IfBeginWith{\TokenIsIn}{#1}{#2}{#3}}
 
 
 \setbeamercovered{transparent}
+
+\directlua{require('/Users/miheer/Dropbox/Thesis/presentation/stacker.lua')}
+\newcommand{\animateStackedPath}[1]{%
+    \directlua{animateStack(splitCommas(\luastring{#1}))}%
+}
+
+\newwrite\luadebug
+\immediate\openout\luadebug luadebug.lua
+\AtEndDocument{\immediate\closeout\luadebug}
+\newcommand\directluadebug{\immediate\write\luadebug}
+
+\newcommand{\animatepath}[1]{
+    \foreach \x in {#1} {
+            \only<.>{\settok{\x}}
+            \uncover<+->{\x}
+    }
+}

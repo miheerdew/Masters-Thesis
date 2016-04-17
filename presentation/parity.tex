@@ -98,56 +98,53 @@
     \end{columns}
 }
 
-\newcommand{\animatepath}[1]{
-    \foreach \x/\y in {#1} {
-            \only<.>{\settok{\y}}
-            \uncover<+->{\x}
-    }
-}
+\begin{standaloneframe}[t]{Parity Games}
+        \scalebox{0.70}{\ParityPic}
+        \bigskip
 
-%\begin{standaloneframe}[t]{Parity Games}
-    %\fbox{
-        %\scalebox{0.70}{\ParityPic}
-    %} \bigskip
+        \pause
+        $\pi_1=$ \animatepath{1,5,2,1,2,1} \uncover<.>{$\ldots$}
 
-        %\pause
-        %$\pi_1=$ \animatepath{1/1,5/5,2/2,1/1,2/2,1/1,$\ldots$/}{}
+        \visible<.->{
+                $\inf(\pi_1)=\set{1,2}$ \quad $\max \inf(\pi_1) = 2$\\
+                \alert{Even wins}
+        } \bigskip
 
-        %\visible<.->{
-                %$\inf(\pi_1)=\set{1,2}$ \quad $\max \inf(\pi_1) = 2$\\
-                %\alert{Even wins}
-        %} \bigskip
+        \only<.>{\settok{2}}
+        \only<+->{
+            $\pi_2=$ \enskip 1 \enskip 5 \enskip 2 \animatepath{1,5,2,1,5} \uncover<.>{$\ldots$}
 
-        %\only<.>{\settok{2}}
-        %\only<+->{
-            %$\pi_2=$ \enskip 1 \enskip 5 \enskip 2 \animatepath{1/1,5/5,2/2,1/1,5/5, $\ldots$/}
+            \visible<.->{
+                    $\inf(\pi_2)=\set{1,2,5}$ \quad $\max \inf(\pi_2) = 5$\\
+                    \alert{Odd wins}
+            }
+        } \bigskip
 
-            %\visible<.->{
-                    %$\inf(\pi_2)=\set{1,2,5}$ \quad $\max \inf(\pi_2) = 5$\\
-                    %\alert{Odd wins}
-            %}
-        %} \bigskip
+        \only<+->{
+            $\pi=$ \animatepath{1,2,3,3,6,5,2,1} \uncover<.>{$\ldots$}
+            \visible<.->{
+                \alert{Parity $\max \inf (\pi)$ wins.}
+            }
+        }
+\end{standaloneframe}
 
-        %\only<+->{
-            %$\pi=$ \animatepath{1/1,2/2,3/3,3/3,6/6,5/5,2/2,1/1,$\ldots$/}
-            %\visible<.->{
-                %\alert{Parity $\max \inf (\pi)$ wins.}
-            %}
-        %}
-%\end{standaloneframe}
 \begin{standaloneframe}[t]{Finite Game}
-    %\splitCol[0.7][0.3]{
+    \vspace*{-0.5cm}
     \begin{figure}
         \hspace*{-1cm}\scalebox{0.7}{\ParityTree}
         \hspace*{-1cm}\scalebox{0.7}{\ParityPic}
     \end{figure}
-    %}{
         \only<.(2)>{Even has a winning strategy}
         \only<.(3)>{Every cycle has max priority even}
         \only<.(4)->{
-            \addtocounter{beamerpauses}{4}
-            $\pi=$\animatepath{1/1, 5/5l, 6/6ll, 5/5l, 2/2l, 3/3l, 6/6lr, 5/5l}
+            \addtocounter{beamerpauses}{4}%
+
+            \splitCol[0.5][0.5]{$\pi=$\animateStackedPath{1, 2r, 1, 5l, 6ll, 5l, 2l, 3l, 6lr, 5l} \enskip \only<.->{$\ldots$}}{
+                \begin{itemize}
+                \item<only@.(-1)-.> Every time a cycle with max priority even is eliminated.
+                \item<only@+> Hence MaxInf priority in $\pi$ is Even
+            \end{itemize}
+            }
         }
-    %}
 \end{standaloneframe}
 \end{document}
