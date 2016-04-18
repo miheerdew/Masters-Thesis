@@ -1,0 +1,79 @@
+\documentclass[beamer]{standalone}
+\usepackage{mypackages}
+
+\begin{document}
+\newcommand{\MeanPayoffGame}{
+\begin{tikzpicture}
+      \node (origin) at (0,0) {};
+      \node (a) [p2, tok-here=a, left=of origin] {a};
+	  \node (b) [p2, tok-here=b, above right=of origin] {b};
+	  \node (c) [p1, tok-here=c, below right=of origin] {c};
+
+	  \draw[->]	(a) edge [post] node [below] {-2} (b)
+				(a) edge [post] node [above] {-1} (c)
+				(b) edge [post] node [left] {2} (c)
+				(c) edge [post, bend right=60] node[left] {-2} (b)
+				(c) edge [post, bend left=60] node [below] {1} (a)
+				(b) edge [post, bend right=60] node [above] {3} (a);
+
+      \begin{scope}[inner sep=2pt, minimum size=1pt]
+        \node (box) [p2, color2, right=1cm of c, label={right:Min}] {};
+        \node (circ) [p1, color1, above=2mm of box, label={right:Max}] {};
+      \end{scope}
+  \end{tikzpicture}
+}
+
+\newcommand{\MeanPayoffTree}{
+    \begin{tikzpicture}[
+    every child/.style={norm},
+    every node/.style={draw=black,thin},
+    norm/.style={edge from parent/.style={draw,black,thin,->}},
+    e1/.style={ee=<.(2)-.(3)>1},
+    d1/.style={invisible on=<.(3)>},
+    d1t/.style={d1,every child/.append style={edge from parent/.append style=d1}},
+    e2/.style={ee=<.(4)->2},
+    e2t/.style={eet=<.(4)->2},
+    d2/.style={invisible on=<.(5)->},
+    d2t/.style={d2,every child/.append style={edge from parent/.append style=d2}}
+]
+
+		\node[p2] (a) {a}
+            child[e2t] {
+				node[p2] (bl) {b}
+                child[e2t] { node[p1] (cl) {c} }
+			}
+            child[d2t] {
+				node[p1] (cr) {c}
+                child[d1t] { node [p2] (br) {b} }
+			};
+
+            \path[dashed, ->, every node/.append style={draw=none}]
+			(cl) edge[e1, out=-60, in=-45, looseness=2] node[right] {0} (bl)
+			(cr) edge[d2, e1, out=45, in=0, looseness=1] node[above] {0} (a)
+            (cl) edge[out=225,in=160, looseness=2,d1] node[left] {-$\frac{1}{3}$} (a)
+            (bl) edge[d2, out=-20,in=-90, looseness=1] node[below right, yshift=0.5em, pos=0.3] {$\frac{1}{2}$} (a)
+			(br) edge[d2, out=-45, in=0, looseness=2,d1] node[right] {0} (cr)
+			(br) edge[d2, out=225, in=-70,d1] node[left] {0} (a);
+    \end{tikzpicture}
+}
+
+\begin{standaloneframe}{Mean Payoff Games}
+    \scalebox{0.7}{\MeanPayoffGame}
+    \pause
+    \fbox{\animateMeanPath[0.5]{a/-2, b/+3, a/-2, b/+3, a/-2, b/+3}{\frac{1}{2}}}
+    \pause
+    \fbox{\animateMeanPath{a/-1, c/-2, b/+2, a/-1, c/-2, b/+2, a/-1, c/-2, b/+2}{-\frac{1}{3}}}
+    \pause
+    \fbox{\animateMeanPath{b/2,c/-2,b/+2,c/-2,b/+2,c/-2}{0}}
+\end{standaloneframe}
+
+\begin{standaloneframe}{Mean Payoff}{Finite Game}
+    \fbox{\scalebox{0.7}{\MeanPayoffTree}}
+    \fbox{\scalebox{0.7}{\MeanPayoffGame}}
+
+    \visible<.(3),.(5)->{ \alt<.(3)>{Max}{Min} can ensure \alt<.(3)>{$\geq$}{$\leq$} 0 \visible<.(6)->{\alert<.(6)>{in the infinite game too}}}
+
+    \addtocounter{beamerpauses}{6}
+    \fbox{\animateMeanPath{a/-2,bl/}{\leq 0}}
+\end{standaloneframe}
+\end{document}
