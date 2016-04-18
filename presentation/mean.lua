@@ -34,7 +34,7 @@ local function printNextLine(token, nodes, weights, lim)
         tsf("\\addtocounter{beamerpauses}{%d}", count+1)
     else
         tsf("\\only<.(%d)>{\\settok{%s}}\\only<.(%d)>{%s \\\\ %s }",
-                    count, nodes[#nodes], count + 1,
+                    count, token, count + 1,
                     table.concat(nodes," \\enskip "),
                     math)
         count = count + 1
