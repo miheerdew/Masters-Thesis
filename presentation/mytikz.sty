@@ -20,7 +20,8 @@
     ee/.style args={<#1>#2}{alt=<#1>{emph-edge=#2}{}},
     nc/.style args={<#1>#2}{alt=<#1>{ncolor=#2}{}},
     tok-here/.code={\IfTokenIsIn{#1}{\pgfkeysalso{mytoken}}{}},
-    podd/.style=p1, peven/.style=p2
+    podd/.style=p1, peven/.style=p2,
+    invisible on/.style={alt=#1{invisible}{}}
   }
 
 \xdefinecolor{color1}{rgb}{1.0, 0, 0}
@@ -30,6 +31,17 @@
 \newcommand{\settok}[1]{\xdef\TokenIsIn{#1}}
 \newcommand{\IfTokenIsIn}[3]{\IfBeginWith{\TokenIsIn}{#1}{#2}{#3}}
 
+
+\DeclareDocumentCommand{\splitCol}{ O{0.4} O{0.6} m m}{
+    \begin{columns}
+        \begin{column}{#1\textwidth}
+            #3
+        \end{column}
+        \begin{column}{#2\textwidth}
+            #4
+        \end{column}
+    \end{columns}
+}
 
 \setbeamercovered{transparent}
 
@@ -51,6 +63,8 @@
 \AtEndDocument{\immediate\closeout\luadebug}
 \newcommand\directluadebug{\immediate\write\luadebug}
 
+\newcommand{\displayMeanPath}{
+}
 \newcommand{\animatepath}[1]{
     \foreach \x in {#1} {
             \only<.>{\settok{\x}}
@@ -58,5 +72,61 @@
     }
 }
 
-\newcommand{\mystring}{} % initialize
-\def\extendmystring#1#2{\xdef\mystring{#1\mystring#2}}
+\ExplSyntaxOn
+
+\NewDocumentCommand{\makeenumerate}{ m }
+ {
+  \begin{enumerate}
+  \xyz_make_items:n { #1 }
+  \end{enumerate}
+ }
+
+\cs_new_protected:Npn \xyz_make_items:n #1
+ {
+  \clist_map_inline:nn { #1 }
+   {
+    \tl_if_eq:nnTF { ##1 } { \stop }
+     {
+      \clist_map_break:
+     }
+     {
+      \item \fbox { ##1 }
+     }
+   }
+ }
+
+\NewDocumentCommand{\showAnimation}{ m }
+{
+    \mypkg_show_animation:n { #1 }
+}
+
+\cs_new_protected:Nn \mypkg_show_animation:n
+{
+        \seq_clear_new:N \l_mypkg_nodes_seq
+        \seq_clear_new:N \l_mypkg_weights_seq
+        \tl_new:N \l_token_tl
+        \tl_new:N \l_weight_tl
+        \clist_map_inline:nn { #1 }
+        {
+            %\mypkg_parse_tuple:w ##1
+            \mypkg_parse_tuple:wNN ##1 \l_mypkg_token_tl \l_mypkg_weight_tl
+            \seq_put_right:Nn \l_nodes_seq { \tl_head:N \l_mypkg_token_tl }
+            \seq_put_right:NV \l_weights_seq \l_mypkg_weight_tl
+            \only<.>{\settok{\tl_use:N \l_mypkg_token_tl}}
+            \only<+>{ \mypkg_show_one:NN \l_nodes_seq \l_weights_seq }
+        }
+}
+
+\cs_new:Npn \mypkg_parse_tuple:wNN #1/#2 #3 #4{
+    \tl_set:Nn #3 {#1}
+    \tl_set:Nn #4 {#2}
+}
+
+\cs_new:Nn \mypkg_show_one:NN {
+    $\pi=$ \seq_use:Nn #1 {~\enskip~}
+    \begin{align}
+        \frac{ \seq_use:Nn #2 {} }{ \seq_count:N #2 }
+    \end{align}
+}
+
+\ExplSyntaxOff
