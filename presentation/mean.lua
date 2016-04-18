@@ -49,7 +49,7 @@ function animateMeanPath(items, lim)
         if i == #items then
             l = lim
         end
-        printNextLine(item.node, nodes, weights, l)
+        printNextLine(item.token, nodes, weights, l)
         table.insert(weights, item.weight)
     end
 end
