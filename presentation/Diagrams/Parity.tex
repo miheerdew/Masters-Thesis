@@ -1,7 +1,6 @@
 %!tikz editor 1.0
-\documentclass[beamer]{standalone}
-\usepackage{tikz}
-\usepackage{lmodern}
+\documentclass[tikz]{standalone}
+
 
 %!tikz preamble begin
 \usepackage{tikz}
@@ -19,32 +18,30 @@
   }
 %!tikz preamble end
 
-\begin{document}
-\begin{standaloneframe}
-%!tikz source begin
-\begin{tikzpicture}[podd/.style=p1, peven/.style=p2]
-      \node (origin) at (0,0) {};
-      	\node (5) [podd, left=of origin] {5};
-      	\node (6) [peven, left=of 5]  {6}
-      		edge [pre,bend left] (5)
-      		edge [post, bend right] (5);
-      	\node (1) [podd, right=of origin]  {1}
-  			edge [post] (5);
-      	\node (2) [peven, right=of 1]  {2}
-  			edge [post, bend left] (1)
-  			edge [pre, bend right] (1)
-  			edge [pre, bend left=63] (5);
-      	\node (3) [peven, above=of 2] {3}
-        	edge [post, loop, looseness=5] (3)
-  		    edge [pre] (2)
-            edge [post, bend right] (6);
 
-  		\node (graph) [fit=(1) (2) (3) (6) (5)] {};
+\begin{document}
+%!tikz source begin
+\begin{tikzpicture}
+      \node (origin) at (0,0) {};
+      \node (a) [p1, left=of origin] {a};
+	  \node (b) [p2, above right=of origin] {b};
+	  \node (c) [p2, below right=of origin] {c};
+        	
+	  \draw[->]	(a) edge [post] node [below] {-2} (b)
+				(a) edge [post] node [above] {-1} (c)
+				(b) edge [post] node [left] {2} (c)
+				(c) edge [post, bend right=60] node[left] {-2} (b)
+				(c) edge [post, bend left=60] node [below] {1} (a)
+				(b) edge [post, bend right=60] node [above] {2} (a);
+;
+
+			
+  	  \node (graph) [fit=(a) (b) (c)] {};
       \begin{scope}[inner sep=2pt, minimum size=1pt]
-        \node (odd-sym) [podd, above=of graph.north west , label={right:Odd}] {};
-    		\node [peven, above=2mm of odd-sym, label={right:Even}] {};
+        \node (odd-sym) [p2, right=of graph.south east , label={right:Max}] {};
+    		\node [p1, above=2mm of odd-sym, label={right:Min}] {};
       \end{scope}
   \end{tikzpicture}
-\end{standaloneframe}
 %!tikz source end
+
 \end{document}

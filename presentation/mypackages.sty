@@ -3,7 +3,7 @@
 \usepackage{xstring, xifthen}
 \usepackage{tikz}
 
-\usepackage{lmodern}% http://ctan.org/pkg/lm
+\usepackage{lmodern}
 \usepackage{complexity}
 \usepackage{mytikz}
 
@@ -23,4 +23,19 @@
 
 \setbeamercovered{transparent}
 \setbeamersize{text margin left=5pt,text margin right=5pt}
+\beamertemplatenavigationsymbolsempty
+\setbeamertemplate{footline}[frame number]
+
+\AtBeginSection[]
+{
+  \begin{frame}
+    \frametitle{Table of Contents}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
+
+\renewenvironment{standaloneframe}{\begin{frame}}{%
+    \end{frame}\ignorespacesafterend% as suggested above
+}
 

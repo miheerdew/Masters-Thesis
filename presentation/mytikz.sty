@@ -1,9 +1,11 @@
 \usepackage{tikz}
-\usetikzlibrary{arrows,positioning,fit,shapes.multipart,decorations.pathmorphing,overlay-beamer-styles,petri, calc}
+\usetikzlibrary{arrows,positioning,fit,shapes.multipart,decorations.pathmorphing,overlay-beamer-styles,petri, calc, shapes.geometric}
 
 \tikzset{
     p1/.style={circle, draw, thick, minimum size=6mm, inner sep=0},
     p2/.style={rectangle, draw, thick, minimum size=6mm, inner sep=0},
+    triangle/.style={regular polygon, regular polygon sides=3},
+	rand/.style={draw, thick, minimum size=9mm, inner sep=0, triangle},
     pre/.style = {<-, semithick, >=stealth', shorten <=1pt},
     post/.style= {->, semithick, >=stealth', shorten >=1pt},
     node distance=1cm,
@@ -43,7 +45,7 @@
     \end{columns}
 }
 
-\setbeamercovered{transparent}
+%\setbeamercovered{transparent}
 
 \directlua{require('/Users/miheer/Dropbox/Thesis/presentation/stacker.lua')}
 \directlua{require('/Users/miheer/Dropbox/Thesis/presentation/mean.lua')}
