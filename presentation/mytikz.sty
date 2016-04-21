@@ -1,5 +1,11 @@
 \usepackage{tikz}
 \usetikzlibrary{arrows,positioning,fit,shapes.multipart,decorations.pathmorphing,overlay-beamer-styles,petri, calc, shapes.geometric}
+\usepackage{mytoken, myevent}
+
+\DeclareMyEvent{level1}
+\DeclareMyEvent{level2}
+\DeclareMyEvent{level3}
+\DeclareMyEvent{level4}
 
 \tikzset{
     p1/.style={circle, draw, thick, minimum size=6mm, inner sep=0},
@@ -16,34 +22,20 @@
     emph-edge/.style={very thick, color#1, draw},
     %no-emph/.style={opacity=0},
     level/.style={sibling distance=3.5cm/#1},
-    mytoken/.style={thick, double},
     tok/.style={alt=#1{mytoken}{}},
     eet/.style args={<#1>#2}{alt=<#1>{emph-edge-tree=#2}{}},
     ee/.style args={<#1>#2}{alt=<#1>{emph-edge=#2}{}},
     nc/.style args={<#1>#2}{alt=<#1>{ncolor=#2}{}},
-    tok-here/.code={\IfTokenIsIn{#1}{\pgfkeysalso{mytoken}}{}},
     podd/.style=p1, peven/.style=p2,
-    invisible on/.style={alt=#1{invisible}{}}
+    invisible on/.style={alt=#1{invisible}{}},
+    leet/.style args={<#1>#2}{/myevent/on={level#1}{emph-edge-tree=#2}},
+    lee/.style args={<#1>#2}{/myevent/on={level#1}{emph-edge=#2}},
+    lnc/.style args={<#1>#2}{/myevent/on={level#1}{ncolor=#2}},
   }
 
 \xdefinecolor{color1}{rgb}{1.0, 0, 0}
 \xdefinecolor{color2}{rgb}{0, 0, 1.0}
 
-\newcommand{\TokenIsIn}{}%
-\newcommand{\settok}[1]{\xdef\TokenIsIn{#1}}
-\newcommand{\IfTokenIsIn}[3]{\IfBeginWith{\TokenIsIn}{#1}{#2}{#3}}
-
-
-\DeclareDocumentCommand{\splitCol}{ O{0.4} O{0.6} m m}{
-    \begin{columns}
-        \begin{column}{#1\textwidth}
-            #3
-        \end{column}
-        \begin{column}{#2\textwidth}
-            #4
-        \end{column}
-    \end{columns}
-}
 
 %\setbeamercovered{transparent}
 
