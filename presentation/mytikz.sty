@@ -68,27 +68,6 @@
 
 \ExplSyntaxOn
 
-\NewDocumentCommand{\makeenumerate}{ m }
- {
-  \begin{enumerate}
-  \xyz_make_items:n { #1 }
-  \end{enumerate}
- }
-
-\cs_new_protected:Npn \xyz_make_items:n #1
- {
-  \clist_map_inline:nn { #1 }
-   {
-    \tl_if_eq:nnTF { ##1 } { \stop }
-     {
-      \clist_map_break:
-     }
-     {
-      \item \fbox { ##1 }
-     }
-   }
- }
-
 \NewDocumentCommand{\showAnimation}{ m }
 {
     \mypkg_show_animation:n { #1 }
