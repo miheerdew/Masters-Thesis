@@ -1,0 +1,76 @@
+\documentclass[beamer]{standalone}
+\usepackage{mypackages}
+
+\begin{document}
+    \ExplSyntaxOn
+        \NewDocumentCommand{\simulateRun}{ m }
+        {
+            \clist_map_inline:nn { #1 } { \only<+>{ \settok{ ##1 } } }
+        }
+
+        \prop_clear_new:N \l_mypkg_prop
+
+        \NewDocumentCommand{\setProp}{ m m }
+        {
+            \prop_put:Nnn \l_mypkg_prop { #1 } { #2 }
+        }
+
+        \NewDocumentCommand{\getProp}{ m }
+        {
+            \prop_item:Nn \l_mypkg_prop { #1 }
+        }
+
+        \NewDocumentCommand{\fillNode}{ m m m m }
+        {
+            \setProp{r1}{ #1 }
+            \setProp{max}{ #2 }
+            \setProp{min}{ #3 }
+            \setProp{r2}{ #4 }
+        }
+    \ExplSyntaxOff
+
+    \newcommand{\drawStochastic}{
+        \begin{tikzpicture}[node distance=1.5cm, terminal/.style={fill=gray!30}, every label/.append style={blue}]
+        \node (origin) {};
+        \node[rand, above=of origin, tok-here=r1, label=above:\getProp{r1}] (r1) {};
+        \node[p2 ,left=of origin, tok-here=max, label=-5:\getProp{max}] (max) {};
+        \node[p1, left=of max, tok-here=min, label=above right:\getProp{min}] (min) {};
+        \node[rand, below=of origin, tok-here=r2, label=below:\getProp{r2}] (r2) {};
+
+        \node[p2, terminal, right=of r1, yshift=-1cm, tok-here=tmax] (tmax) {};
+        \node[p1, terminal, right=of r2, yshift=1cm, tok-here=tmin] (tmin) {};
+
+        \draw[every edge/.append style={post}]
+            (r1) edge node[above, xshift=0.5em] {$\frac{1}{2}$} (tmax)
+            (r1) edge[out=170, in=90] node[above, xshift=-0.5em] {$\frac{1}{2}$} (max)
+            (max) edge[bend right] (r1)
+            (max) edge (r2)
+            (r2) edge node[below right] {$\frac{1}{2}$} (tmin)
+            (r2) edge node[above left] {$\frac{1}{2}$} (tmax)
+            (min) edge (max)
+            (min) edge[bend right] (r2);
+        \end{tikzpicture}
+    }
+
+    \NewDocumentCommand{\simulateVal}{ m m m m }{
+        \only<+>{\fillNode{ #1 }{ #2 }{ #3 }{ #4 }}
+    }
+
+    \begin{standaloneframe}{Simple Stochastic Game}
+        \scalebox{0.7}{\drawStochastic}
+        \simulateRun{min, max, r1, max, r2, tmax}
+        \only<+> {\alert{Box Wins}} \simulateRun{max, r2, tmin} \only<+>{\alert{Circle Wins}}
+        \only<+>{Or}
+        \simulateRun{min, max, r1, max, r1, max, r1, tmax} \only<+>{Box can win with probability 1}
+    \end{standaloneframe}
+    \begin{standaloneframe}{Simple Stochastic Game}
+        \simulateVal{1}{1}{}{$\frac{1}{2}$}
+        \simulateVal{1}{1}{$\frac{1}{2}$}{$\frac{1}{2}$}
+        \simulateVal{$\frac{1}{2}$}{}{$\frac{1}{2}$}{$\frac{1}{2}$}
+
+        \scalebox{0.85}{\drawStochastic}
+        \only<.(2)>{How to find the values?}
+
+        %\only<+->{\fillNode{1}{1}{0.5}{0.5}}
+    \end{standaloneframe}
+\end{document}

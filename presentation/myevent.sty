@@ -1,0 +1,29 @@
+\RequirePackage{pgfkeys, expl3}
+
+
+
+\pgfkeys{/myevent/on/.code 2 args={\IsMyEventSetTF{#1}{\pgfkeysalso{#2}}{}}}
+
+\ExplSyntaxOn
+
+\NewDocumentCommand{\DeclareMyEvent}{m}
+{
+    \pgfkeys{/myevent/events/#1/.initial=\c_false_bool}
+}
+
+\NewDocumentCommand{\SetMyEvent}{sm}
+{
+    \pgfkeys{/myevent/events/#2=\IfBooleanTF{ #1 }{\c_false_bool}{\c_true_bool}}
+}
+
+\NewDocumentCommand{\IsMyEventSetTF}{mmm}
+{
+    \bool_if:nTF {\pgfkeysvalueof{/myevent/events/#1}}{#2}{#3}
+}
+
+
+\ExplSyntaxOff
+
+\DeclareMyEvent{Global}
+\SetMyEvent{Global}
+

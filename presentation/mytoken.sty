@@ -1,0 +1,27 @@
+\RequirePackage{tikz, expl3}
+
+\tikzset{
+    mytoken/.style={thick, double},
+    tok-here/.code={\IfMyTokenIsIn{#1}{\pgfkeysalso{mytoken}}{}},
+}
+
+\newcommand{\MyTokenIsIn}{}%
+\newcommand{\SetMyToken}[1]{\xdef\MyTokenIsIn{#1}}
+\newcommand{\IfMyTokenIsIn}[3]{\IfBeginWith{\MyTokenIsIn}{#1}{#2}{#3}}
+
+\newcommand{\settok}{\SetMyToken}
+
+\ExplSyntaxOn
+\NewDocumentCommand{\AnimateMyToken}{st+m}
+{
+    \int_zero:N \l_tmpa_int
+    \int_incr:N \l_tmpa_int
+    \clist_map_inline:nn {#3}
+    {
+        \only<.(\int_use:N \l_tmpa_int)>{\SetMyToken{##1}} \int_incr:N \l_tmpa_int
+        %only(\int_use:N \l_tmpa_int){\SetMyToken{##1}} \int_incr:N \l_tmpa_int
+    }
+    \IfBooleanTF{#2} {} { \only<.(\int_use:N \l_tmpa_int)>{\SetMyToken{}} }
+    \IfBooleanTF {#1} {} { \addtocounter{beamerpauses}{\int_use:N \l_tmpa_int} }
+}
+\ExplSyntaxOff
