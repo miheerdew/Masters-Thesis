@@ -21,7 +21,7 @@
 
 \newcommand{\set}[1]{\{#1\}}
 
-\setbeamercovered{transparent}
+%\setbeamercovered{transparent}
 \setbeamersize{text margin left=10pt,text margin right=5pt}
 \beamertemplatenavigationsymbolsempty
 \setbeamertemplate{footline}[frame number]
@@ -33,20 +33,21 @@
     \tableofcontents[currentsection]
   \end{frame}
 }
-\setlength{\parskip}{8pt plus 1pt minus 1pt}
 
-\renewenvironment{standaloneframe}{\begin{frame}}{%
-    \end{frame}\ignorespacesafterend% as suggested above
-}
+%\renewenvironment{standaloneframe}{\begin{frame}}{%
+    %\end{frame}\ignorespacesafterend% as suggested above
+%}
 
-\NewDocumentCommand{\splitCol}{ O{0.4} O{0.6} +m +m}{
+\NewDocumentCommand{\splitCol}{ s m m +m +m}{
     \begin{columns}
-        \begin{column}{#1\textwidth}
-            #3
-        \end{column}
-        \begin{column}{#2\textwidth}
+        \IfBooleanTF{#1}{\fbox}{}{
+            \begin{column}{#2\textwidth}
             #4
-        \end{column}
+        \end{column}}
+        \IfBooleanTF{#1}{\fbox}{}{
+            \begin{column}{#3\textwidth}
+            #5
+        \end{column}}
     \end{columns}
 }
 \setbeamertemplate{itemize items}[ball]

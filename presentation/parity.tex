@@ -1,141 +1,173 @@
 \documentclass[beamer]{standalone}
+%\documentclass[draft]{beamer}
 \usepackage{mypackages}
+\includeonlyframes{current}
 
 \begin{document}
-
-\newcommand{\drawParityPic}{
-                  \node (origin) at (0,0) {};
-                    \node (5) [podd, left=of origin, tok-here=5] {5};
-                    \node (6) [peven, left=of 5, tok-here=6]  {6};
-                    \node (1) [podd, right=of origin, tok-here=1]  {1};
-                    \node (2) [peven, right=of 1, tok-here=2]  {2};
-                    \node (3) [peven, above=of 2, tok-here=3] {3};
-
-                    \draw (3) edge [post, loop, looseness=5] (3)
-                        (3) edge [pre] (2)
-                        (3) edge [post, bend right] (6)
-                        (2) edge [post, bend left] (1)
-                        (2) edge [pre, bend right] (1)
-                        (2) edge [pre, bend left=63] (5)
-                        (1) edge [post] (5)
-                        (6) edge [pre,bend left] (5)
-                        (6) edge [post, bend right] (5);
-
-                    \node (graph) [fit=(1) (2) (3) (6) (5)] {};
-                    \node (odd-sym) [podd, above=1cm of 6, label={right:Odd}] {};
-                    \node [peven, above=7pt of odd-sym, label={right:Even}] {};
-}
-
 \newcommand{\ParityPic}{
     \begin{tikzpicture}
-        \drawParityPic
+      \node (origin) at (0,0) {};
+        \node (5) [podd, left=1pt of origin, tok-here=5] {5};
+        \node (6) [peven, left=of 5, tok-here=6]  {6};
+        \node (1) [podd, right=of origin, tok-here=1]  {1};
+        \node (2) [peven, right=of 1, tok-here=2]  {2};
+        \node (3) [peven, above=of 2, tok-here=3] {3};
+
+        \draw (3) edge [post, loop, looseness=5] (3)
+            (3) edge [pre] (2)
+            (3) edge [post, bend right] (6)
+            (2) edge [post, bend left] (1)
+            (2) edge [pre, bend right] (1)
+            (2) edge [pre, bend left=63] (5)
+            (1) edge [post] (5)
+            (6) edge [pre,bend left] (5)
+            (6) edge [post, bend right] (5);
+
+        \node (graph) [fit=(1) (2) (3) (6) (5)] {};
+        \node (odd-sym) [podd, above=1cm of 6, label={right:Odd}] {};
+        \node [peven, above=7pt of odd-sym, label={right:Even}] {};
     \end{tikzpicture}
 }
-
 \newcommand{\ParityTree}{
 \begin{tikzpicture} [
     every child/.style={norm},
     every node/.style={draw=black,thin},
-    demph/.style={visible on=<-.(2)>},
-    empht/.style={eet=<.(2)->2},
-    emph/.style={ee=<.(2)->2},
-    norm/.style={edge from parent/.style={draw,black,thin,->}},
+    demph/.style={visible on=<-.(5)>},
+    empht/.style={eet=<.(5)->2},
+    emph/.style={ee=<.(5)->2},
+    norm/.style={edge from parent/.append style={draw,black,thin,->}},
+    oldn/.style={visible on=<{.(2),.(3)}>},
+    oldc/.style={alt=<{.(2),.(3)}>{}{missing},every node/.append style=oldn},
+    newstyle/.style={visible on=<{.(1),.(2),.(4)-}>},
 ]
     \node[podd, tok-here=1] (1) {1}
-			child {
-				node[podd, tok-here=5l] (l5) {5}
-				child { node[peven, tok-here=6ll] (l6) {6} }
-				child {
-					node[peven, tok-here=2l] (l2) {2}
-                    child[empht] { node[peven, tok-here=3l] (l3) {3}
-                    child[empht] { node[peven, tok-here=6lr] (l6') {6} }
-					}
-					child[missing] { node {} }
-					}
-			}
-			child {
-				node[peven, tok-here=2r] (r2) {2}
-				child[missing] { node {}
-				}
+            child {
+                node[podd, tok-here=5l] (l5) {5}
+                child { 
+                    node[peven, tok-here=6ll] (l6) {6} 
+                    child[oldc] { node[podd, ncolor=2] {5} }
+                    child[missing] { node {} }
+                }
+                child {
+                    node[peven, tok-here=2l] (l2) {2}
+                    child[empht] { 
+                        node[peven, tok-here=3l] (l3) {3}
+                        child[empht] { 
+                            node[peven, tok-here=6lr] (l6') {6} 
+                            child[oldc] {node[podd,ncolor=2] {5}}
+                        }
+                        child[oldc] { node[peven,ncolor=1] {3} }
+                    }
+                    child[oldc] { node[podd,ncolor=1] {1} } 
+                }
+            }
+            child {
+                node[peven, tok-here=2r] (r2) {2}
+                child[oldc] { node[podd,ncolor=2] {1} }
                 child[demph,every child/.append style={edge from parent/.append style=demph}] {
-					node[peven] (r3) {3}
-					child[missing] { node {}
-					}
-					child { node [peven] (r6) {6}
-						child { node [podd] (r5) {5}
-						}
-					}
-				}
-			};
-		\path[dashed, emph, color2,->] (r2) edge [ bend left=50] (1)
-			  (l6) edge [ out=230, in=-180, looseness=2] (l5)
-			  (l6') edge [ out=-120, in=-90] (l5);
-        \path[dashed, demph, ->]
-			  (r3) edge [color1, loop, in=180, out=240, looseness=9] (r3)
-			  (l3) edge [color1, loop, in=0, out=-70, looseness=9] (l3)
-			  (r5) edge [color2, bend left, out=90] (r2)
-			  (r5) edge [color2, bend right, out=-120] (r6)
-			  (l2) edge [color1, out=-60, in=-120, looseness=1] (1);
-
-      %\begin{scope}[inner sep=2pt, minimum size=2pt, draw=none]
-      %\node (odd-sym) [demph, right=of r2] {Odd Wins};
-      %\node [above=2mm of odd-sym] {Even Wins};
-      %\end{scope}
-              \path (1) ++(3,0) coordinate (label);
-              \draw[dashed, thick, color1, demph] (label) -- ++(2em,0) node[right,draw=none,black, demph] {Odd Wins} ;
-              \draw[dashed, thick, color2] (label) ++(0,+1.5 em)  -- ++(2em,0) node[right,draw=none,black] {Even Wins} ;
+                    node[peven] (r3) {3}
+                    child[oldc] { node[peven, ncolor=1] {3} }
+                    child { 
+                        node [peven] (r6) {6}
+                        child { 
+                            node [podd] (r5) {5}
+                            child[oldc] { node[peven, ncolor=2] {2} }
+                            child[oldc] { node[peven, ncolor=2] {6} }
+                        }
+                    }
+                }
+            };
+        \begin{scope}[newstyle]
+            \path[dashed, emph, color2,->] (r2) edge [ bend left=50] (1)
+                  (l6) edge [ out=230, in=-180, looseness=2] (l5)
+                  (l6') edge [ out=-120, in=-90] (l5);
+            \path[dashed, demph, ->]
+                  (r3) edge [color1, loop, in=180, out=240, looseness=9] (r3)
+                  (l3) edge [color1, loop, in=0, out=-70, looseness=7] (l3)
+                  (r5) edge [color2, bend left, out=90] (r2)
+                  (r5) edge [color2, bend right, out=-120] (r6)
+                  (l2) edge [color1, out=-60, in=-120, looseness=1] (1);
+        \end{scope}
+          %\begin{scope}[inner sep=2pt, minimum size=2pt, draw=none]
+          %\node (odd-sym) [demph, right=of r2] {Odd Wins};
+          %\node [above=2mm of odd-sym] {Even Wins};
+          %\end{scope}
+          \path (1) ++(3,0) coordinate (labelbot) ++(2em,0) coordinate (labeltextbot);
+          \path (labelbot) ++(0,+1.5em) coordinate (labeltop) ++(2em,0) coordinate (labeltexttop);
+          \draw[dashed, thick, color1, demph, newstyle] (labeltop) -- (labeltexttop);
+          \draw[dashed, thick, color2, newstyle, newstyle] (labelbot) -- (labeltextbot);
+          \node[right,draw=none,black, demph, anchor=west] at (labeltexttop) {Odd Wins} ;
+          \node[right,draw=none,black,anchor=west] at (labeltextbot) {Even Wins} ;
+          \draw[oldn] node[ncolor=1] at (labeltop) {} (labelbot) node[ncolor=2] {};
 \end{tikzpicture}
 }
 
 
+\newcommand{\ShowParityPath}[5]{
+    \ShowJustParityPath{#1}{#2}{%
+            $\inf(\pi_#1)=\set{#3}$ \quad $\max \inf(\pi_#1) = #4$\\
+            \alert{#5 wins}%
+    }%
+}
+
+\newcommand{\ShowJustParityPath}[3]{
+    \begin{overlayarea}{\textwidth}{4em}
+        \only<+->{%
+            $\pi_{#1}=$ \animatepath{#2} \only<.->{$\ldots$}
+        \only<.->{%
+            #3%
+        }%
+    }%
+    \end{overlayarea}%
+}
+
 \begin{standaloneframe}[t]{Parity Games}
-        \scalebox{0.70}{\ParityPic}
-        \bigskip
-
-        \pause
-        $\pi_1=$ \animatepath{1,5,2,1,2,1} \uncover<.>{$\ldots$}
-
-        \visible<.->{
-                $\inf(\pi_1)=\set{1,2}$ \quad $\max \inf(\pi_1) = 2$\\
-                \alert{Even wins}
-        }
-        \bigskip
-
-        \only<.>{\settok{2}}
-        \only<+->{
-            $\pi_2=$ \enskip 1 \enskip 5 \enskip 2 \animatepath{1,5,2,1,5} \uncover<.>{$\ldots$}
-
-            \visible<.->{
-                    $\inf(\pi_2)=\set{1,2,5}$ \quad $\max \inf(\pi_2) = 5$\\
-                    \alert{Odd wins}
-            }
-        } \bigskip
-
-        \only<+->{
-            $\pi=$ \animatepath{1,2,3,3,6,5,2,1} \uncover<.>{$\ldots$}
-            \visible<.->{
-                \alert{Parity $\max \inf (\pi)$ wins.}
-            }
-        }
+    \splitCol{0.5}{0.45}{
+        \begin{block}{Winning conditions}<visible@+->
+            \bigskip
+            \ShowParityPath{1}{1,5,2,1,2,1,2}{1,2}{2}{Even}
+            \bigskip
+            \ShowParityPath{2}{1,5,2,1,5,2}{1,2,5}{5}{Odd}
+            \bigskip
+            \ShowJustParityPath{}{1,2,3,3,6,5,2,1}{\alert{$\text{Parity}(\max \inf (\pi))$ wins}}
+        \end{block}
+    }{\scalebox{0.77}{\ParityPic}}
 \end{standaloneframe}
 
-\begin{standaloneframe}[t]{Finite Game}
-    \vspace*{-0.5cm}
-    \begin{figure}
-        \hspace*{-1cm}\scalebox{0.7}{\ParityTree}
-        \hspace*{-1cm}\scalebox{0.7}{\ParityPic}
-    \end{figure}
-        \only<.(2)>{Even has a winning strategy}
-        \only<.(3)>{Every cycle has max priority even}
-        \only<.(4)->{
-            \addtocounter{beamerpauses}{4}%
+\begin{standaloneframe}{Parity Games}
+    \begin{block}{Questions}
+        \begin{itemize}
+            \item Does either Even or Odd have a strategy to always win?\\
+                \visible<2->{\alert{Yes}}
+            \item If so, then how to compute the winning strategy?
+            \item<visible@2-> Reduce to finite duration games
+        \end{itemize}
+    \end{block}
+\end{standaloneframe}
 
-            \splitCol[0.5][0.5]{$\pi=$\animateStackedPath{1, 2r, 1, 5l, 6ll, 5l, 2l, 3l, 6lr, 5l} \enskip \only<.->{$\ldots$}}{
-                \begin{itemize}
-                \item<only@.(-1)-.> Every time a cycle with max priority even is eliminated.
-                \item<only@+> Hence MaxInf priority in $\pi$ is Even
-            \end{itemize}
+\begin{standaloneframe}[label=current]{Parity Games}
+        \splitCol{0.4}{0.55}{%
+            \medskip
+            \scalebox{0.7}{\ParityPic}
+            \begin{block}{Finite game}<visible@5->
+                \begin{overprint}
+                    \onslide<5> Even has a winning strategy
+                    \onslide<6-> Every cycle has max priority even
+                \end{overprint}
+            \end{block}%
+        }{\scalebox{0.7}{\ParityTree}}
+            \addtocounter{beamerpauses}{7}%
+            \splitCol{0.50}{0.45}{%
+            \begin{overlayarea}{0.97\linewidth}{2.2cm}
+            \begin{block}{Extension to infinite plays}<visible@.->
+                \visible<.(1)->{$\pi=$} \enskip \animateStackedPath{1, 2r, 1, 5l, 6ll, 5l, 2l, 3l, 6lr, 5l} \enskip \only<.->{$\ldots$}
+            \end{block}
+            \end{overlayarea}
+            }{%
+                    \begin{itemize}
+                        \item<.(-6)-> Every eliminated cycle has max priority even
+                        \item<+-> Hence $\max\inf$ priority in $\pi$ is Even
+                    \end{itemize}%
             }
-        }
 \end{standaloneframe}
 \end{document}

@@ -12,16 +12,16 @@
 \newcommand{\settok}{\SetMyToken}
 
 \ExplSyntaxOn
-\NewDocumentCommand{\AnimateMyToken}{st+m}
+\NewDocumentCommand{\AnimateMyToken}{st+O{}m}
 {
     \int_zero:N \l_tmpa_int
     \int_incr:N \l_tmpa_int
-    \clist_map_inline:nn {#3}
+    \clist_map_inline:nn {#4}
     {
-        \only<.(\int_use:N \l_tmpa_int)>{\SetMyToken{##1}} \int_incr:N \l_tmpa_int
+        \only<.(\int_use:N \l_tmpa_int)->{\SetMyToken{##1} #3} \int_incr:N \l_tmpa_int
         %only(\int_use:N \l_tmpa_int){\SetMyToken{##1}} \int_incr:N \l_tmpa_int
     }
-    \IfBooleanTF{#2} {} { \only<.(\int_use:N \l_tmpa_int)>{\SetMyToken{}} }
+    \IfBooleanTF{#2} {} { \only<.(\int_use:N \l_tmpa_int)->{\SetMyToken{}} }
     \IfBooleanTF {#1} {} { \addtocounter{beamerpauses}{\int_use:N \l_tmpa_int} }
 }
 \ExplSyntaxOff

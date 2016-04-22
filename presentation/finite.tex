@@ -88,7 +88,7 @@
     \frametitle{Finite games}
     \framesubtitle{Win-Loss game}
     \tikzset{winlabel/.style={visible on=<2->}}
-    \splitCol[0.5][0.5]{%
+    \splitCol{0.5}{0.5}{%
         \addtocounter{beamerpauses}{1}%
         \only<.(4)>{\alert{Box wins}}%
         \only<.(6)>{\alert{Circle wins}}%
@@ -110,7 +110,7 @@
     \frametitle{Finite games}
     \framesubtitle{Payoff game}
     \setcounter{beamerpauses}{7}
-    \splitCol[0.5][0.5]{
+    \splitCol{0.5}{0.5}{
         \begin{block}{Payoff}<visible@4,6>
             Min pays \alt<6>{-1}{4} units to Max
         \end{block}%
