@@ -1,7 +1,7 @@
 \documentclass[beamer]{standalone}
 \usepackage{mypackages}
 
-\includeonlyframes{current}
+%\includeonlyframes{current}
 \begin{document}
 \newcommand{\MeanPayoffGame}{
 \begin{tikzpicture}
@@ -29,32 +29,46 @@
     every child/.style={norm},
     every node/.style={draw=black,thin},
     norm/.style={edge from parent/.style={draw,black,thin,->}},
-    e1/.style={ee=<.(2)-.(3)>1},
-    d1/.style={invisible on=<.(3)>},
+    e1/.style={ee=<.(5)-.(6)>1},
+    d1/.style={invisible on=<.(6)>},
     d1t/.style={d1,every child/.append style={edge from parent/.append style=d1}},
-    e2/.style={ee=<.(4)->2},
-    e2t/.style={eet=<.(4)->2},
-    d2/.style={invisible on=<.(5)->},
-    d2t/.style={d2,every child/.append style={edge from parent/.append style=d2}}
+    e2/.style={ee=<.(7)->2},
+    e2t/.style={eet=<.(7)->2},
+    d2/.style={invisible on=<.(8)->},
+    d2t/.style={d2,every child/.append style={edge from parent/.append style=d2}},
+    oldn/.style={visible on=<.(2)-.(3)>},
+    oldc/.style={alt=<.(2)-.(3)>{}{missing},every node/.append style=oldn},
+    %values/.style={visible on=<.(3)>},
+    newstyle/.style={visible on=<{.(1),.(2),.(4)-}>},
 ]
 
 		\node[p2, tok-here=a] (a) {a}
             child[e2t] {
 				node[p2, tok-here=bl] (bl) {b}
-                child[e2t] { node[p1, tok-here=cl] (cl) {c} }
+                child[e2t] {
+                    node[p1, tok-here=cl] (cl) {c}
+                    child[oldc] { node[p2] {-$\tfrac{1}{3}$} }
+                    child[oldc] { node[p2] {0} }
+                }
+                child[oldc] { node[p2] {$\frac{1}{2}$} }
 			}
             child[d2t] {
 				node[p1,tok-here=cr] (cr) {c}
-                child[d1t] { node [p2, tok-here=br] (br) {b} }
+                child[oldc] { node[p2] {0} }
+                child[d1t] {
+                    node [p2, tok-here=br] (br) {b}
+                    child[oldc] { node[p2] {0} }
+                    child[oldc] { node[p1] {0} }
+                }
 			};
 
-            \path[dashed, ->, every node/.append style={draw=none}]
-			(cl) edge[e1, out=-60, in=-45, looseness=2] node[right] {0} (bl)
+            \path[dashed, ->, every node/.append style={draw=none,newstyle}, newstyle]
+			(cl) edge[e1, out=-60, in=-90, looseness=2] node[right] {0} (bl)
 			(cr) edge[d2, e1, out=45, in=0, looseness=1] node[above] {0} (a)
             (cl) edge[out=225,in=160, looseness=2,d1] node[left] {-$\frac{1}{3}$} (a)
             (bl) edge[d2, out=-20,in=-90, looseness=1] node[below right, yshift=0.5em, pos=0.3] {$\frac{1}{2}$} (a)
 			(br) edge[d2, out=-45, in=0, looseness=2,d1] node[right] {0} (cr)
-			(br) edge[d2, out=225, in=-70,d1] node[left] {0} (a);
+			(br) edge[d2, out=220, in=-80,d1,looseness=2] node[pos=0.3,below left] {0} (a);
     \end{tikzpicture}
 }
 
@@ -118,10 +132,10 @@
 
 
     \bigskip
-    \visible<.(3),.(5)->{ \alt<.(3)>{Max}{Min} can ensure \alt<.(3)>{$\geq$}{$\leq$} 0 \visible<.(6)->{\alert<.(6)>{in the infinite game too}}}
+    \visible<.(6),.(8)->{ \alt<.(6)>{Max}{Min} can ensure \alt<.(6)>{$\geq$}{$\leq$} 0 \visible<.(9)->{\alert<.(9)>{in the mean payoff game too}}}
     \bigskip
 
-    \addtocounter{beamerpauses}{6}
+    \addtocounter{beamerpauses}{9}
     \splitCol{0.5}{0.5}{
        \fbox{ \begin{overlayarea}{0.95\textwidth}{4em}
             $\pi=$ \enskip \animateStackedPath{a,bl,cl,bl,cl,a,bl,cl,a}
@@ -129,10 +143,21 @@
     }{
             \begin{itemize}
                 \item<only@.(-1)-.> Every time a cycle with average value $\leq 0$ is eliminated
-                \item<only@+> Hence limsup of the average  $\pi$ is $\leq 0$ (see board)
+                \item<only@+> Hence limsup of averages of $\pi$ is $\leq 0$ 
                 \item<only@+-> Similarly Max can ensure liminf of the average is $\geq 0$
                 \item<only@.> Hence the value of Mean payoff game is 0
             \end{itemize}
             }
+\end{standaloneframe}
+
+\begin{standaloneframe}{Parity Games}{Better Algorithms}
+    \begin{itemize}[<+->]
+        \item \fullcite{localstrat}\\
+            \begin{center}
+            Upper bound \footcite[see also][]{ediss13294} : $O \left( (n/d)^d \right)$
+            \end{center}
+        \item \fullcite{subexp}
+            \[  n^{O(\sqrt{n})} \]
+    \end{itemize}
 \end{standaloneframe}
 \end{document}

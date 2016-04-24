@@ -1,6 +1,7 @@
 \documentclass[beamer]{standalone}
 \usepackage{mypackages}
 
+\includeonlyframes{current}
 \begin{document}
     \ExplSyntaxOn
         \NewDocumentCommand{\simulateRun}{ m }
@@ -17,6 +18,7 @@
 
         \NewDocumentCommand{\getProp}{ m }
         {
+            %\prop_get:NnNTF \l_mypkg_prop { #1 } \l_tmpa_tl { \tl_use:N \l_tmpa_tl } { #2 }
             \prop_item:Nn \l_mypkg_prop { #1 }
         }
 
@@ -26,19 +28,22 @@
             \setProp{max}{ #2 }
             \setProp{min}{ #3 }
             \setProp{r2}{ #4 }
+            \setProp{tmax}{1}
+            \setProp{tmin}{0}
         }
     \ExplSyntaxOff
 
+    \tikzset{st1/.style={fill=white},st2/.style={fill=white}}
     \newcommand{\drawStochastic}{
-        \begin{tikzpicture}[node distance=1.5cm, terminal/.style={fill=gray!30}, every label/.append style={blue}]
+        \begin{tikzpicture}[node distance=1.5cm, every label/.append style={blue}]
         \node (origin) {};
-        \node[rand, above=of origin, tok-here=r1, label=above:\getProp{r1}] (r1) {};
-        \node[p2 ,left=of origin, tok-here=max, label=-5:\getProp{max}] (max) {};
-        \node[p1, left=of max, tok-here=min, label=above right:\getProp{min}] (min) {};
-        \node[rand, below=of origin, tok-here=r2, label=below:\getProp{r2}] (r2) {};
+        \node[rand, above=of origin, tok-here=r1, label=above:\getProp{r1},st1] (r1) {};
+        \node[p1 ,left=of origin, tok-here=max, label=-5:\getProp{max}] (max) {};
+        \node[p2, left=of max, tok-here=min, label=above right:\getProp{min}] (min) {};
+        \node[rand, below=of origin, tok-here=r2, label=below:\getProp{r2}, st2] (r2) {};
 
-        \node[p2, terminal, right=of r1, yshift=-1cm, tok-here=tmax] (tmax) {};
-        \node[p1, terminal, right=of r2, yshift=1cm, tok-here=tmin] (tmin) {};
+        \node[p1, terminal, right=of r1, yshift=-1cm, tok-here=tmax, label=right:\getProp{tmax}] (tmax) {};
+        \node[p2, terminal, right=of r2, yshift=1cm, tok-here=tmin, label=right:\getProp{tmin}] (tmin) {};
 
         \draw[every edge/.append style={post}]
             (r1) edge node[above, xshift=0.5em] {$\frac{1}{2}$} (tmax)
@@ -53,24 +58,44 @@
     }
 
     \NewDocumentCommand{\simulateVal}{ m m m m }{
-        \only<+>{\fillNode{ #1 }{ #2 }{ #3 }{ #4 }}
+        \only<+->{\fillNode{ #1 }{ #2 }{ #3 }{ #4 }}
     }
 
     \begin{standaloneframe}{Simple Stochastic Game}
-        \scalebox{0.7}{\drawStochastic}
+        \splitCol{0.4}{0.55}{
         \simulateRun{min, max, r1, max, r2, tmax}
-        \only<+> {\alert{Box Wins}} \simulateRun{max, r2, tmin} \only<+>{\alert{Circle Wins}}
+        \onslide<+>{\alert{Circle Wins}}\\
+        \simulateRun{max, r2, tmin}
+        \onslide<+>{\alert{Box Wins}}\\
         \only<+>{Or}
-        \simulateRun{min, max, r1, max, r1, max, r1, tmax} \only<+>{Box can win with probability 1}
+        \simulateRun{min, max, r1, max, r1, max, r1, tmax}
+        \onslide<+->{Circle can win with probability 1 from \tikz \node[inner sep=0, minimum size=1ex,rectangle,draw=black] {};}
+    }{ \scalebox{0.77}{\drawStochastic} }
     \end{standaloneframe}
-    \begin{standaloneframe}{Simple Stochastic Game}
+    \colorlet{c1}{pink}
+    \colorlet{c2}{lime}
+    \newcommand{\mynode}[2][]{\tikz \node[inner sep=0, minimum size=1ex, draw, #2] {#1};}
+    \newcommand{\tr}[1]{\mynode{triangle,fill=c#1, minimum size=2ex}}
+    \newcommand{\randcolstyle}[1]{\tikzset{st#1/.style={fill=c#1}}}
+    \newcommand{\setrandcolstyle}{\randcolstyle{1} \randcolstyle{2}}
+
+    \begin{standaloneframe}[label=current]{Simple Stochastic Game}{Values}
+        \SetMyToken{}
+        \splitCol{0.4}{0.55}{
+            \onslide<3>{
+            \begin{align*}
+                v(\mynode{terminal,circle}) &= 1\\
+                v(\mynode{terminal,rectangle}) &= 0\\
+                v(\tr{1}) &= \frac{1}{2}( v(\mynode{terminal, circle}) + v(\mynode{circle}))\\
+                v(\tr{2}) &= \frac{1}{2}( v(\mynode{terminal, circle}) + v(\mynode{terminal, rectangle}) )\\
+                v(\mynode{circle}) &= \max\{v(\tr{1}),v(\tr{2})\}\\
+                v(\mynode{rectangle}) &= \min\{v(\mynode{circle}), v(\tr{2})\}\\
+            \end{align*}
+        }
+        }{
         \simulateVal{1}{1}{}{$\frac{1}{2}$}
         \simulateVal{1}{1}{$\frac{1}{2}$}{$\frac{1}{2}$}
-        \simulateVal{$\frac{1}{2}$}{}{$\frac{1}{2}$}{$\frac{1}{2}$}
-
-        \scalebox{0.85}{\drawStochastic}
-        \only<.(2)>{How to find the values?}
-
-        %\only<+->{\fillNode{1}{1}{0.5}{0.5}}
+        \only<+->{\setrandcolstyle}
+        \scalebox{0.77}{\drawStochastic}}
     \end{standaloneframe}
 \end{document}
