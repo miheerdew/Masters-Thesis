@@ -1,7 +1,7 @@
 \documentclass[beamer]{standalone}
 %\documentclass[draft]{beamer}
 \usepackage{mypackages}
-\includeonlyframes{current}
+%\includeonlyframes{current}
 
 \begin{document}
 \newcommand{\ParityPic}{
@@ -145,7 +145,7 @@
     \end{block}
 \end{standaloneframe}
 
-\begin{standaloneframe}[label=current]{Parity Games}
+\begin{standaloneframe}{Parity Games}
         \splitCol{0.4}{0.55}{%
             \medskip
             \scalebox{0.7}{\ParityPic}
@@ -169,5 +169,16 @@
                         \item<+-> Hence $\max\inf$ priority in $\pi$ is Even
                     \end{itemize}%
             }
+\end{standaloneframe}
+
+\begin{standaloneframe}{Parity Games}{Better Algorithms}
+    \begin{itemize}[<+->]
+        \item \fullcite{localstrat}\\
+            \begin{center}
+            Upper bound \footcite[see also][]{ediss13294} : $O \left( (n/d)^d \right)$
+            \end{center}
+        \item \fullcite{subexp}
+            \[  n^{O(\sqrt{n})} \]
+    \end{itemize}
 \end{standaloneframe}
 \end{document}
