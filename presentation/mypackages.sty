@@ -7,6 +7,15 @@
 \usepackage{complexity}
 \usepackage{mytikz}
 
+\directlua{ require 'lualoader' }
+
+\makeatletter
+\let\c@overlaynumber\beamer@slideinframe
+\makeatother
+
+\newcommand{\counterDiff}[2]{%
+  \numexpr\value{#2}-\value{#1}\relax}
+
 \usepackage[backend=biber,doi=false,url=false,style=authortitle]{biblatex}
 \setbeamertemplate{bibliography item}[triangle]
 \addbibresource{mybib.bib}
@@ -54,3 +63,4 @@
     \end{columns}
 }
 \setbeamertemplate{itemize items}[ball]
+

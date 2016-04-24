@@ -14,6 +14,11 @@
 \ExplSyntaxOn
 \NewDocumentCommand{\AnimateMyToken}{st+O{}m}
 {
+    % #1 - star to not inceremnt beamer pause
+    % #2 - plus to not reset token after last use
+    % #3 - Some code that you want to add after token is set
+    % #4 - The list of tokens to set
+
     \int_zero:N \l_tmpa_int
     \int_incr:N \l_tmpa_int
     \clist_map_inline:nn {#4}

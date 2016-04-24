@@ -46,12 +46,6 @@
     \directlua{animateStack(splitCommas(\luastring{#1}))}%
 }
 
-\newcommand{\animateMeanPath}[3][0.7]{%
-    \begin{overlayarea}{#1\textwidth}{2cm}
-        \directlua{CmdAnimateMeanPath(\luastring{#2}, \luastringN{#3})}%
-    \end{overlayarea}
-}
-
 \newwrite\luadebug
 \immediate\openout\luadebug luadebug.lua
 \AtEndDocument{\immediate\closeout\luadebug}

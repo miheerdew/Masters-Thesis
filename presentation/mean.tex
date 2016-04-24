@@ -1,6 +1,7 @@
 \documentclass[beamer]{standalone}
 \usepackage{mypackages}
 
+\includeonlyframes{current}
 \begin{document}
 \newcommand{\MeanPayoffGame}{
 \begin{tikzpicture}
@@ -57,17 +58,61 @@
     \end{tikzpicture}
 }
 
+\newcommand<>{\s}[2]{\onslide#2{#1}}
+\newcommand{\countFromHere}[1][+-]{
+    \only<#1>{\number\counterDiff{beamerpauses}{overlaynumber}}}
+
+\newcommand{\animateMeanPath}[3][1]{%
+    \begin{overlayarea}{#1\textwidth}{2cm}
+        \directlua{CmdAnimateMeanPath(\luastring{#2}, \luastringN{#3})}%
+    \end{overlayarea}
+}
+
 \begin{standaloneframe}{Mean Payoff Games}
-    \scalebox{0.7}{\MeanPayoffGame}
-    \pause
-    \fbox{\animateMeanPath[0.5]{a/-2, b/+3, a/-2, b/+3, a/-2, b/+3}{\frac{1}{2}}}
-    \pause
-    \fbox{\animateMeanPath{a/-1, c/-2, b/+2, a/-1, c/-2, b/+2, a/-1, c/-2, b/+2}{-\frac{1}{3}}}
-    \pause
-    \fbox{\animateMeanPath{b/2,c/-2,b/+2,c/-2,b/+2,c/-2}{0}}
+    %\newcommand{\ainmateFraction}[1]{
+    %\luaexec{
+        %local str=require 'std.string'
+        %for i=#1,#2
+    %}}
+    \splitCol*{0.55}{0.40}{
+        \stepcounter{beamerpauses}
+        \begin{block}{Payoffs}
+            \begin{exampleblock}{$(ab)^\omega$ \onslide<.(12)->{Min pays $\frac{1}{2}$ units to Max}}<visible@+->
+                \AnimateMyToken{a,b,a,b}
+                \animateMeanPath{a/-2, b/+3, a/-2, b/+3, a/-2, b/+3, a/-2}{\sim \tfrac{n(-2+3)}{2n} \to \frac{1}{2}}
+            \end{exampleblock}
+            \begin{exampleblock}{$(acb)^\omega$ \onslide<.(15)->{Min pays $-\frac{1}{3}$ units to Max}}<visible@+->
+                \AnimateMyToken{a,c,b,a,c,b}
+                \animateMeanPath{a/-1, c/-2, b/+3, a/-1, c/-2, b/+3, a/-1}{\sim \tfrac{n(-1-2+3)}{3n} \to -\frac{1}{3}}
+            \end{exampleblock}
+        \end{block}
+
+        \onslide<+->{
+        Generally
+        \begin{itemize}
+            \item Min tries to minimizes $\limsup$
+            \item Max tries to maximizes $\liminf$
+        \end{itemize}
+        }
+    }{\scalebox{0.8}{\MeanPayoffGame}}
 \end{standaloneframe}
 
-\begin{standaloneframe}{Mean Payoff}{Finite Game}
+\begin{standaloneframe}{Mean Payoff Games}
+    \begin{block}{Questions}
+        \begin{itemize}
+            \item Does the game have a value? i.e. is there a $v$ so that
+                \begin{itemize}
+                    \item Max can ensure a payoff $\geq v$
+                    \item Min can ensure a payoff $\leq v$
+                \end{itemize}
+                \visible<2->{\alert{Yes}}
+            \item<2-> How to compute the optimal strategies?
+        \end{itemize}
+    \end{block}
+    \visible<4->{Solution using the finite game}
+\end{standaloneframe}
+
+\begin{standaloneframe}[label=current]{Mean Payoff}{Finite Game}
     \scalebox{0.7}{\MeanPayoffTree}
     \scalebox{0.7}{\MeanPayoffGame}
 
@@ -83,7 +128,7 @@
         \end{overlayarea}}
     }{
             \begin{itemize}
-                \item<only@.(-1)-.> Every time a cycle with average value $\leq 0$ is eliminated 
+                \item<only@.(-1)-.> Every time a cycle with average value $\leq 0$ is eliminated
                 \item<only@+> Hence limsup of the average  $\pi$ is $\leq 0$ (see board)
                 \item<only@+-> Similarly Max can ensure liminf of the average is $\geq 0$
                 \item<only@.> Hence the value of Mean payoff game is 0
