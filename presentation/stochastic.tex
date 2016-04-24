@@ -1,7 +1,7 @@
 \documentclass[beamer]{standalone}
 \usepackage{mypackages}
 
-\includeonlyframes{current}
+%\includeonlyframes{current}
 \begin{document}
     \ExplSyntaxOn
         \NewDocumentCommand{\simulateRun}{ m }
@@ -24,12 +24,12 @@
 
         \NewDocumentCommand{\fillNode}{ m m m m }
         {
-            \setProp{r1}{ #1 }
-            \setProp{max}{ #2 }
-            \setProp{min}{ #3 }
-            \setProp{r2}{ #4 }
-            \setProp{tmax}{1}
-            \setProp{tmin}{0}
+            \setProp{r1}{ #1 }%
+            \setProp{max}{ #2 }%
+            \setProp{min}{ #3 }%
+            \setProp{r2}{ #4 }%
+            \setProp{tmax}{1}%
+            \setProp{tmin}{0}%
         }
     \ExplSyntaxOff
 
@@ -69,7 +69,7 @@
         \onslide<+>{\alert{Box Wins}}\\
         \only<+>{Or}
         \simulateRun{min, max, r1, max, r1, max, r1, tmax}
-        \onslide<+->{Circle can win with probability 1 from \tikz \node[inner sep=0, minimum size=1ex,rectangle,draw=black] {};}
+        \onslide<+->{Circle can win from \tikz \node[inner sep=0, minimum size=1ex,circle,draw=black] {}; with probability 1 }
     }{ \scalebox{0.77}{\drawStochastic} }
     \end{standaloneframe}
     \colorlet{c1}{pink}
@@ -82,7 +82,7 @@
     \begin{standaloneframe}[label=current]{Simple Stochastic Game}{Values}
         \SetMyToken{}
         \splitCol{0.4}{0.55}{
-            \onslide<3>{
+            \onslide<3->{
             \begin{align*}
                 v(\mynode{terminal,circle}) &= 1\\
                 v(\mynode{terminal,rectangle}) &= 0\\
@@ -97,5 +97,6 @@
         \simulateVal{1}{1}{$\frac{1}{2}$}{$\frac{1}{2}$}
         \only<+->{\setrandcolstyle}
         \scalebox{0.77}{\drawStochastic}}
+        \onslide<4->{These equations have a unique solution}
     \end{standaloneframe}
 \end{document}
