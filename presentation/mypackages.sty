@@ -16,7 +16,7 @@
 \newcommand{\counterDiff}[2]{%
   \numexpr\value{#2}-\value{#1}\relax}
 
-\usepackage[backend=biber,doi=false,url=false,style=authortitle]{biblatex}
+\usepackage[backend=biber,doi=false,url=false,style=authortitle,isbn=false,url=false]{biblatex}
 \setbeamertemplate{bibliography item}[triangle]
 \addbibresource{mybib.bib}
 %\usetheme{Rochester}
@@ -46,9 +46,9 @@
   \end{frame}
 }
 
-%\renewenvironment{standaloneframe}{\begin{frame}}{%
-    %\end{frame}\ignorespacesafterend% as suggested above
-%}
+\renewenvironment{standaloneframe}{\begin{frame}}{%
+    \end{frame}\ignorespacesafterend% as suggested above
+}
 
 \NewDocumentCommand{\splitCol}{ s m m +m +m}{
     \begin{columns}

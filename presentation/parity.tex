@@ -43,22 +43,22 @@
     \node[podd, tok-here=1] (1) {1}
             child {
                 node[podd, tok-here=5l] (l5) {5}
-                child { 
-                    node[peven, tok-here=6ll] (l6) {6} 
+                child {
+                    node[peven, tok-here=6ll] (l6) {6}
                     child[oldc] { node[podd, ncolor=2] {5} }
                     child[missing] { node {} }
                 }
                 child {
                     node[peven, tok-here=2l] (l2) {2}
-                    child[empht] { 
+                    child[empht] {
                         node[peven, tok-here=3l] (l3) {3}
-                        child[empht] { 
-                            node[peven, tok-here=6lr] (l6') {6} 
+                        child[empht] {
+                            node[peven, tok-here=6lr] (l6') {6}
                             child[oldc] {node[podd,ncolor=2] {5}}
                         }
                         child[oldc] { node[peven,ncolor=1] {3} }
                     }
-                    child[oldc] { node[podd,ncolor=1] {1} } 
+                    child[oldc] { node[podd,ncolor=1] {1} }
                 }
             }
             child {
@@ -67,9 +67,9 @@
                 child[demph,every child/.append style={edge from parent/.append style=demph}] {
                     node[peven] (r3) {3}
                     child[oldc] { node[peven, ncolor=1] {3} }
-                    child { 
+                    child {
                         node [peven] (r6) {6}
-                        child { 
+                        child {
                             node [podd] (r5) {5}
                             child[oldc] { node[peven, ncolor=2] {2} }
                             child[oldc] { node[peven, ncolor=2] {6} }

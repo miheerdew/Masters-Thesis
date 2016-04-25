@@ -1,7 +1,7 @@
 \documentclass[beamer]{standalone}
 \usepackage{mypackages}
 
-%\includeonlyframes{current}
+\includeonlyframes{current}
 \begin{document}
     \ExplSyntaxOn
         \NewDocumentCommand{\simulateRun}{ m }
@@ -79,7 +79,7 @@
     \newcommand{\randcolstyle}[1]{\tikzset{st#1/.style={fill=c#1}}}
     \newcommand{\setrandcolstyle}{\randcolstyle{1} \randcolstyle{2}}
 
-    \begin{standaloneframe}[label=current]{Simple Stochastic Game}{Values}
+    \begin{standaloneframe}{Simple Stochastic Game}{Values}
         \SetMyToken{}
         \splitCol{0.4}{0.55}{
             \onslide<3->{
@@ -97,6 +97,34 @@
         \simulateVal{1}{1}{$\frac{1}{2}$}{$\frac{1}{2}$}
         \only<+->{\setrandcolstyle}
         \scalebox{0.77}{\drawStochastic}}
-        \onslide<4->{These equations have a unique solution}
+        \onslide<4->{These equations have a unique solution.}\\
+        \onslide<5->{From state $s$ -
+                    \begin{itemize}
+                        \item[] \mynode{circle} has a strategy to reach \mynode{circle, terminal} with probability $\geq v(s)$
+                        \item[] \mynode{rectangle} has a strategy to reach \mynode{rectangle, terminal} with probability $\geq 1-v(s)$
+                    \end{itemize}
+                }
+    \end{standaloneframe}
+    \begin{standaloneframe}{Simple Stochastic Games}
+        \begin{tikzpicture}[node distance=1.5cm, every node/.style={draw,rectangle,align=left,text width=4cm}, every label/.append style={visible on=<2->}]
+            \path (0,0) coordinate (origin);
+            \node[above left=of origin] (parity) {Does Even win the Parity Game?};
+            \node[above right=of origin] (mean) {Is the value of the Mean Payoff Game $\geq 0$};
+            \node[below=of origin, label={[color=teal]right:\NP \cap \coNP}] (stochastic) {Is the value in the Simple Stochasic Game  $\geq \tfrac{1}{2}$};
+
+            \draw[->] (parity) edge (mean)
+                      (mean) edge (stochastic);
+            \draw[->, dashed, visible on=<3->] (parity) edge node[draw=none,text width=0,inner sep=0,above right] {\footnotemark} (stochastic) ;
+        \end{tikzpicture}
+        \only<3->{\footcitetext{parity2ssg}}
+    \end{standaloneframe}
+
+    \begin{standaloneframe}[label=current]{Timeline}
+        \begin{itemize}
+            \item \fullcite{shapley_stochastic}
+            \item \fullcite{condon_stochastic}
+            \item \fullcite{zwick_meanpayoff}
+            \item \fullcite{parityup}
+        \end{itemize}
     \end{standaloneframe}
 \end{document}
