@@ -33,6 +33,11 @@
 
 \newcommand{\set}[1]{\{#1\}}
 
+\setbeamerfont{title}{series=\Huge}
+%\setbeamerfont{subtitle}{size=\scriptsize,series=\bfseries,parent=structure}
+%\setbeamerfont{author}{size=\scriptsize,series=\bfseries,parent=structure}
+%\setbeamerfont{institute}{size=\scriptsize,series=\bfseries,parent=structure}
+\setbeamerfont{date}{size=\scriptsize,series=\bfseries,parent=structure}
 %\setbeamercovered{transparent}
 \setbeamersize{text margin left=10pt,text margin right=5pt}
 \beamertemplatenavigationsymbolsempty
@@ -41,8 +46,16 @@
 \AtBeginSection[]
 {
   \begin{frame}
-    \frametitle{Table of Contents}
+    \frametitle{Outline}
     \tableofcontents[currentsection]
+  \end{frame}
+}
+
+\AtBeginSubsection[]
+{
+  \begin{frame}
+    \frametitle{Outline}
+    \tableofcontents[currentsubsection]
   \end{frame}
 }
 

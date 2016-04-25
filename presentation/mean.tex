@@ -1,7 +1,7 @@
 \documentclass[beamer]{standalone}
 \usepackage{mypackages}
 
-%\includeonlyframes{current}
+\includeonlyframes{current}
 \begin{document}
 \newcommand{\MeanPayoffGame}{
 \begin{tikzpicture}
@@ -88,10 +88,10 @@
         %local str=require 'std.string'
         %for i=#1,#2
     %}}
-    \splitCol*{0.55}{0.40}{
+    \splitCol{0.55}{0.40}{
         \stepcounter{beamerpauses}
         \begin{block}{Payoffs}
-            \begin{exampleblock}{$(ab)^\omega$ \onslide<.(12)->{Min pays $\frac{1}{2}$ units to Max}}<visible@+->
+            \begin{exampleblock}{$(ab)^\omega$ \onslide<.(13)->{Min pays $\frac{1}{2}$ units to Max}}<visible@+->
                 \AnimateMyToken{a,b,a,b}
                 \animateMeanPath{a/-2, b/+3, a/-2, b/+3, a/-2, b/+3, a/-2}{\sim \tfrac{n(-2+3)}{2n} \to \frac{1}{2}}
             \end{exampleblock}
@@ -101,11 +101,11 @@
             \end{exampleblock}
         \end{block}
 
-        \onslide<+->{
-        Generally
+        \uncover<+->{
+        \uncover<+->{Generally}
         \begin{itemize}
-            \item Min tries to minimizes $\limsup$
-            \item Max tries to maximizes $\liminf$
+            \item Min tries to minimize \alt<.(-1)>{$\lim$}{$\limsup$}
+            \item Max tries to maximize \alt<.(-1)>{$\lim$}{$\liminf$}
         \end{itemize}
         }
     }{\scalebox{0.8}{\MeanPayoffGame}}
@@ -123,11 +123,11 @@
             \item<2-> How to compute the optimal strategies?
         \end{itemize}
     \end{block}
-    \visible<4->{Solution using the finite game}
+    \visible<3->{Solution using the finite game}
 \end{standaloneframe}
 
 \begin{standaloneframe}[label=current]{Mean Payoff}{Finite Game}
-    \scalebox{0.7}{\MeanPayoffTree}
+    \scalebox{0.7}{\MeanPayoffTree{23}}
     \scalebox{0.7}{\MeanPayoffGame}
 
 
@@ -136,28 +136,17 @@
     \bigskip
 
     \addtocounter{beamerpauses}{9}
-    \splitCol{0.5}{0.5}{
-       \fbox{ \begin{overlayarea}{0.95\textwidth}{4em}
+    \splitCol{0.45}{0.5}{
+       \begin{overlayarea}{0.95\textwidth}{4em}
             $\pi=$ \enskip \animateStackedPath{a,bl,cl,bl,cl,a,bl,cl,a}
-        \end{overlayarea}}
+        \end{overlayarea}
     }{
             \begin{itemize}
                 \item<only@.(-1)-.> Every time a cycle with average value $\leq 0$ is eliminated
-                \item<only@+> Hence limsup of averages of $\pi$ is $\leq 0$ 
-                \item<only@+-> Similarly Max can ensure liminf of the average is $\geq 0$
-                \item<only@.> Hence the value of Mean payoff game is 0
+                \item<only@+> Hence limsup of averages of $\pi$ is $\leq 0$
+                \item<visible@+-> Similarly Max can ensure liminf of the average is $\geq 0$
+                \item<visible@.> Hence the value of Mean payoff game is 0
             \end{itemize}
             }
-\end{standaloneframe}
-
-\begin{standaloneframe}{Parity Games}{Better Algorithms}
-    \begin{itemize}[<+->]
-        \item \fullcite{localstrat}\\
-            \begin{center}
-            Upper bound \footcite[see also][]{ediss13294} : $O \left( (n/d)^d \right)$
-            \end{center}
-        \item \fullcite{subexp}
-            \[  n^{O(\sqrt{n})} \]
-    \end{itemize}
 \end{standaloneframe}
 \end{document}

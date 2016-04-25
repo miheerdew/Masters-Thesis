@@ -4,7 +4,8 @@
 %\includeonlyframes{current}
 
 \begin{document}
-\newcommand{\ParityPic}{
+\NewDocumentCommand{\ParityPic}{s}{
+    \IfBooleanTF{#1}{\colorlet{d1}{color1} \colorlet{d2}{color2}}{\colorlet{d1}{black} \colorlet{d2}{black}}
     \begin{tikzpicture}
       \node (origin) at (0,0) {};
         \node (5) [podd, left=1pt of origin, tok-here=5] {5};
@@ -24,8 +25,8 @@
             (6) edge [post, bend right] (5);
 
         \node (graph) [fit=(1) (2) (3) (6) (5)] {};
-        \node (odd-sym) [podd, above=1cm of 6, label={right:Odd}] {};
-        \node [peven, above=7pt of odd-sym, label={right:Even}] {};
+        \node (odd-sym) [podd, above=1cm of 6, label={right:Odd},d1] {};
+        \node [peven, above=7pt of odd-sym, label={right:Even},d2] {};
     \end{tikzpicture}
 }
 \newcommand{\ParityTree}{
@@ -105,7 +106,7 @@
 
 \newcommand{\ShowParityPath}[5]{
     \ShowJustParityPath{#1}{#2}{%
-            $\inf(\pi_#1)=\set{#3}$ \quad $\max \inf(\pi_#1) = #4$\\
+            $\inf(\pi_#1)=\set{#3}$ \quad $\max \Inf(\pi_#1) = #4$\\
             \alert{#5 wins}%
     }%
 }
@@ -121,6 +122,8 @@
     \end{overlayarea}%
 }
 
+\newcommand{\Inf}{\text{Inf}}
+
 \begin{standaloneframe}[t]{Parity Games}
     \splitCol{0.5}{0.45}{
         \begin{block}{Winning conditions}<visible@+->
@@ -129,7 +132,7 @@
             \bigskip
             \ShowParityPath{2}{1,5,2,1,5,2}{1,2,5}{5}{Odd}
             \bigskip
-            \ShowJustParityPath{}{1,2,3,3,6,5,2,1}{\alert{$\text{Parity}(\max \inf (\pi))$ wins}}
+            \ShowJustParityPath{}{1,2,3,3,6,5,2,1}{\alert{$\text{Parity}(\max \Inf (\pi))$ wins}}
         \end{block}
     }{\scalebox{0.77}{\ParityPic}}
 \end{standaloneframe}
@@ -139,8 +142,8 @@
         \begin{itemize}
             \item Does either Even or Odd have a strategy to always win?\\
                 \visible<2->{\alert{Yes}}
-            \item If so, then how to compute the winning strategy?
-            \item<visible@2-> Reduce to finite duration games
+            \item If so, then how to compute the winning strategy?\\
+                \onslide<2->{\alert{By reduction to finite duration games}}
         \end{itemize}
     \end{block}
 \end{standaloneframe}
@@ -148,7 +151,7 @@
 \begin{standaloneframe}{Parity Games}
         \splitCol{0.4}{0.55}{%
             \medskip
-            \scalebox{0.7}{\ParityPic}
+            \scalebox{0.7}{\ParityPic*}
             \begin{block}{Finite game}<visible@5->
                 \begin{overprint}
                     \onslide<5> Even has a winning strategy
@@ -166,7 +169,7 @@
             }{%
                     \begin{itemize}
                         \item<.(-6)-> Every eliminated cycle has max priority even
-                        \item<+-> Hence $\max\inf$ priority in $\pi$ is Even
+                        \item<+-> Hence $\max\Inf$ priority in $\pi$ is Even
                     \end{itemize}%
             }
 \end{standaloneframe}
