@@ -1,7 +1,7 @@
 \documentclass[beamer]{standalone}
 \usepackage{mypackages}
 
-\includeonlyframes{current}
+%\includeonlyframes{current}
 \begin{document}
     \ExplSyntaxOn
         \NewDocumentCommand{\simulateRun}{ m }
@@ -118,6 +118,9 @@
             \draw[->, dashed, visible on=<3->] (parity) edge node[draw=none,text width=0,inner sep=0,above right] {\footnotemark} (stochastic) ;
         \end{tikzpicture}
         \only<3->{\footcitetext{parity2ssg}}
+        \begin{alertblock}{Open Problem}<+->
+            Is there a polynomial time algorithm for any of them?
+        \end{alertblock}
     \end{standaloneframe}
 
     \begin{standaloneframe}{Timeline}
