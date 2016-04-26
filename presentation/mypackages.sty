@@ -47,17 +47,10 @@
 {
   \begin{frame}
     \frametitle{Outline}
-    \tableofcontents[currentsection]
+    \tableofcontents[currentsection, currentsubsection, subsectionstyle=show/show/hide]
   \end{frame}
 }
 
-\AtBeginSubsection[]
-{
-  \begin{frame}
-    \frametitle{Outline}
-    \tableofcontents[currentsubsection]
-  \end{frame}
-}
 
 \renewenvironment{standaloneframe}{\begin{frame}}{%
     \end{frame}\ignorespacesafterend% as suggested above
