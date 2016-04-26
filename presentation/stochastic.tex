@@ -107,7 +107,7 @@
                 }
     \end{standaloneframe}
     \begin{standaloneframe}[label=current,t]{Complexity of solving games}
-        \begin{tikzpicture}[node distance=1.5cm, every node/.style={draw,rectangle,align=left,text width=4cm}, every label/.append style={visible on=<2->}]
+        \begin{tikzpicture}[node distance=1.5cm, every node/.style={draw,rectangle,align=left,text width=4.5cm}, every label/.append style={visible on=<2->}]
             \path (0,0) coordinate (origin);
             \node[above left=of origin] (parity) {Does Even win the Parity Game?};
             \node[above right=of origin] (mean) {Is the value of the Mean Payoff Game $\geq 0$};
@@ -118,7 +118,7 @@
             \draw[->, dashed, visible on=<3->] (parity) edge node[draw=none,text width=0,inner sep=0,above right] {\footnotemark} (stochastic) ;
         \end{tikzpicture}
         \only<3->{\footcitetext{parity2ssg}}
-        \begin{alertblock}{Open Problem}<+->
+        \begin{alertblock}{Open Problem}<visible@4->
             Is there a polynomial time algorithm for any of them?
         \end{alertblock}
     \end{standaloneframe}
@@ -131,5 +131,12 @@
             \item \fullcite{zwick_meanpayoff}
             \item \fullcite{parityup}
         \end{itemize}
+        \pause
+
+        \bigskip
+
+        \begin{beamercolorbox}[center]{}
+            {\Large  Thank you}
+        \end{beamercolorbox}
     \end{standaloneframe}
 \end{document}
