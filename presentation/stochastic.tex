@@ -32,15 +32,19 @@
             \setProp{tmin}{0}%
         }
     \ExplSyntaxOff
-
-    \tikzset{st1/.style={fill=white},st2/.style={fill=white}}
+    \colorlet{c1}{pink}
+    \colorlet{c2}{lime}
+    \colorlet{cmax}{pink}
+    \DeclareMyEvent{ColorR1}
+    \DeclareMyEvent{ColorR2}
+    \DeclareMyEvent{ColorMax}
     \newcommand{\drawStochastic}{
         \begin{tikzpicture}[node distance=1.5cm, every label/.append style={blue}]
         \node (origin) {};
-        \node[rand, above=of origin, tok-here=r1, label=above:\getProp{r1},st1] (r1) {};
-        \node[p1 ,left=of origin, tok-here=max, label=-5:\getProp{max}] (max) {};
+        \node[rand, above=of origin, tok-here=r1, label=above:\getProp{r1},/myevent/on={ColorR1}{fill=c1}] (r1) {};
+        \node[p1 ,left=of origin, tok-here=max, label=-5:\getProp{max},/myevent/on={ColorMax}{fill=cmax}] (max) {};
         \node[p2, left=of max, tok-here=min, label=above right:\getProp{min}] (min) {};
-        \node[rand, below=of origin, tok-here=r2, label=below:\getProp{r2}, st2] (r2) {};
+        \node[rand, below=of origin, tok-here=r2, label=below:\getProp{r2}, /myevent/on={ColorR2}{fill=c2}] (r2) {};
 
         \node[p1, terminal, right=of r1, yshift=-1cm, tok-here=tmax, label=right:\getProp{tmax}] (tmax) {};
         \node[p2, terminal, right=of r2, yshift=1cm, tok-here=tmin, label=right:\getProp{tmin}] (tmin) {};
@@ -69,15 +73,12 @@
         \onslide<.>{\alert{Box Wins}}\\
         \only<+>{Or}
         \simulateRun{min, max, r1, max, r1, max, r1, tmax}
-        \onslide<+->{Circle can win from \tikz \node[inner sep=0, minimum size=1ex,circle,draw=black] {}; with probability 1 }
-    }{ \scalebox{0.77}{\drawStochastic} }
+        \onslide<+->{Circle can win from \tikz \node[inner sep=0, minimum size=1ex,circle,draw=black,fill=cmax] {}; with probability 1}
+    }{\only<.>{\SetMyEvent{ColorMax}} \scalebox{0.77}{\drawStochastic} }
     \end{standaloneframe}
-    \colorlet{c1}{pink}
-    \colorlet{c2}{lime}
     \newcommand{\mynode}[2][]{\tikz \node[inner sep=0, minimum size=1ex, draw, #2] {#1};}
     \newcommand{\tr}[1]{\mynode{triangle,fill=c#1, minimum size=2ex}}
-    \newcommand{\randcolstyle}[1]{\tikzset{st#1/.style={fill=c#1}}}
-    \newcommand{\setrandcolstyle}{\randcolstyle{1} \randcolstyle{2}}
+    \newcommand{\setrandcolor}{\SetMyEvent{ColorR1} \SetMyEvent{ColorR2}}
 
     \begin{standaloneframe}{Simple Stochastic Game}{Values}
         \SetMyToken{}
@@ -95,7 +96,7 @@
         }{
         \simulateVal{1}{1}{}{$\frac{1}{2}$}
         \simulateVal{1}{1}{$\frac{1}{2}$}{$\frac{1}{2}$}
-        \only<+->{\setrandcolstyle}
+        \only<+->{\setrandcolor}
         \scalebox{0.77}{\drawStochastic}}
         \onslide<4->{These equations have a unique solution.}\\
         \onslide<5->{From state $s$ -
