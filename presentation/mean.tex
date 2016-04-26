@@ -24,22 +24,37 @@
   \end{tikzpicture}
 }
 
+\DeclareMyEvent{ShowP1}
+\DeclareMyEvent{ShowOnlyP1}
+\DeclareMyEvent{ShowP2}
+\DeclareMyEvent{ShowOnlyP2}
+\DeclareMyEvent{ShowOld}
+\DeclareMyEvent*{ShowNew}
+
 \newcommand{\MeanPayoffTree}{
     \begin{tikzpicture}[
     every child/.style={norm},
     every node/.style={draw=black,thin},
     norm/.style={edge from parent/.style={draw,black,thin,->}},
-    e1/.style={ee=<.(5)-.(6)>1},
-    d1/.style={invisible on=<.(6)>},
+    %e1/.style={ee=<.(5)-.(6)>1},
+    e1/.style={/myevent/on={ShowP1}{emph-edge=1},/myevent/on={ShowOnlyP1}{emph-edge=1}},
+    %d1/.style={invisible on=<.(6)>},
+    d1/.style={/myevent/on={ShowOnlyP1}{invisible}},
     d1t/.style={d1,every child/.append style={edge from parent/.append style=d1}},
-    e2/.style={ee=<.(7)->2},
-    e2t/.style={eet=<.(7)->2},
-    d2/.style={invisible on=<.(8)->},
+    %e2/.style={ee=<.(7)->2},
+    e2/.style={/myevent/on={ShowP2}{emph-edge=2},/myevent/on={ShowOnlyP2}{emph-edge=2}},
+    %e2t/.style={eet=<.(7)->2},
+    e2t/.style={/myevent/on={ShowP2}{emph-edge-tree=2},/myevent/on={ShowOnlyP2}{emph-edge-tree=2}},
+    %d2/.style={invisible on=<.(8)->},
+    d2/.style={/myevent/on={ShowOnlyP2}{invisible}},
     d2t/.style={d2,every child/.append style={edge from parent/.append style=d2}},
-    oldn/.style={visible on=<.(2)-.(3)>},
-    oldc/.style={alt=<.(2)-.(3)>{}{missing},every node/.append style=oldn},
+    %oldn/.style={visible on=<.(2)-.(3)>},
+    oldn/.style={/myevent/off={ShowOld}{invisible}},
+    %oldc/.style={alt=<.(2)-.(3)>{}{missing},every node/.append style=oldn},
+    oldc/.style={/myevent/off={ShowOld}{missing}, every node/.append style=oldn},
     %values/.style={visible on=<.(3)>},
-    newstyle/.style={visible on=<{.(1),.(2),.(4)-}>},
+    %newstyle/.style={visible on=<{.(1),.(2),.(4)-}>},
+    newstyle/.style={/myevent/off={ShowNew}{invisible}},
 ]
 
 		\node[p2, tok-here=a] (a) {a}
@@ -116,8 +131,8 @@
         \begin{itemize}
             \item Does the game have a value? i.e. is there a $v$ so that
                 \begin{itemize}
-                    \item Max can ensure a payoff $\geq v$
-                    \item Min can ensure a payoff $\leq v$
+                    \item Max can ensure $\liminf \geq v$
+                    \item Min can ensure a payoff $\limsup \leq v$
                 \end{itemize}
                 \visible<2->{\alert{Yes}}
             \item<2-> How to compute the optimal strategies?
@@ -127,26 +142,43 @@
 \end{standaloneframe}
 
 \begin{standaloneframe}[label=current]{Mean Payoff}{Finite Game}
-    \scalebox{0.7}{\MeanPayoffTree{23}}
+    \only<2>{\SetMyEvent{ShowOld}}
+    \only<3>{\SetMyEvent{ShowOld} \SetMyEvent*{ShowNew}}
+    \only<5>{\SetMyEvent{ShowP1}}
+    \only<6>{\SetMyEvent{ShowOnlyP1}}
+    \only<7>{\SetMyEvent{ShowP2}}
+    \only<8-22>{\SetMyEvent{ShowOnlyP2}}
+    \only<23>{\SetMyEvent{ShowOnlyP1}}
+    \scalebox{0.7}{\MeanPayoffTree}
     \scalebox{0.7}{\MeanPayoffGame}
 
-
     \bigskip
-    \visible<.(6),.(8)->{ \alt<.(6)>{Max}{Min} can ensure \alt<.(6)>{$\geq$}{$\leq$} 0 \visible<.(9)->{\alert<.(9)>{in the mean payoff game too}}}
+    \begin{overlayarea}{\textwidth}{2ex}
+        \only<6>{Max can ensure $\geq 0$ in the finite game}
+        \only<8-22>{Min can ensure $\leq 0$ \onslide<9->{\alert<9>{in the mean payoff game too}}}
+        \only<23>{Max can ensure $\geq 0$}
+    \end{overlayarea}
+    %\visible<.(6),.(8)-22>{ \alt<.(6)>{Max}{Min} can ensure \alt<.(6)>{$\geq$}{$\leq$} 0 \visible<.(9)->{\alert<.(9)>{in the mean payoff game too}}}
     \bigskip
 
     \addtocounter{beamerpauses}{9}
     \splitCol{0.45}{0.5}{
-       \begin{overlayarea}{0.95\textwidth}{4em}
-            $\pi=$ \enskip \animateStackedPath{a,bl,cl,bl,cl,a,bl,cl,a}
+       \visible<10-22>{
+       \begin{overlayarea}{0.95\textwidth}{5.5em}
+           $\pi=$ \enskip \animateStackedPath{a,bl,cl,bl,cl,a,bl,cl,a}
         \end{overlayarea}
+    }
     }{
-            \begin{itemize}
-                \item<only@.(-1)-.> Every time a cycle with average value $\leq 0$ is eliminated
-                \item<only@+> Hence limsup of averages of $\pi$ is $\leq 0$
-                \item<visible@+-> Similarly Max can ensure liminf of the average is $\geq 0$
-                \item<visible@.> Hence the value of Mean payoff game is 0
-            \end{itemize}
+        \begin{overprint}
+            \only<.(-1)-.>{Every time a cycle with average value $\leq 0$ is eliminated}
+            \only<+>{Hence limsup of averages of $\pi$ is $\leq 0$}
+            \only<+->{
+                \begin{itemize}
+                    \item Similarly Max can ensure liminf of the average is $\geq 0$
+                    \item Hence the value of Mean payoff game is 0
+                \end{itemize}
+            }
+        \end{overprint}
             }
 \end{standaloneframe}
 \end{document}

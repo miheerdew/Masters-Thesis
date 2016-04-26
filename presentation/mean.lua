@@ -1,13 +1,5 @@
 require("mylib")
 
---function removeRep(stack, index)
-    --if index then
-        --for j = index+1, #stack do
-            --stack[j]=nil
-        --end
-    --end
---end
-
 function animateMeanPath(items, lim)
     local x
     local nodes, weights, l={}, {}
