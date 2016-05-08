@@ -3,6 +3,8 @@ This is my master's thesis on Infinite duration games (in preparation).
 ## Presentation
 These are my thesis defence slides.
 
+Some of the overlays are crated using [Lua](http://www.luatex.org). Copy the contents of `lib` folder into the place where luatex [searches for libraries](http://tex.stackexchange.com/questions/30438/lua-tree-analogue-of-texmf-tree/31904#31904) (eg. `~/Library/texmf/scripts/lua/` for MacTex on osx).
+
 To compile - change to the `presentation` directory and run -
 
 ```
@@ -24,6 +26,5 @@ The final ouput will be stored in `thesis.pdf`.
 ### Dependencies
 If things do not work properly, check if you have the following installed -
 
-* [Lualatex](http://www.luatex.org)
 * [Latexmk](http://users.phys.psu.edu/~collins/software/latexmk-jcc/)
 
