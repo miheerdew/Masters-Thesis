@@ -27,4 +27,4 @@ The final ouput will be stored in `thesis.pdf`.
 If things do not work properly, check if you have the following installed -
 
 * [Latexmk](http://users.phys.psu.edu/~collins/software/latexmk-jcc/)
-
+* [Lualatex] (http://www.luatex.org)
