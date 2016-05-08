@@ -1,4 +1,4 @@
-This is my Master's thesis on Infinite duration games (in preparation).
+This is my master's thesis on Infinite duration games (in preparation).
 
 ## Presentation
 These are my thesis defence slides.
