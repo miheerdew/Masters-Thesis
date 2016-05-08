@@ -1,5 +1,6 @@
 presentation/test.tex
 presentation/Diagrams
+thesis/build
 
 # Latex files
 
@@ -35,6 +36,9 @@ presentation/Diagrams
 *.snm
 *.fls
 *.f*
+*.tex.swo
+*.run.xml
+*.bcf
 
 # Mac IDE files
 *.swp
