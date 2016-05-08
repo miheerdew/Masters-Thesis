@@ -9,7 +9,7 @@ To compile - change to the `presentation` directory and run -
 ./doit.sh
 ```
 
-It might take a while to compile because of lot of overlays and references. The final output will be stored in `presentation.pdf`
+It might take a while to compile because of lot of overlays and requires multiple compilations because of biblatex. The final output will be stored in `presentation.pdf`
 
 ## Report
 This is the thesis report (in preparation)
