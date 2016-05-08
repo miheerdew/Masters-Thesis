@@ -1,3 +1,6 @@
 #!/bin/bash
 
-latexmk presentation
+set -u -e
+
+latexmk -g presentation
+cp ./build/presentation.pdf .
