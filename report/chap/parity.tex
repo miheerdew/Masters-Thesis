@@ -1,0 +1,83 @@
+\chapter{Parity Games}
+
+We saw using Theorem \ref{thm:finiteMinMax} that whenever the payoff depends only on what happens until a finite stage $N$, then the game has a winning strategy. Now this chapter and the next is about payoff that only depends on the long run behavior of a path.
+
+\section{Definition}
+%TODO: Make this consitent with notation in Chapter 1
+A parity Game $\G=(V_0,V_1,E,p)$ is a WinLose game (section \ref{sec:winlose}). The winning set is given using a priority function 
+\begin{equation}
+    p : V \mapsto \Nat \label{eq:priority}
+\end{equation}
+
+Using this the winning set for player 1 is defined as follows -
+
+\begin{align}
+    Win &\subseteq \PI \nonumber \\
+    \pi = v_0v_1v_2 \ldots &\in Win \iff \left(\max_{v \in \Inf(\pi)} p(v)\right) \text{ is Odd } \label{cond:parity}
+\end{align}
+
+%Note that $p$ takes only finitely many values. Hence in \eqref{cond:parity}
+%\[
+    %\limsup_i p(v_i) = \max \Inf(\pi)
+%\]
+Hence $\Inf(\pi)$ is the set of vertices visited infinitely often in $\pi$.
+Hence if the largest priority seen infinitely often in $\pi$ is odd then player 1 wins the play, else player 0 wins the play.
+
+\section{Positional Determinacy}
+%TODO Add a positional determinacy proof 
+The parity condition satisfies the properties for a Fairly mixing payoff
+
+\section{Finite game}
+We have already seen that Parity games are determined with positional optimal strategies. Here is alternative proof that shows the determinacy by reducing it to a finite game (however some more work will be required to show positional winning strategies, which we will not cover).
+
+This parity game $\G$ is equivalent to a following finite game $\G_{fin}=(V_0,V_1,E,Win')$
+\begin{align}
+    Win' &\subseteq \PI\\
+    \alpha \in Win' &\iff \left(\max_{v \in \Loop(\alpha)} p(v)\right) \text{ is Odd }
+\end{align}
+
+Here $\Loop(v_0v_1\ldots) = \set{ v_k \mid i < k \leq j }$ where $j$ is the smallest index so that $\exists i < j \, v_i = v_j$. Basically $\Loop(\alpha)$ is the set of vertices in the first loop formed.
+
+So $Win'$ (unlike $Win$) decides the winner just based on first loop formed. Observe that the winning condition $Win'$ is finitely determined (with $N=|V|+1$) as the first loop will have occured withing $|V|+1$ stages.
+Fix a $v_0 \in V$. By Corollary \ref{cor:finiteDeterminacy}, one of the players has a winning strategy in $\G_{fin}$ starting from $v_0$. We will show that this same player also has a winning strategy in $\G$ starting from $v_0$. This will show determinacy for $\G$ from $v_0$. Suppose Player 0 has a winning strategy $\sigma$ in $\G_{fin}$ starting at $v_0$, we will extend this to a strategy $\tilde{\sigma}$ for Player 0 in $\G$ which will be winning. An analogous argument will work when Player 1 has a winning strategy.
+
+Observe that the strategy $\sigma$ is also a strategy in $\G$ (since we have defined a strategy as a map from $\PF \cap V^*V_0 \to V$), but it is only relevent till the first loop is formed (as any extension will continue to be winning in $\G_{fin}$). Hence we can assume that the game $\G_{fin}$ ends when the first vertex repeats and assume
+\[
+    \sigma : \SP \cap v_0V^*V_0 \mapsto V
+\]
+where \SP is the set of all simple paths (i.e. no vertex repeats) in $G$. What happens when player 0 uses $\sigma$ in $(\G,v_0)$? Regardless of what player 1 plays, the first loop formed will have maximum priority even - and from here $\sigma$ is not effective anymore. But the trick here is to assume that the loop never happened, and hence the token has still traced a simple path and we can use $\sigma$ again.  
+
+More precisely, Player 0 maintains a stack of vertices in the order in which they are visited. Initially the stack contains $v_0$. Whenever a new vertex $v$ is visited, it's added to the stack if it's not already there. In case it's already there on the stack, all vertices just after its occurance on the stack are popped off. At any point the vertices on the stack represent a simple path strating at $v_0$ , and the eliminated vertices (along with $v$) form a loop in $G$. The strategy $\tilde{\sigma}$ of player 0 is to play according to $\sigma$ assuming that the token has traced the history given by the vertices currently on the stack. According to this Since $\sigma$ is a winning strategy, each of the eliminated vertices along with $v_0$ has maximum priority even.
+
+We will use this to argue that any infinte path $\pi$ so traced will have max Inf priority even. Indeed let $v \in \Inf(\pi)$ be the vertex with the largest priority, and supposed $p(v)$ is Odd. Then since $v$ occurs infinitely often, cycles containing $v$ must have been eliminated infinitely often (otherwise there will be multiple occurance of $v$ on the stack). Since each of these cycles has largest priority even, infinitely often priorites larger than $p(v)$ would be seen (if some vertex only occurs $n$ times in $\pi$, it can only be a part of $\leq n$ eliminated cycles) which contradicts the maximality of $p(v)$.
+
+Hence this shows that any path $\pi$ which conforms with $\tilde{\sigma}$ must have $\max_{v \in \Inf(v)} p(v)$ Even. This shows $\tilde{\sigma}$ is a winning strategy for $(\G,v_0)$. Similarly, this same procedure allows to extend a winning strategy $\tau$ in $(\G_{fin}, v_0)$ for player 1 to a winning strategy $\tilde{\tau}$ in $(\G,v_0)$. Interchange occurances of Odd and Even in the preceeding paragraph, and the proof will go through.
+
+%Formally this defines a memory based strategy $\tilde{\sigma}=(M,m_0,\delta,g)$ with memory $M=\SP$, initial memory $m_0=\epsilon$ (the empty string), the update function $\delta$ --
+%\begin{align}
+    %\delta : M \times V &\mapsto M \\
+    %\delta (u_0u_1\ldots u_k, v) &= 
+        %\begin{cases}
+        %u_0u_1 \ldots u_j & \text{ if } u_j = v \\
+        %u_0u_1 \ldots u_k v & \text{ otherwise } (\forall j \, u_j \neq v)
+        %\end{cases}
+%\end{align}
+%and action function -
+%\begin{align}
+    %g : M \cap V^*V_0 &\mapsto V \\
+    %g(u_0u_1\ldots u_k) &= \sigma(u_0 u_1 \ldots u_k) 
+%\end{align}
+%Using this $\tilde{\sigma}$ is defined as 
+%\begin{align}
+    %\tilde{\sigma} : \PF \cap v_0V^*V_0 &\mapsto V\\
+    %\tilde{\sigma}(w) &= g(\hat{\delta}(\epsilon, w))
+%\end{align}
+%Where $\hat{\delta}$ is the extension of $\delta$ to words is defined recursively as -
+%\begin{align}
+    %\hat{\delta} : M \times V^* &\mapsto M \\
+    %\hat{\delta}(m, \epsilon) &= m\\
+    %\hat{\delta}(m, wv) &= \delta(\hat{\delta}(m, w), v)
+%\end{align}
+
+
+

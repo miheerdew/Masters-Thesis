@@ -1,0 +1,29 @@
+\chapter{Basics}
+Let me describe a class of two player games. Denote the two players by 0 and 1.
+
+Take a graph $G=(V=V_0 \sqcup V_1,E)$ whose vertices are partitioned into those belonging to Player 0 and Player 1.
+The play starting at $v_0 \in V$ proceeds as follows -
+
+\begin{itemize}
+  \item A token is intitially placed in $v_0$
+  \item At any stage if the token is in a vertex $v \in V_i$ ($i \in \set{0,1}$), then
+        player i moves the token to a vertex $w$ so that $(v,w) \in E$
+\end{itemize}
+
+A concrete realization of this play will be a path $\pi \in V^{\omega}$
+
+\[
+  \pi = v_0 v_1 v_2 \ldots
+\]
+
+Where -
+\begin{itemize}
+  \item $v_0$ was the veretx where the play started
+  \item Assume $v_i \in V_j$, then at $i+1$th step, player $j$ decided to move the token to $v_{i+1} \in V$ such that $(v_i,v_{i+1}) \in E$.
+\end{itemize}
+
+After this infinite path $\pi$ is played, Player 0 is supposed to pay $f(\pi)$ units of money to Player 1, where $f$ is a function defined on infinite paths -
+
+\[
+    f : V^{\omega} \to \mathcal{R}
+\]

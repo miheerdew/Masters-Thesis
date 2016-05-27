@@ -1,0 +1,10 @@
+\chapter{Finite Game}
+
+We will look at a model for turn based, perfect information, zero sum, two player games.
+As a precursor, we will look at finite duration games first. Chess (with black declared as the winner if the game draws) is a classic example of such a game. But instead of just looking at this game specifically, we will look at an abstract version -
+
+
+A finite game arena is a finite rooted tree $T=(V,E)$ whose vertices are partitioned into $V = V_0 \sqcup V_1$, beloing to Player 0 and Player 1 respectively.
+The game proceeds as follows -
+
+A token is initially placed at the root of the tree. At each stage, the player whose vertex the token belongs to, moves the token to one of it's children. This stops once a leaf vertex is reached. 
