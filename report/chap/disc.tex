@@ -1,0 +1,152 @@
+\chapter{Discounted payoff Games}
+
+Couldn't the minimax algorithm (theorem \ref{thm:finiteMinMax}) for finitely determined payoffs also be extended to arbitrary payoffs? The problem is that that would require backward induction on natural numbers. However for payoffs whose dependence on larger stages of the play is negligible, one can choose a large enough $N \in \Nat$ obtain approximation to the payoff and start the backward induction from $N$. Although the average payoffs do not satisfy this property, we will look at discounted payoff games, which satisfy this required property and approximate average payoffs.
+
+\section{Definition}
+Like in the case of mean payoff games, start with a weighted graph $G=(V_0,V_1,E,w)$ and a $\lambda \in (0,1)$. The discounted payoff is given by
+\begin{align}
+    f_\lambda : \PI &\mapsto \Reals\\
+    f_\lambda(v_0 v_1 \ldots ) &= (1-\lambda) \sum_{i=0}^\infty \lambda^i w(v_i,v_{i+1}) \label{eqn:discounted}
+\end{align}
+
+Since $w$ is bounded and $|\lambda|<1$, the series in \eqref{eqn:discounted} converges absolutely. Note that $f_\lambda$ satisfies the following relation
+\begin{equation}
+    f_\lambda(v_0 v_1 \ldots ) = (1-\lambda) w(v_0, v_1) + \lambda f_\lambda(v_1 v_2 \ldots) \label{eqn:disc-recursive}
+\end{equation}
+
+\section{Positional determinacy}
+Consider the function
+\begin{align}
+    F : \Reals^V &\mapsto \Reals^V \nonumber \\
+    (F(x))_u &= \begin{cases}
+        \min_{(u,v) \in E} (1-\lambda) w(u,v) + \lambda x_v & \text{ if } u \in V_0\\
+        \max_{(u,v) \in E} (1-\lambda) w(u,v) + \lambda x_v & \text{ if } u \in V_1\\
+    \end{cases} 
+\end{align}
+
+$F(x)$ has an interpretation as the values of the one step game $\G_x^1=(G,f^1_x)$
+\begin{align}
+    f^1_x : \PF[1] &\mapsto \Reals\\
+    f^1_x (v_0,v_1) = & (1-\lambda) w(v_0,v_1) + \lambda x_{v_1} 
+\end{align}
+
+Similarly consider $n$ step game $\G_x^n=(G,f^n_x)$ -
+\begin{align}
+    f^n_x : \PF[n] &\mapsto \Reals\\
+    f^n_x(v_0v_1 \ldots v_n) &= (1-\lambda)\left(\sum_{i=0}^{n-1} \lambda^i w(v_i,v_{i+1})\right) + \lambda^n x_{v_n} \label{eqn:fn}
+\end{align}
+Observe that for $n\geq 2$
+\[
+    f^n_x(v_0v_1 \ldots v_n) = (1-\lambda)w(v_0,v_1) + \lambda f^{n-1}_x(v_1v_2 \ldots v_n) 
+\]
+
+%TODO: Expand
+Hence if $\G_x^{n-1}$ has a minimax values $y$, then $\G_x^n$ will have minimax values $F(y)$. Hence by induction the value for $\G_x^n$ will be $F^n(x)$. From \eqref{eqn:fn} observe that as $n \to \infty$, $f^n_x$ converges to the discounted payoff $f$ for every $x$. Hence $\G_x^n$ is a $n$ step approximation for $\G_\lambda$. We will show that the value $F^n(x)$ of $\G_x^n$ will converge to the value of $\G_\lambda$ (in particular it has minimax equilibrium).
+
+Actually $F$ is a contraction. Consider the norm $\normi{.}$ on $\Reals^V$ by
+\begin{equation}
+    \normi{x} = \max_{v \in V} |x_v|
+\end{equation}
+Then (using $|\max_{i\in I} a_i - \max_{i \in I} b_i| \leq \max_{i \in I} |a_i-b_i|$ and similarly for $\min$)
+\[
+    \normi{F(x)-F(y)} \leq \lambda \normi{x-y}
+\]
+Hence $F$ is a contraction with coefficient $\lambda \in (0,1)$. By the contraction mapping theorem $F$ has a unique fixed point $\eta = F(\eta)$, and for any $x$, $F^n(x) \to \eta$.
+
+%TODO:Expand
+Then for every $n$, the game $\G_\eta^n$ has the value $\eta=F^n(\eta)$ and positional optimal strategies $(\sigma^*,\tau^*)$ given by
+\begin{align}
+    \sigma^* : V_0 &\mapsto V\\
+    \sigma^*(u) = &\argmin_{ v \in N(u)} \; (1-\lambda) w(u,v) + \lambda \eta_v
+\end{align}
+and
+\begin{align}
+    \tau^* : V_1 &\mapsto V\\
+    \tau^*(u) =& \argmax_{ v \in N(u)} \; (1-\lambda) w(u,v) + \lambda \eta_v
+\end{align}
+
+We now claim that $(\sigma^*, \tau^*)$ are optimal strategies for $(\G_\lambda,v)$ with value $\eta_v$.
+Against any strategy $\tau$ of player 1, $\sigma^*$ in will ensure payoff $\leq \eta_v$ in $(\G_\lambda,v)$. This is because since $\sigma^*$ is optimal for player 0 in $\G^n_\eta$
+\[
+    f^n(\pi_{\sigma^*\tau}) \leq \eta_v
+\]
+for every $n$. Letting $n \to \infty$ 
+\[
+    f(\pi_{\sigma^*\tau}) \leq \eta_v
+\]
+Similarly if $\sigma$ is any strategy for player 0, the since $\tau^*$ is optimal for each $\G^n_\eta$, the previous argument will show that
+\[
+    f(\pi_{\sigma\tau^*}) \geq \eta_v
+\]
+This shows that $(\sigma^*,\tau^*)$ are positional optimal strategies for $G_\lambda$ with value $\eta$
+
+\section{Mean payoff to discounted payoff}
+Observe that for any (bounded) sequence $(a_i)_{i \in \Nat}$
+\begin{align}
+    &\frac{1}{(1-\lambda)} \left(\sum_{i=0}^\infty a_i\lambda^i\right)\\
+    = &(1+\lambda+\lambda^2+\ldots) (\sum_{i=0}^\infty a_i \lambda^i)\\
+    = &\sum_{k=0}^\infty \left(\sum_{i=0}^k a_i\right) \lambda^k
+\end{align}
+And 
+\begin{equation}
+    u_\lambda((a_i)) = (1-\lambda)\left(\sum_{i=0}^\infty a_i\lambda^i\right) = (1-\lambda)^2\sum_{k=0}^\infty \left(\sum_{i=0}^k a_i\right) \lambda^k \label{eqn:link}
+\end{equation}
+A particular special case of the above is when $a_i = 1 \; \forall i$. Then
+\begin{equation}
+    1 = (1-\lambda)^2 \sum_{k=0}^\infty (k+1)\lambda^k \label{eqn:series}
+\end{equation}
+
+Hence if $\frac{\sum_{i=0}^n a_i}{n+1} \to \alpha$ -- i.e. $\sum_{i=0}^n a_i = (n+1)(\alpha + d_n)$ with $\lim d_n = 0$ then 
+\begin{align*}
+    u_\lambda((a_i)) &= (1-\lambda)^2 \sum_{k=0}^\infty (k+1)(\alpha + d_k) \lambda^k\\
+    &= \alpha + (1-\lambda)^2 \sum_{k=0}^\infty (k+1) d_k \lambda^k \qquad \text{ using \eqref{eqn:series} }\\
+    &= \alpha + \delta_\lambda((d_k))
+\end{align*}
+Pick an $\epsilon > 0$. Observe that if $\forall n \; |d_n| \leq \epsilon$ then because of \eqref{eqn:series}  $|\delta_\lambda((d_k))| \leq \epsilon$.\\
+Since we have $\lim d_n = 0$ we have a $N$ so that $\forall n\geq N \; |d_n| \leq \frac{\epsilon}{2}$. We can choose a $\lambda_0$ close enough to $1$ so that $\forall \lambda \geq \lambda_0$ sum of the first $N$ terms of $\delta_\lambda((d_k))$ is  $\leq \frac{\epsilon}{2}$. And hence $\forall \lambda \geq \lambda_0$
+\[
+    |u_\lambda((a_i)) - \alpha| = |\delta_\lambda((d_k))| \leq \frac{\epsilon}{2} + \frac{\epsilon}{2} \leq \epsilon
+\]
+
+Hence if $\lim_n \frac{1}{n+1} \sum_{i=0}^n a_i = \alpha$, then $\alpha = \lim_{\lambda \to 1^-} (1-\lambda) \sum_{i=0}^\infty a_i \lambda^i$. This shows why we expect $\G_\lambda$ to approximate the mean payoff game $\G_m$ as $\lambda \to 1$.
+
+Now we will show that the values of $\G_\lambda$ will converge to the value for the mean payoff game $\G_m$. Let $\eta_\lambda$ be the values for $\G_\lambda$, and let $\eta$ be for $\G_m$. Consider the stack based optimal strategy $\sigma_m$ in $\G_m$ for player 0. How will this strategy fare in $\G_\lambda$? Let $\tau^\lambda$ be the optimal strategy for player 1 in $\G_\lambda$. Let $\pi^{v_0}_{\sigma_m\tau_\lambda}=v_0v_1 \ldots$, then 
+\begin{align}
+    f_\lambda(\pi^{v_0}_{\sigma_m\tau_\lambda}) &= u_\lambda((w(v_i,v_{i+1}))\\
+    &= (1-\lambda)^2 \sum_{k=0}^\infty (\sum_{i=0}^k w(v_i,v_{i+1})) \lambda^k \label{eqn:sumdisc}
+\end{align}
+Now suppose that at the $nth$ stage there are $r(n)$ edges on the stack. Then
+\begin{align}
+    \sum_{i=0}^{n-1} w(v_i,v_{i+1}) &\leq (n-r(n)) \eta_{v_0} + M r(n)\\
+    &\leq n \eta_{v_0} + r(n)(M-\eta_{v_0})\\
+    &\leq n \eta_{v_0} + 2|V|M
+\end{align}
+Hence
+\begin{align}
+    f_\lambda(\pi^{v_0}_{\sigma_m\tau_\lambda}) &\leq (1-\lambda)^2 \sum_{k=0}^\infty ((k+1)\eta_{v_0} + 2|V|M)\lambda^k\\
+    &\leq \eta_{v_0} + 2|V|M (1-\lambda)
+\end{align}
+But since $\tau_\lambda$ is optimal for player 1 in $\G_\lambda$, we have $f_\lambda(\pi^{v_0}_{\sigma_m\tau_\lambda}) \geq (\eta_\lambda)_{v_0}$. Hence -
+\begin{align}
+    (\eta_\lambda)_{v_0} \leq \eta_{v_0} + 2|V|M (1-\lambda) \label{ineq:close1}
+\end{align}
+
+Similarly start with an optimal strategy $\tau^m$ for player 1 in $\G_m$ and play it against the optimal strategy $\sigma_\lambda$ for player 0 in $\G_\lambda$. Then the resulting path $\pi^{v_0}_{\sigma_\lambda\tau^*}=v_0v_1\ldots$ will satisfy (similar to \eqref{eq:sumdisc}) - 
+\[
+    f_\lambda(\pi^{v_0}_{\sigma_\lambda\tau_m}) = (1-\lambda)^2 \sum_{k=0}^\infty (\sum_{i=0}^k w(v_i,v_{i+1})) \lambda^k  \\
+\]
+And using the stack argument, 
+\begin{align}
+    \sum_{i=0}^{n-1} w(v_i,v_{i+1}) &\geq (n-r(n)) \eta_{v_0} - M r(n)\\
+    &\geq n \eta_{v_0} - r(n)(M+\eta_{v_0})\\
+    &\geq n \eta_{v_0} - 2|V|M
+\end{align}
+Hence 
+\begin{equation}
+    (\eta_\lambda)_{v_0} \geq f_\lambda(\pi^{v_0}_{\sigma_\lambda\tau_m}) \geq \eta_{v_0} - 2|V|M (1-\lambda) \label{ineq:close2}
+\end{equation}
+
+Now using \eqref{ineq:close1} and \eqref{ineq:close2} from every $v_0 \in V$,
+\begin{equation}
+    \normi{\eta_\lambda - \eta_m} \leq 2|V|M(1-\lambda)
+\end{equation}
