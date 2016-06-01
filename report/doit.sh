@@ -1,4 +1,4 @@
 #! /bin/sh
 
-latexmk thesis
+latexmk thesis "$@"
 cp ./build/thesis.pdf .
