@@ -1,39 +1,31 @@
 \chapter{Games}
+We will look at a class of two player games on graphs. The two players will be called Player 0 and Player 1 (abbreviated as \Player{0}, \Player{1}). Although we will only look at specific games later, all of them fit in the following generic framework.
 
 \section{Formalism}
 \label{sec:formalism}
-Let's look at class of two player games. Denote the two players by 0 and 1.
+$G=(V_0,V_1,E)$ will denote a directed graph with vertex set $V=V_0 \sqcup V_1$ and edge set $E \subseteq V\times V$. $(V_0,V_1)$ is a partition of $V$ into vertices of P0 and P1 respectively. Always assume that $G$ has no dead ends ($\forall v \in V \exists w  (v,w) \in E$). $\PF$ will denote the set of all finite paths in $G$, and by $\PI$ the set of all infinite paths. $N(u)=\set{v \mid (u,v) \in E}$ is the set of outgoing neighbours of $u$.
 
-Take a finite graph $G=(V,E)$ whose vertices are partitioned ($V = V_0 \sqcup V_1$) into those belonging to Player 0 and Player 1. Assume that $G$ has no dead ends ($\forall v \in V \exists w  (v,w) \in E$). Let $\PF$ denote the set of all finite paths in $G$, and by $\PI$ the set of all infinite paths in $G$.\\
-The play starting at $v_0 \in V$ proceeds as follows -
+The game starting from $v_0 \in V$ is played as follows
 \begin{itemize}
-  \item A token is intitially placed in $v_0$
-  \item At any stage if the token is in a vertex $v \in V_i$ ($i \in \set{0,1}$), then
-        player i moves the token to a vertex $w$ so that $(v,w) \in E$
+  \item A token is initially placed in $v_0$
+  \item At any stage if the token is in a vertex $v \in V_i$, then \Player{i} has to move the token to a vertex $w \in N(v)$
 \end{itemize}
 A concrete realization of this play will be an infinite path $\pi \in \PI$
-
 \[
   \pi = v_0 v_1 v_2 \ldots
 \]
-
-Where -
+Where
 \begin{itemize}
-  \item $v_0$ was the veretx where the play started
-  \item Assume $v_i \in V_j$, then at $i+1$th step, player $j$ decided to move the token to $v_{i+1} \in V$ such that $(v_i,v_{i+1}) \in E$.
+  \item $v_0$ was the vertex where the play started
+  \item If $v_i \in V_j$, then at ${i+1}^\text{th}$ stage \Player{j} decided to move the token to $v_{i+1} \in N(v_i)$
 \end{itemize}
+After this infinite path $\pi$ is played, \Player{0} pays $f(\pi)$ units (of money) to \Player{1}. Where $f : \PI \to \Reals
+$ is the payoff function. When $f(\pi) < 0$ this is interpreted as \Player{1} paying $|f(\pi)|$ units to \Player{0}. \Player{0}'s objective is to minimize $f(\pi)$ while \Player{1}'s objective is to maximize it.
 
-After this infinite path $\pi$ is played, Player 0 is supposed to pay $f(\pi)$ units of money to Player 1, where $f$ is a function defined on infinite paths -
-
-\[
-    f : \PI \to \Reals
-\]
-
-Player 0's objective is to minimize the amount payed, while Player 1's objective is to maximize it.
-This game will be denoted by $\G=(G,f,v_0)$.
+This game will be denoted by $\G=(G,f)$. In particular, denote the game starting at $v_0$ by $(\G,v_0)$.
 
 \subsection{Strategy}
-A strategy for player $i \in \set{0,1}$ is a function 
+A strategy for \Player{i} 
 \begin{align}
     \sigma &: V^{*}V_i \cap \PF \mapsto V \\
     &\text{ s.t. } (u,\sigma(\alpha u)) \in E \quad \forall \alpha u \in \PF,\, u \in V_i \text{ and } \alpha \in V^*
