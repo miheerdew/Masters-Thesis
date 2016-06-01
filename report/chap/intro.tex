@@ -1,4 +1,4 @@
-\chapter{Introduction}
+\chapter{Games}
 
 \section{Formalism}
 \label{sec:formalism}
@@ -41,6 +41,7 @@ A strategy for player $i \in \set{0,1}$ is a function
 Intuitively this is a recpie for player $i$ to make his moves in the game. If the path traced by the token is $\alpha u \in V^{*}V_i$ (hence it is currently in $V_i$), then the strategy recommends moving the token to the neighbor $\sigma(wu)$. This recepie prescribes what to do for any possible evolution of the game (and movement of the token).
 
 When player 0 follows a strategy $\sigma$ and player 1 follows a strategy $\tau$ the game (starting at $v_0$) will evolve in an unique path 
+%TODO: Show dependence of path, and f(\sigma, \tau) on v_0
 \begin{align}
     \pi_{\sigma\tau} &= v_0v_1v_2\ldots\\
     \text{where}\nonumber\\
@@ -53,7 +54,8 @@ When player 0 follows a strategy $\sigma$ and player 1 follows a strategy $\tau$
 
 Denote $f(\pi_{\sigma\tau})$ by $f(\sigma,\tau)$ and set of all strategies of player $i$ by \ST{i}.
 \section{Optimal Play}
-What is the optimal play for a player? The answer depends on how the other player plays, but if we assume that both players are rational and intelligent the the following gives a satisfactory answer - 
+%TODO: Should I just say that one cannot unilaterally deviate from the optimal.
+What is the optimal play for a player? The answer depends on how the other player plays, but if we assume that both players are rational and intelligent, and know that the opponents are the same too, then following provides an answer - 
 
 \subsection{Minmax equilibrium}
 If there is an $\eta \in \Reals$ and strategies $\sigma^*,\tau^*$ for player 0 and 1 respectively so that

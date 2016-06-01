@@ -4,6 +4,7 @@ We saw using Theorem \ref{thm:finiteMinMax} that whenever the payoff depends onl
 
 \section{Definition}
 %TODO: Make this consitent with notation in Chapter 1
+%Idea: Call it G instead of \G like done in Mean Payoff
 A parity Game $\G=(V_0,V_1,E,p)$ is a WinLose game (section \ref{sec:winlose}). The winning set is given using a priority function 
 \begin{equation}
     p : V \mapsto \Nat \label{eq:priority}
@@ -28,17 +29,23 @@ Hence if the largest priority seen infinitely often in $\pi$ is odd then player 
 The parity condition satisfies the properties for a Fairly mixing payoff
 
 \section{Finite game}
+\label{sec:parityFiniteGame}
 We have already seen that Parity games are determined with positional optimal strategies. Here is alternative proof that shows the determinacy by reducing it to a finite game (however some more work will be required to show positional winning strategies, which we will not cover).
 
-This parity game $\G$ is equivalent to a following finite game $\G_{fin}=(V_0,V_1,E,Win')$
+Consider a game $\G_{fin}=(V_0,V_1,E,Win')$ with the same arena as $\G$ but a new winning condition -- 
 \begin{align}
     Win' &\subseteq \PI\\
     \alpha \in Win' &\iff \left(\max_{v \in \Loop(\alpha)} p(v)\right) \text{ is Odd }
 \end{align}
 
-Here $\Loop(v_0v_1\ldots) = \set{ v_k \mid i < k \leq j }$ where $j$ is the smallest index so that $\exists i < j \, v_i = v_j$. Basically $\Loop(\alpha)$ is the set of vertices in the first loop formed.
+Here 
+\begin{equation}
+    \Loop(v_0v_1\ldots) = \set{ v_k \mid i < k \leq j } \label{def:loop}
+\end{equation}
+where $j$ is the smallest index so that $\exists i < j \, v_i = v_j$. Basically $\Loop(\alpha)$ is the set of vertices in the first loop formed.
 
-So $Win'$ (unlike $Win$) decides the winner just based on first loop formed. Observe that the winning condition $Win'$ is finitely determined (with $N=|V|+1$) as the first loop will have occured withing $|V|+1$ stages.
+So $Win'$ (unlike $Win$) decides the winner just based on first loop formed. Observe that the winning condition $Win'$ is finitely determined (with $N=|V|+1$) as the first loop will have occured withing $|V|+1$ stages. Positional determinacy of Parity Games shows that that the player who wins $(\G,v_0)$ also wins $(\G_{fin},v_0)$ - we will not use it here, but this motivates the following --
+
 Fix a $v_0 \in V$. By Corollary \ref{cor:finiteDeterminacy}, one of the players has a winning strategy in $\G_{fin}$ starting from $v_0$. We will show that this same player also has a winning strategy in $\G$ starting from $v_0$. This will show determinacy for $\G$ from $v_0$. Suppose Player 0 has a winning strategy $\sigma$ in $\G_{fin}$ starting at $v_0$, we will extend this to a strategy $\tilde{\sigma}$ for Player 0 in $\G$ which will be winning. An analogous argument will work when Player 1 has a winning strategy.
 
 Observe that the strategy $\sigma$ is also a strategy in $\G$ (since we have defined a strategy as a map from $\PF \cap V^*V_0 \to V$), but it is only relevent till the first loop is formed (as any extension will continue to be winning in $\G_{fin}$). Hence we can assume that the game $\G_{fin}$ ends when the first vertex repeats and assume

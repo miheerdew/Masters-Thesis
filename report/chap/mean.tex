@@ -1,1 +1,101 @@
 \chapter{Mean Payoff Games}
+
+As mentioned in the last chapter, mean payoff is another example where the payoff only depends on what happens in the long run.
+
+\section{Definition}
+A Mean Payoff game $G=(V_0,V_1,E,w)$ is a Payoff game (section \ref{sec:formalism}). The payoff function $f$ is given using a edge weights $w$
+\[
+    w : E \mapsto \Reals
+\]
+
+Using this the payoff $f$ is given by
+\begin{align}
+    f : \PI &\mapsto \Reals \\
+    f (v_0v_1v_2 \ldots) &= \lim_n \frac{1}{n} \sum_{i=0}^{n-1} w(v_i,v_{i+1}) \label{eq:meanpayoff}
+\end{align}
+Unfortunately the $\lim$ in the RHS \eqref{eq:meanpayoff} may not always exist.
+
+So we look at $\G^*=(G,f^*)$ and $\G_*=(G,f_*)$, where $f^*$, $f_*$ are same as $f$ with $\limsup$, $\liminf$ (respectively) in place of $\lim$ in RHS of \eqref{eq:meanpayoff}.
+We will see that the choice will not matter at least when optimal play is considered.
+
+\section{Positional Optimals}
+Both $f^*$ and $f_*$ satisfy the properties of Fairly mixing payoffs. Hence both $\G^*$ and $\G_*$ have minimax equilibrium and optimal positional strategies starting from any vertex $v_0 \in G$
+
+Suppose player 0 and Player 1 play positional strategies ($\sigma^\#$,$\tau^\#$) respectively. Then the resulting path $\pi$ will have the form 
+\[
+    \pi_{\sigma^\# \tau^\#} = v_0\ldots v_{k-1} (v_k v_{k+1} \ldots v_{n})^\omega
+\]
+Then the limit in \eqref{eq:meanpayoff} exists for path --
+\[
+    f^*(\sigma^\#, \tau^\#) = f_*(\sigma^\#,\tau^\#) = f(\sigma^\#, \tau^\#) = \mean(v_k,v_{k+1} \ldots v_{n}) 
+\]
+Where $\mean(C)$ for a simple cycle $C$, is the average value of the edge weights on the cycle.
+
+This combined with the existence of positional strategies for $\G^*$ and $\G_*$ show --
+\begin{align}
+    val(\G^*,v_0) &= \min_{\sigma^\# \in \PST{0}} \max_{\tau^\# \in \PST{1}} f^*(\sigma^\#, \tau^\#)\\
+    &= \min_{\sigma^\# \in \PST{0}} \max_{\tau^\# \in \PST{1}} f_*(\sigma^\#, \tau^\#)\\
+    &= val(\G_*, v_0)
+\end{align}
+
+\section{Finite Game}
+Similar to Section \ref{sec:parityFiniteGame} we will define a equivalent finite game, which will give an alternate proof of  existence of Minimax. Like in the case of parity, this is motivated by the existence of positional strategies for the mean payoff game.
+
+The game $\G_{fin}=(G,f')$ is defined on the same graph $G$, however the payoff is given by
+\begin{align}
+    f' : \PI &\mapsto V \\
+    f'(\alpha) &= \mean(\Loop(\alpha))
+\end{align}
+
+Where $\Loop(\alpha)$ represent the cycle formed by the first vertex which repeats in $\alpha$. By the reason from Section \ref{sec:parityFiniteGame}, the payoff $f'$ is finitely determined and hence for any $v_0 \in V$, $(\G_{fin},v_0)$ has a minimax with optimal strategies $(\eta,\sigma^*,\tau^*)$. Lift $(\sigma^*, \tau^*)$ to $(\tilde{\sigma},\tilde{\tau})$ as done in Section \ref{sec:parityFiniteGame}. We will show that for any strategy $(\sigma,\tau)$ of the players
+\begin{align}
+    %TODO: This is starting at v_0. Add notation everywhere for that.
+    f^*(\tilde{\sigma},\tau) \leq \eta \label{inq:meanP0}\\ 
+    f_*(\sigma, \tilde{\tau}) \geq \eta \label{inq:meanP1}
+\end{align}
+Since $f^*(\alpha) \geq f_*(\alpha)$ for any $\alpha$, this will show that both the $(\G^*,v_0)$ and the $(\G_*,v_0)$ have the same value $\eta$.
+
+%TODO: Get some notation here.
+Let us show \eqref{inq:meanP0}. Consider any infinite path $\pi=v_0v_1\ldots$, played according to $\tilde{\sigma}$. Since $\sigma^*$ is optimal for player 0 in $\G_{fin}$, the cycles eliminate in while implementing the memory (section \ref{sec:parityFiniteGame}) will all have average value $\leq \eta$. After $n$ stages, the sum of weights of the edges is the sum of weights of edges currently on the stack, and the weight of edges on the cycles that have been eliminated. Suppose $k = k(n)$ cycles of sizes $n_1, n_2 \ldots n_k$ have been eliminated so far. Hence the number of edges remaining on the stack must be $r = r(n) = n-\sum_{i=1}^k n_i$. Assume that $|w(e)|$ is bounded by $M$. Since each eliminated cycle has mean $\leq \eta$, the sum of edges eliminated in the $i$th cycle is less than $n_i \times \eta$
+\begin{align}
+    \sum_{i=0}^{n-1} w(v_i, v_{i+1}) &= \left(\text{sum of edges on the stack}\right) + \left(\text{sum of edges eliminated}\right)\label{eq:onoffstack}\\
+    &\leq r\times M +  (\sum_i^k n_i) \times \eta \\
+    &\leq rM + (n-r) \eta
+\end{align}
+Hence
+\begin{align}
+    \frac{1}{n} \sum_{i=0}^{n-1} w(v_i, v_{i+1}) \leq \eta + \frac{r(M-\eta)}{n}
+\end{align} 
+Since $r(n) < |V|$, letting $n \to \infty$ we get \eqref{inq:meanP0}
+\[
+    \limsup_n \frac{1}{n} \sum_{i=0}^{n-1} w(v_i, v_{i+1}) \leq \eta
+\]
+
+Similarly when Player 1 plays according to $\tilde{\tau}$, the cycles eliminated in the stack will have mean $\geq \eta$. Hence from \eqref{eq:onoffstack} we get -
+\begin{align}
+    \sum_{i=0}^{n-1} w(v_i, v_{i+1}) &\geq r\times (-M) + (\sum_i^k n_i) \times \eta \\
+                                    &\geq r\times (-M) + (n-r) \eta
+\end{align}
+Hence
+\begin{align}
+    \frac{1}{n} \sum_{i=0}^{n-1} w(v_i, v_{i+1}) \geq \eta - \frac{r(M+\eta)}{n}
+\end{align} 
+Letting $n \to \infty$ we get \eqref{inq:meanP1}
+\[
+    \liminf_n \frac{1}{n} \sum_{i=0}^{n-1} w(v_i, v_{i+1}) \geq \eta
+\]
+
+
+\section{Parity to Mean Payoff}
+As can be seen the finite game for parity is very similar to the finite game for mean payoff game. Let $\G_p=(V_0,V_1,E,p)$ be a graph with parities. Consider the weights -
+\begin{align}
+    w : E &\mapsto \Nat \\
+    w(u,v) &= -(-|V|)^{p(u)}
+\end{align}
+and the mean payoff game $\G_m=(V_0,V_1,E,w)$. The weight $w$ is defined so that for any cycle $C$ max priority in $C$ is odd  if and only if the mean edge weight on the cycle is $> 0$. Let $u$ be the vertex with the largest priority in $C$. Then the weight of any other edge $(v,s(v))$ on the cycle is either exactly equal to $w(u,s(u))$ or it's absolute value is an order of magnitude smaller than that of $|w(u,s(u))|$. Hence the sign of the sum of the weights on the cycle is determined just by the sign of $w(u,s(u))=-(-|V|)^{p(u)}$. Hence the sum (and hence the average) value of the weights in $C$ is positive if the vertex in $C$ with the maximum priority is odd, otherwise it is negative.
+
+Hence if player 1 has a winning strategy in $(\G_p^{fin},v_0)$ then, the same strategy in $(\G_m^{fin},v_0)$ will keep the payoff $>0$. Otherwise if player 0 has a winning strategy in $(\G_p^{fin},v_0)$ then the same strategy in $(\G_m^{fin},v_0)$ will keep the payoff $<0$. Let $\eta=val(\G_m,v_0)$, by using the connection to the finite game for both parity and mean payoff we have that $\eta > 0$ if and only if player 1 has a winning strategy in $(\G_p,v_0)$.
+
+Thus this reduces problem of finding a winner the parity game $\G_p$ to the decision problem of determining if the corresponding value in the mean payoff game $\G_m$ is greater than 0 or not.
+
+%TODO: Add the sum based algorithm
