@@ -1,5 +1,6 @@
 */build
-*/*/UltiSnips
+*/UltiSnips
+_vimrc_local.vim
 # Latex files
 
 *.aux
