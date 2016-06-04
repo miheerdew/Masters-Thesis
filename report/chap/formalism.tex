@@ -1,6 +1,5 @@
 \chapter{Games}
-We will look at a class of two player games on graphs. The two players will be called Player 0 and Player 1 (abbreviated as \Player{0}, \Player{1}). Although we will only look at specific games later, all of them fit in the following generic framework.
-
+We will look at a class of two player games on graphs. The two players will be called Player 0 and Player 1 (abbreviated as \Player{0}, \Player{1}). Although we will only look at specific games later, all of them fit into a general framework which will be discussed now.
 \section{Formalism}
 \label{sec:formalism}
 $G=(V_0,V_1,E)$ will denote a directed graph with vertex set $V=V_0 \sqcup V_1$ and edge set $E \subseteq V\times V$. $(V_0,V_1)$ is a partition of $V$ into vertices of P0 and P1 respectively. Always assume that $G$ has no dead ends ($\forall v \in V \exists w  (v,w) \in E$). $\PF$ will denote the set of all finite paths in $G$, and by $\PI$ the set of all infinite paths. $N(u)=\set{v \mid (u,v) \in E}$ is the set of outgoing neighbours of $u$.
@@ -25,139 +24,185 @@ $ is the payoff function. When $f(\pi) < 0$ this is interpreted as \Player{1} pa
 This game will be denoted by $\G=(G,f)$. In particular, denote the game starting at $v_0$ by $(\G,v_0)$.
 
 \subsection{Strategy}
-A strategy for \Player{i} 
-\begin{align}
-    \sigma &: V^{*}V_i \cap \PF \mapsto V \\
-    &\text{ s.t. } (u,\sigma(\alpha u)) \in E \quad \forall \alpha u \in \PF,\, u \in V_i \text{ and } \alpha \in V^*
-\end{align}
-Intuitively this is a recpie for player $i$ to make his moves in the game. If the path traced by the token is $\alpha u \in V^{*}V_i$ (hence it is currently in $V_i$), then the strategy recommends moving the token to the neighbor $\sigma(wu)$. This recepie prescribes what to do for any possible evolution of the game (and movement of the token).
+A strategy for \Player{i} is a function $\sigma : \PF \cap V^*V_{i} \mapsto V$, which assigns to each possible finite path $\alpha u$ ending in $ u \in V_i$ a neighbor $\sigma(\alpha u) \in N(u)$.
 
-When player 0 follows a strategy $\sigma$ and player 1 follows a strategy $\tau$ the game (starting at $v_0$) will evolve in an unique path 
-%TODO: Show dependence of path, and f(\sigma, \tau) on v_0
-\begin{align}
-    \pi_{\sigma\tau} &= v_0v_1v_2\ldots\\
-    \text{where}\nonumber\\
-    v_{i+1} &= 
-\begin{cases}
-    \sigma(v_0v_1\ldots v_i) & \text{ if } v_i \in V_0\\
-    \tau(v_0v_1\ldots v_i) & \text{ otherwise } (v_i \in V_1)
+Intuitively this is a recipe for \Player{i} to make his moves in the game. If at the \nth\ stage it is \Player{i}'s turn, and the token has been moved to $v_0v_1 \ldots v_{n-1}$ so far (with $v_{n-1} \in V_i$), the strategy recommends playing $v_n=\sigma(v_0v_1 \ldots v_{n-1})$
+
+An infinite path $\pi= v_0 v_1 \ldots$ is said to conform with a strategy $\sigma$ of \Player{i} if whenever $v_j \in V_i$, $v_{j+1}=\sigma(v_0 v_1 \ldots v_j)$.
+
+Consider strategies $(\sigma,\tau)$ for \Player{0} and \Player{1} respectively. Starting at $v_0$ there is a unique path $\pi^{v_0}_{\sigma\tau}= v_0 v_1 \ldots $ which conforms with both $\sigma$ and $\tau$, given by
+\begin{equation*}
+v_{i+1} = \begin{cases}
+\sigma(v_0v_1\ldots v_i) & \text{if}\  v_i \in V_0\\
+\tau(v_0v_1\ldots v_i) & \text{if}\  v_i \in V_1
 \end{cases}
-\end{align}
+\end{equation*}
+Let $f^{v}(\sigma,\tau)$ denote $f(\pi^v_{\sigma\tau})$.
 
-Denote $f(\pi_{\sigma\tau})$ by $f(\sigma,\tau)$ and set of all strategies of player $i$ by \ST{i}.
-\section{Optimal Play}
+\subsubsection{finite memory strategies}
+From a computational perspective it's important to have a finite implementation of a strategy (which is generally an infinite object). Finite memory strategy is a subclass for which this is possible. A finite memory strategy for \Player{i} is a tuple $(M,\delta,g,m_0)$, where $M$ is a finite set (the memory), and $m_0 \in M$. 
+\[
+    \delta : M \times V \to M
+\]
+is the update function for the memory and
+\[
+    g : M \times V_i \to V
+\]
+is the action function (with $\forall u \; g(.,u) \in N(u)$).
+
+To implement this strategy start with $m_0$. At the \nth\ move if $v_{n-1} \in V_i$ then play $v_n=g(m_{n-1},v_{n-1})$ (otherwise the opponent decides $v_n$) and set $m_n = \delta(m_{n-1},v_n)$.
+\subsubsection{positional strategy}
+An important special case of finite memory strategies is when $M$ is singleton. These are called positional or memoryless strategies. In this case
+\[
+    g : V_i \to V
+\]
+and the resulting strategy $\sigma$ is just
+\[
+    \sigma( v_0 v_1 \ldots v_n ) = g(v_n)
+\]
+which only depends on the current state the token is in.
+
+Denote by \ST{i} the set of all strategies of \Player{i}, and by \PST{i} the set of positional strategies. Often $\sigma,\tau$ (and their variants) will be used to denote the strategies for \Player{0} and \Player{1} respectively.
+
+\section{Optimal play}
 %TODO: Should I just say that one cannot unilaterally deviate from the optimal.
-What is the optimal play for a player? The answer depends on how the other player plays, but if we assume that both players are rational and intelligent, and know that the opponents are the same too, then following provides an answer - 
+How should \Player{i} play so as to best fulfill his objective of minimizing/maximizing the payoff? Generally this depends on the opponents play - so it is not exactly a standard optimization problem. Instead (whenever it exists) the following concept for optimal play is used.
+\subsection{Minimax equilibrium}
+For the game $(\G,v)$, if there is an $\eta_v \in \Reals$ and strategies $\sigma^*,\tau^*$ for player 0 and 1 respectively so that
+\begin{equation}
+\begin{aligned}
+    f^v(\sigma^*,\tau) \leq \eta_v \qquad & \text{ for all } \tau \in \ST{1} \\
+    f^v(\sigma, \tau^*)  \geq \eta_v \qquad & \text{ for all } \sigma \in \ST{0} 
+\end{aligned} \label{eq:MinMax2}
+\end{equation}
+\newcommand{\eqminmax}{\eqref{eq:MinMax2}\ }
+then the game $(\G,v)$ has a minimax equilibrium and $(\sigma^*,\tau^*)$ are called optimal strategies for \Player{0} and \Player{1} respectively. $\eta_v$ is called the value of the game.
 
-\subsection{Minmax equilibrium}
-If there is an $\eta \in \Reals$ and strategies $\sigma^*,\tau^*$ for player 0 and 1 respectively so that
-\begin{align}
-    f(\sigma^*,\tau) \leq \eta \qquad & \text{ for all } \tau \in \ST{1}  \label{eq:MinMax0} \\
-    f(\sigma, \tau^*)  \geq \eta \qquad & \text{ for all } \sigma \in \ST{0} \label{eq:MinMax1}
-\end{align}
-then the game $\mathcal{G}$ has is said to have minmax equilibrium, $\sigma^*$ and $\tau^*$ are called optimal strategies for player 0 and player 1 respectively, and $\eta$ is called the value of the game.
-
-\eqref{eq:MinMax0} says that if player 0 follows strategy $\sigma^*$, then payoff would never be more than $\eta$, while \eqref{eq:MinMax1} says that if player 1 follows strategy $\tau^*$ then the payoff never be less than $\eta$. When they play $\sigma^*$ and $\tau^*$ simultaneously -- 
+The first inequality says that if \Player{0} follows $\sigma^*$, then payoff would always (against any play of \Player{1}) be below $\eta_v$, while the second inequality says that if \Player{1} follows $\tau^*$ then the payoff always be above $\eta_v$. In particular
 \[
-    f(\sigma^*,\tau^*) = \eta
+    f^v(\sigma^*,\tau^*) = \eta_v
 \]
-follows by combining \eqref{eq:MinMax0} and \eqref{eq:MinMax1}.
-
-\eqref{eq:MinMax0}, \eqref{eq:MinMax1} are equivalent to \eqref{eq:MinMax} below --
+There may be many optimal strategy pairs $(\sigma^*,\tau^*)$ but value $\eta_v$ must be unique. This is because
+\eqminmax are equivalent to
 \begin{align}
-    \eta = \min_{\sigma \in \ST{0}} \max_{\tau \in \ST{1}} f(\sigma, \tau) = \max_{\tau \in \ST{1}} \min_{\sigma \in \ST{0} } f(\sigma,\tau) \label{eq:MinMax}
+    \eta_v = \min_{\sigma \in \ST{0}} \sup_{\tau \in \ST{1}} f^v(\sigma, \tau) = \max_{\tau \in \ST{1}} \inf_{\sigma \in \ST{0} } f^v(\sigma,\tau) \label{eq:MinMax}
 \end{align}
+(The distinction between $\max \text{ vs } \sup$ (or $\min \text{ vs } \inf$) is that the optimal value must be attained in the former, but may not be attained in the latter)
 
-The right hand side is the optimal payoff when Player 1 declares his strategy to Player 0 before the game begins (which is always disadvantageous to player 1). Similarly the left side is the optimal payoff when Player 0 declares his strategy to player 1 (which is always advantageous to player 1). The equality means that both of the players can declare their optimal strategy upfront and still not be at a disadvantage.
+The RHS of \eqref{eq:MinMax} is the optimal payoff in the game where \Player{1} declares his strategy to \Player{0} before the game begins (which is always disadvantageous to \Player{1}). Similarly LHS of \eqref{eq:MinMax} is the optimal payoff when \Player{0} declares his strategy to \Player{1} in advance (which is always advantageous to \Player{1}). The equality means that both can reveal their optimal strategies $(\sigma^*,\tau^*)$ to the opponent and none will have incentive to change their strategy.
 
-Not every game has a Minimax equilibrium, however a weaker version of \eqref{eq:MinMax} holds for a large class of games (see \cite{roux_equilibria}) --
+Not every game has a minimax equilibrium, however a weaker version of \eqref{eq:MinMax} (also called as $\epsilon$-equilibrium) holds for a large class of payoffs (see  \cite{roux_equilibria})
 \[
-    \inf_{\sigma \in \ST{0}} \sup_{\tau \in \ST{1}} f(\sigma, \tau) = \sup_{\tau \in \ST{1}} \inf_{\sigma \in \ST{0} } f(\sigma,\tau)
+    \inf_{\sigma \in \ST{0}} \sup_{\tau \in \ST{1}} f^v(\sigma, \tau) = \sup_{\tau \in \ST{1}} \inf_{\sigma \in \ST{0} } f^v(\sigma,\tau)
 \]
 
-For the games to be discussed, \eqref{eq:MinMax} will explicitly be shown. Given that the minimax exist, it will be interesting to obtain algorithms to find an optimal pair of strategies $(\sigma^*,\tau^*)$ when \G\ is finitely presented.
+For the games to be discussed, \eqref{eq:MinMax} will explicitly be shown. The minimax will exist from each $v \in V$.  Since $(\sigma^*,\tau^*)$ are history dependent they can be chosen independent of $v$. Hence we can bundle up the values and associate to $\G$ a value vector $\eta \in \Reals^V$ given by $\eta = (\eta_v)_{v\in V}$. Let $f(\sigma,\tau) = (f^v(\sigma,\tau))_{v \in V}$, then we have (inequalities are coordinate-wise) --
+\begin{equation}
+    \begin{aligned}
+    f(\sigma^*, \tau) \leq \eta \qquad \forall \tau \in \ST{1}\\
+    f(\sigma,\tau^*) \geq \eta \qquad \forall \sigma \in \ST{0}
+    \end{aligned}\label{eq:vecMinMax}
+\end{equation}
 
-\begin{theorem}[Finite game]
+\section{Finite Games}
+
+We will now start with a simple yet important class of payoffs, and show the existence of minimax and optimal strategies for it. 
+
+The payoff $f$ is finitely determined if there is a $N \in \Nat$ so that $f$ only depends on the outcomes in the first $N$ rounds. More precisely 
+\[
+    \forall \alpha,\beta \in \PI\, \alpha|_N=\beta|_N \implies f(\alpha) = f(\beta) 
+\]
+where $( v_0 v_1 \ldots )|_m = v_0v_1 \ldots v_m$.
+
+If $f$ finitely determined then call $\G=(G,f)$ a finite duration game. We can assume that the game stops after $N$ rounds have been played and the payoff is given by 
+\[
+    f : \PF[N] \to \Reals
+\]
+where $\PF[N]$ is the set of paths in $G$ of length (number of edges) $N$. This is defined as the payoff for of an arbitrary infinite extension, which is well defined since $G$ has no dead ends and $f$ depends only on first $N$ rounds.\\
+
+\begin{theorem}
     \label{thm:finiteMinMax}
-    Let $G=(V_0 \sqcup V_1,E)$ be a finte graph without dead ends, let $v_0 \in V(=V_0 \sqcup V_1)$, and suppose there is a $N \in \mathbb{N}$ so that the payoff $f$ only depends on first $N$ vertices of a path. (i.e. $f(\alpha) = f(\beta)$ for every $\alpha,\beta \in \PI$ such that $\alpha|_N = \beta|_N$). The game $\G=(G,f,v_0)$ has a Minimax equilibrium.
+    Let $\G=(G,f)$ be a finite game. There is a $\eta \in \Reals^V$ and strategies $(\sigma^*, \tau^*)$ which satisfy \eqref{eq:vecMinMax}
 \end{theorem}
 \begin{proof}
-    Let $\PF[m]$ denote the set of paths in $G$ of length $m$. Since $f$ only depends on first $N$ vertices we can assume
-    \[
-        f : \PF[N] \mapsto \Reals
-    \]
-    and that the games stops after $N$ rounds (because playing further is not going to change the payoff).
-
-    At the $(N-1)$th round, what will be the decision of the players? Supposed $v_0v_1\ldots v_{N-1}$ has been played. Now if $v_{N-1} \in V_1$, the player 1 will chose a neighbor $u$ which maximizes $f(v_0v_1\ldots v_{N-1}u)$ as the game is going to end in the next round. Similarly if $v_{N-1} \in V_0$, then player 0 will choose a $u$ which minimizes $f(v_0v_1\ldots v_{N-1}u)$. This motivates the following definition.
-
-Define 
-\[
-    f^m : \PF[m] \mapsto \Reals \qquad m=0,1\ldots N
-\]
-by $f^N \defeq f$ and recursively for $m=N-1$ to $0$
-\begin{align}
-    f^m (u_0u_1\ldots u_m) &= 
-    \begin{cases}
-        \min_{(u_m,v) \in E} f^{m+1}(u_0u_1\ldots u_m v) & \text{ if } u_m \in V_0\\
-        \max_{(u_m,v) \in E} f^{m+1}(u_0u_1\ldots u_m v) & \text{ if } u_m \in V_1\\
-    \end{cases} \label{eq:ValMinMax}
-\end{align}
-
-This also gives a strategy for the players. For player 0 -
-\begin{align}
-    \sigma^* : \PF[<N] \cap V^{*}V_0 &\mapsto V\\
-    \sigma^*(u_0u_1\ldots u_k) &= \argmin_{v} f^{k+1}(u_0u_1\ldots u_k v)
-\end{align}
-
-Similarly for player 1 -
-\begin{align}
-    \tau^* : \PF[<N] \cap V^{*}V_1 &\mapsto V\\
-    \tau^*(u_0u_1\ldots u_k) &= \argmax_{v} f^{k+1}(u_0u_1\ldots u_k v)
-\end{align}
-These strategies suggest playing the neighbors which obtain the optimum in \eqref{eq:ValMinMax}
-
-The following shows that $(\sigma^*,\tau^*)$ satisfy \eqref{eq:MinMax0},\eqref{eq:MinMax1} with $\eta = f^0(v_0)$.
-
-\begin{claim}
-    Starting at an existing $u_0u_1\ldots u_k \in \PF[k]$ (with $k \leq N$), using $\sigma^*$ player 0 can always (against any play of player 1) ensure payoff $\leq \eta$, and using $\tau^*$ player 1 can always ensure payoff $\geq \eta$, where $\eta = f^k(u_0u_1\ldots u_k)$.
-\end{claim}
-\begin{claimproof}
-    The proof is by induction on $N-k$
+    The proof is by induction on $N$ -- the duration of the game $\G$.
     \begin{description}
-        \item[$N-k=0$] Hence $k=N$, no moves will be played anymore, and the payoff is exactly $\eta$ -- which satisfies the required conditions. 
-        \item[$N - k = (i+1)$] and assume induction hypothesis for $N-k=i$.\\
-            We prove the first part (i.e using $\sigma^*$ Player 0 can always ensure $\leq \eta$), the corresponding argument for player 1 is similar.
-            \begin{itemize}
-                \item[Case 1] $u_k \in V_0$ It's Player 0's turn, and the token will be moved to $ u_{k+1} = \sigma^*(u_0u_1\ldots u_k)$ which satisfies -
+        \item[Base Case] $N=1$: Hence the game ends after the first move. 
+            \begin{align*}
+                \intertext{Let}
+                \eta_u &= \begin{dcases}
+                    \min_{ v \in N(u) } f(uv) & \tif u \in V_0\\
+                    \max_{ v \in N(u) } f(uv) & \tif u \in V_1
+                    \end{dcases}
+                    \intertext{And}
+                    \sigma^*(u) &= \argmin_{ v \in N(u) } f(uv) \quad \tif u \in V_0 \\
+                    \tau^*(u) &= \argmax_{ v \in N(u) } f(uv) \quad \tif u \in V_1
+            \end{align*}
+            Then \eqminmax follows for any $v$ by considering the cases $v \in V_0$ and $v \in V_1$ separately. Hence \eqref{eq:vecMinMax} follows with $\eta=(\eta_v)_{v\in V}$
+        \item[Inductive Case] $N=k+1$ with $k \geq 1$: \\
+            At the $\nth[k+1]$ round what will be the decision of the players? Suppose $v_0v_1\ldots v_k$ has been played. Now if $v_k \in V_1$, since this is the last round, \Player{1} will chose an $u$ which maximizes $f(v_0v_1\ldots v_ku)$. Similarly if $v_k \in V_0$, then \Player{0} will choose an $u$ which minimizes $f(v_0v_1\ldots v_ku)$.
+            
+        Motivated by this, define the $k$ step game $\G'=(G,f')$ where
+            \[
+                f'(v_0v_1 \ldots v_k) = \begin{dcases}
+                    \min_{ u \in N(v_k) } f(v_0 v_1 \ldots v_k u) & \tif v_k \in V_0\\
+                    \max_{ u \in N(v_k) } f(v_0 v_1 \ldots v_k u) & \tif v_k \in V_1
+                \end{dcases} 
+            \]
+            By induction hypothesis $\G'$ has a value vector $\eta$ and optimal strategies $(\sigma',\tau')$.
+            Consider the aforementioned strategies for the $\nth[k+1]$ round -
+            \begin{align*}
+                \sigma_{k+1}(v_0 v_1 \ldots v_k) = \argmin_{ u \in N(v_k) } f(v_0 v_1 \ldots v_k u) \quad \tif v_k \in V_0 \\
+                \tau_{k+1}(v_0 v_1 \ldots v_k) = \argmax_{ u \in N(v_k) } f(v_0 v_1 \ldots v_k u) \quad \tif v_k \in V_1
+            \end{align*}
+            Let $\sigma^*=(\sigma',\sigma_{k+1})$ be the strategy for \Player{0} which plays $\sigma'$ for the first $k$ rounds, and $\sigma_{k+1}$ for the $\nth[k+1]$ round. Analogously define $\tau^*=(\tau',\tau_{k+1})$ for \Player{1}.
+            
+            The following shows that $\eta$ is the value vector for \G\ and $(\sigma^*,\tau^*)$ are the optimal strategies.
+            
+            To prove the first inequality in \eqref{eq:vecMinMax}, take any path $v_0v_1 \ldots v_{k+1}$ that conforms with $\sigma^*$. Then $v_0v_1 \ldots v_k$ must conform with $\sigma'$. Hence 
+            \[
+                f'(v_0 v_1 \ldots v_k) \leq \eta_{v_0}
+            \]
+            If $v_k \in V_0$ then $v_{k+1}=\sigma_{k+1}(v_0 v_1 \ldots v_k)$, hence 
+            \[
+                f(v_0v_1 \ldots v_{k+1}) = f'(v_0v_1 \ldots v_k)
+            \]
+            Otherwise $v_k \in V_1$ and from the definition of $f'$
+            \[
+                f(v_0v_1 \ldots v_{k+1}) \leq f'(v_0v_1 \ldots v_k)
+            \]
+            In any case $f(v_0 v_1 \ldots v_{k+1}) \leq f'(v_0 v_1 \ldots v_k) \leq \eta_{v_0}$. This shows
+            \[
+                f(\sigma^*,\tau) \leq \eta \quad \forall \tau \in \ST{1}
+            \]
 
-                    \[
-                        \eta = f^{k+1}(u_0 u_1 \ldots u_k u_{k+1})
-                    \]
-                    Since by induction hypothesis, starting at $u_0 u_1 \ldots u_{k+1}$ and playing $\sigma^*$ player 0 will get at least $\eta$, it also happens srating at $u_0 u_1 \ldots u_{k}$.
-                \item[Case 2] $u_k \in V_1$ Suppose Player 1 moves the token to some $u_{k+1}$, then from \eqref{eq:ValMinMax}
-                    \[
-                        \eta = f^k(u_0 u_1 \ldots u_k) \geq f^{k+1}(u_0 u_1 \ldots u_k u_{k+1}) = \eta'
-                    \]
-                    By induction hypothesis from $u_0 u_1 \ldots u_{k+1}$ Playing $\sigma^*$ will keep the payoff $\leq \eta'$ and hence $\leq \eta$.
-            \end{itemize}
+            The proof of the second inequality follows verbatim by reversing the inequalities, replacing $\sigma$ by $\tau$ and interchanging $V_0$ and $V_1$. Hence this proves \eqref{eq:vecMinMax} for $\G$.
     \end{description}
-\end{claimproof}
-
-Hence, for the game starting at $v_0$, $(\sigma^*, \tau^*)$ are the optimial strategies with the value $\eta = f^0(v_0)$. Notice that the recursive equations \eqref{eq:ValMinMax} also provide an algorithm to compute $\sigma^*, \tau^*$ and $\eta$. This is also called the minimax algortihm.
 \end{proof}
-
 \section{Win Lose games}
 \label{sec:winlose}
-Now assume $f$ is a $\set{0,1}$ valued function. Then whenever the payoff is $1$ say that player 1 wins, and when the payoff is $0$ say that player 0 wins. This can also be dentoted by $Win = \set{ \alpha \mid f(\alpha) = 1} \subseteq \PI$ -- the winning set for player 1. If such a game has a minimax \eqref{eq:MinMax}, then $\eta \in \set{0,1}$. If $\eta=1$, then $\tau^*$ is a winning strategy for player 1, and if $\eta=0$, then $\sigma^*$ is a winning strategy for player 0.
+When $f$ is a $\set{0,1}$ valued function, the game has a win/loss interpretation. \Player{1} wins the play (and \Player{0} loses) whenever the payoff is $1$, otherwise \Player{1} loses the play (and \Player{0} wins). This game will be denoted by $\G=(G,Win)$ where
+\[
+Win = \set{ \alpha \mid f(\alpha) = 1} \subseteq \PI
+\]
+is the set for winning plays for \Player{1}.
 
-In Win Lose game the property corresponing to \eqref{eq:MinMax} is called determinacy. A game $\G=(G,Win)$ is said to be determined if either player 0 or player 1 has a winning strategy. A winning strategy is a strategy that wins the game against any possible move of the opponent. Note that both the players cannot simultaneously have winning strategies (because then who wins when they play their respective winning strategies?), but it is possible that both of them don't have it either (however, Axiom of choice is required to show this).
+\subsection{Determinacy}
 
-\begin{corollary}[Theorem \ref{thm:finiteMinMax}]
+A strategy $\sigma^*$ for \Player{0} is said to be a winning strategy from $v \in V$ if 
+\[
+    \pi^v_{\sigma^*\tau} \not\in Win \quad \forall \tau \in \ST{1}
+\]
+Similarly a strategy $\tau^*$ for \Player{1} is a winning strategy from $v$ if
+\[
+    \pi^v_{\sigma\tau^*} \in Win \quad \forall \sigma \in \ST{0}
+\]
+
+Call a Win-Lose game $\G=(G,Win)$ \mydef{determined} if from every $v \in V$ either \Player{0} or \Player{1} has a winning strategy. Notice that both the players cannot simultaneously have a winning strategy starting from $v$. It is also possible that neither of them has one, but axiom of choice is required to show this. See \cite{martin_borel_1975} for a very general theorem on determinacy by Martin.
+
+Suppose the game $\G=(G,f)$ (where $f$ is $\set{0,1}$ valued) has a minimax \eqminmax starting from $v$, then $\eta_v \in \set{0,1}$ (because of \eqref{eq:MinMax}). If $\eta=1$ then $\tau^*$ is a winning strategy for \Player{1}, otherwise $\eta=0$ and $\sigma^*$ is a winning strategy \Player{0}. Hence as a corollary of Theorem \ref{thm:finiteMinMax} we have --
+\\
+\begin{corollary}
     \label{cor:finiteDeterminacy}
-    If a winning condition $Win$ is finitely determined ($\exists N \, \forall \alpha,\beta \in \PI \, \alpha|_N = \beta|_N \implies \alpha \in Win \iff \beta \in Win$), then the game is determined.
+    If a winning condition $Win$ is finitely determined ($\exists N \, \forall \alpha,\beta \in \PI \, \alpha|_N = \beta|_N \implies \alpha \in Win \iff \beta \in Win$), then the game $\G=(G,Win)$ is determined.
 \end{corollary}
-
-\begin{example}
-    In Chess, either White has a winning strategy, or black has a strategy to either or draw.
-    %TODO: Such games are better modelled using {-1,0,1} valued payoff.
-\end{example}
