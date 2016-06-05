@@ -1,28 +1,26 @@
-\chapter{Parity Games}
+\chapter{Parity}
 
-We saw using Theorem \ref{thm:finiteMinMax} that whenever the payoff depends only on what happens until a finite stage $N$, then the game has a winning strategy. Now this chapter and the next is about payoff that only depends on the long run behavior of a path.
+Parity games were introduced in \cite{emersonjutla} to solve the $\mu$-calculus model checking problem. From the view of Complexity Theory, the problem of deciding the winner of a parity game is in $\NP \cap \coNP$ (even $\UP \cap \coUP$), but the question of whether it has a polynomial time solution remains open.
+
+Apart from Parity, the following chapters will also introduce Mean and Discounted Payoff Games. Although seemingly unrelated, each game can be reduced to the successive one. This is used in \cite{parityup} to show that the decision problem for all of them are in $\UP \cap \coUP$ (here $\UP$ is the class of decision problems that have a unique polynomial size certificate). Whether any of these games (i.e. their respective decision problems) has a polynomial time solution or not is again an open question.
 
 \section{Definition}
 %TODO: Make this consitent with notation in Chapter 1
 %Idea: Call it G instead of \G like done in Mean Payoff
-A parity Game $\G=(V_0,V_1,E,p)$ is a WinLose game (section \ref{sec:winlose}). The winning set is given using a priority function 
-\begin{equation}
-    p : V \mapsto \Nat \label{eq:priority}
-\end{equation}
+Let $G=(V_0,V_1,E)$ be a graph and let (for some $M \in \Nat$)
+\[
+    p : V \mapsto \set{0,1,2 \ldots M}
+\]
+be an assignment of integer priorities to each vertex.
 
-Using this the winning set for player 1 is defined as follows -
-
-\begin{align}
-    Win &\subseteq \PI \nonumber \\
-    \pi = v_0v_1v_2 \ldots &\in Win \iff \left(\max_{v \in \Inf(\pi)} p(v)\right) \text{ is Odd } \label{cond:parity}
-\end{align}
-
-%Note that $p$ takes only finitely many values. Hence in \eqref{cond:parity}
-%\[
-    %\limsup_i p(v_i) = \max \Inf(\pi)
-%\]
-Hence $\Inf(\pi)$ is the set of vertices visited infinitely often in $\pi$.
-Hence if the largest priority seen infinitely often in $\pi$ is odd then player 1 wins the play, else player 0 wins the play.
+Parity game $\G_p=(G,Win_p)$ is a Win-Lose game (section \ref{sec:winlose}) with
+\begin{align*}
+    Win_p &\subseteq \PI\\
+    Win_p &= \set{ \pi \mid \left(\max_{v \in \Inf(\pi)} p(v)\right) \text{ is Odd }} \label{cond:parity}
+    \intertext{where}
+    \Inf( v_0 v_1 \ldots ) &= \set{u \left| \exists^\infty j \, v_j = u \right.} 
+\end{align*}
+In other words, among the vertices visited infinitely often, consider the largest priority. If this is odd then \Player{1} wins the play, when it is even \Player{0} wins.
 
 \section{Positional Determinacy}
 %TODO Add a positional determinacy proof 
