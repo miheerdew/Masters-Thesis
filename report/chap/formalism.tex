@@ -118,8 +118,9 @@ If $f$ finitely determined then call $\G=(G,f)$ a finite duration game. We can a
 \[
     f : \PF[N] \to \Reals
 \]
-where $\PF[N]$ is the set of paths in $G$ of length (number of edges) $N$. This is defined as the payoff for of an arbitrary infinite extension, which is well defined since $G$ has no dead ends and $f$ depends only on first $N$ rounds.\\
+where $\PF[N]$ is the set of paths in $G$ of length (number of edges) $N$. This is defined as the payoff for of an arbitrary infinite extension, which is well defined since $G$ has no dead ends and $f$ depends only on first $N$ rounds.
 
+The following theorem is well known - it's sometimes called the backward induction technique. The backward induction, however, is not very explicit in the proof presented here.\\
 \begin{theorem}
     \label{thm:finiteMinMax}
     Let $\G=(G,f)$ be a finite game. There is a $\eta \in \Reals^V$ and strategies $(\sigma^*, \tau^*)$ which satisfy \eqref{eq:vecMinMax}
