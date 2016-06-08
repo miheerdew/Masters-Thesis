@@ -1,8 +1,8 @@
-\chapter{Games}
+\chapter{Graph games}
 We will look at a class of two player games on graphs. The two players will be called Player 0 and Player 1 (abbreviated as \Player{0}, \Player{1}). Although we will only look at specific games later, all of them fit into a general framework which will be discussed now.
 \section{Formalism}
 \label{sec:formalism}
-$G=(V_0,V_1,E)$ will denote a directed graph with vertex set $V=V_0 \sqcup V_1$ and edge set $E \subseteq V\times V$. $(V_0,V_1)$ is a partition of $V$ into vertices of P0 and P1 respectively. Always assume that $G$ has no dead ends ($\forall v \in V \exists w  (v,w) \in E$). $\PF$ will denote the set of all finite paths in $G$, and by $\PI$ the set of all infinite paths. $N(u)=\set{v \mid (u,v) \in E}$ is the set of outgoing neighbours of $u$.
+The game is played on a directed graph $G=(V_0,V_1,E)$ whose vertices are $V=V_0 \sqcup V_1$ and edges are $E \subseteq V\times V$. The vertices $V$ are partitioned as $(V_0,V_1)$ -- those belonging to P0 and P1 respectively. We will always assume that $G$ has no dead ends ($\forall v \in V \; \exists w \, (v,w) \in E$). For $n \geq 0$, let $\PF[n]$ denote the set of paths in $G$ of length $n$ (in paritcular $\PF[0]=V$, $\PF[1]=E$). $\PF$ will denote the set of all finite paths in $G$, and by $\PI$ the set of all infinite paths. $N(u)=\set{v \mid (u,v) \in E}$ is the set of outgoing neighbours of $u$. 
 
 The game starting from $v_0 \in V$ is played as follows
 \begin{itemize}
@@ -18,10 +18,10 @@ Where
   \item $v_0$ was the vertex where the play started
   \item If $v_i \in V_j$, then at ${i+1}^\text{th}$ stage \Player{j} decided to move the token to $v_{i+1} \in N(v_i)$
 \end{itemize}
-After this infinite path $\pi$ is played, \Player{0} pays $f(\pi)$ units (of money) to \Player{1}. Where $f : \PI \to \Reals
+After this infinite path $\pi$ is played, \Player{0} pays $f(\pi)$ units of money to \Player{1}. Where $f : \PI \to \Reals
 $ is the payoff function. When $f(\pi) < 0$ this is interpreted as \Player{1} paying $|f(\pi)|$ units to \Player{0}. \Player{0}'s objective is to minimize $f(\pi)$ while \Player{1}'s objective is to maximize it.
 
-This game will be denoted by $\G=(G,f)$. In particular, denote the game starting at $v_0$ by $(\G,v_0)$.
+This game will be denoted by $\G=(G,f)$. And in particular, the game  starting at $v_0$ by $(\G,v_0)$.
 
 \subsection{Strategy}
 A strategy for \Player{i} is a function $\sigma : \PF \cap V^*V_{i} \mapsto V$, which assigns to each possible finite path $\alpha u$ ending in $ u \in V_i$ a neighbor $\sigma(\alpha u) \in N(u)$.
@@ -39,8 +39,8 @@ v_{i+1} = \begin{cases}
 \end{equation*}
 Let $f^{v}(\sigma,\tau)$ denote $f(\pi^v_{\sigma\tau})$.
 
-\subsubsection{finite memory strategies}
-From a computational perspective it's important to have a finite implementation of a strategy (which is generally an infinite object). Finite memory strategy is a subclass for which this is possible. A finite memory strategy for \Player{i} is a tuple $(M,\delta,g,m_0)$, where $M$ is a finite set (the memory), and $m_0 \in M$. 
+\subsubsection{Finite memory strategies}
+From a computational perspective it's important to have a finite implementation of a strategy (which is generally an infinite object). Finite memory strategies are a subclass for which this is possible. A finite memory strategy for \Player{i} is a tuple $(M,\delta,g,m_0)$, where $M$ is a finite set (also called as ``the memory"), and $m_0 \in M$. 
 \[
     \delta : M \times V \to M
 \]
@@ -51,7 +51,8 @@ is the update function for the memory and
 is the action function (with $\forall u \; g(.,u) \in N(u)$).
 
 To implement this strategy start with $m_0$. At the \nth\ move if $v_{n-1} \in V_i$ then play $v_n=g(m_{n-1},v_{n-1})$ (otherwise the opponent decides $v_n$) and set $m_n = \delta(m_{n-1},v_n)$.
-\subsubsection{positional strategy}
+
+\subsubsection{Positional strategy}
 An important special case of finite memory strategies is when $M$ is singleton. These are called positional or memoryless strategies. In this case
 \[
     g : V_i \to V
@@ -72,7 +73,8 @@ Denote $\prefix(\pi)=v_0 v_1 \ldots v_{k-1}$ and $\cycle(\pi)=v_k v_{k+1} \ldots
 
 Let $(\sigma,\tau)$ be positional strategies for \Player{0} and \Player{1}. Starting any $v_0 \in V$, the path $\pi^{v_0}_{\sigma\tau}$ is ultimately periodic with all $v_i$'s distinct in \eqref{eqn:periodic}.  $\cycle(\pi^{v_0}_{\sigma\tau})$ is the unique cycle reachable from $v_0$ in $G_{\sigma\tau}$, and $\prefix(\pi^{v_0}_{\sigma\tau})$ is the path leading to that cycle.
 
-Denote by \ST{i} the set of all strategies of \Player{i}, and by \PST{i} the set of positional strategies. Often $\sigma,\tau$ (and their variants) will be used to denote the strategies for \Player{0} and \Player{1} respectively. 
+Denote by \ST{i} the set of all strategies of \Player{i}. Often $\sigma,\tau$ (and their variants) will be used to denote the strategies for \Player{0} and \Player{1} respectively. 
+
 
 \section{Optimal play}
 %TODO: Should I just say that one cannot unilaterally deviate from the optimal.
@@ -99,7 +101,7 @@ There may be many optimal strategy pairs $(\sigma^*,\tau^*)$ but value $\eta_v$ 
 \end{align}
 (The distinction between $\max \text{ vs } \sup$ (or $\min \text{ vs } \inf$) is that the optimal value must be attained in the former, but may not be attained in the latter)
 
-The RHS of \eqref{eq:MinMax} is the optimal payoff in the game where \Player{1} declares his strategy to \Player{0} before the game begins (which is always disadvantageous to \Player{1}). Similarly LHS of \eqref{eq:MinMax} is the optimal payoff when \Player{0} declares his strategy to \Player{1} in advance (which is always advantageous to \Player{1}). The equality means that both can reveal their optimal strategies $(\sigma^*,\tau^*)$ to the opponent and none will have incentive to change their strategy.
+The RHS of \eqref{eq:MinMax} is the optimal payoff in the game where \Player{1} declares his strategy to \Player{0} before the game begins (which is always disadvantageous to \Player{1}). Similarly LHS of \eqref{eq:MinMax} is the optimal payoff when \Player{0} declares his strategy to \Player{1} in advance (which is always advantageous to \Player{1}). The equality means that both can reveal their optimal strategies $(\sigma^*,\tau^*)$ to the opponent and none will have an incentive to change their strategy.
 
 Not every game has a minimax equilibrium, however a weaker version of \eqref{eq:MinMax} (also called as $\epsilon$-equilibrium) holds for a large class of payoffs (see  \cite{roux_equilibria})
 \[
@@ -119,17 +121,17 @@ For the games to be discussed, \eqref{eq:MinMax} will explicitly be shown. The m
 
 We will now start with a simple yet important class of payoffs, and show the existence of minimax and optimal strategies for it. 
 
-The payoff $f$ is finitely determined if there is a $N \in \Nat$ so that $f$ only depends on the outcomes in the first $N$ rounds. More precisely 
+A payoff function $f$ is finitely determined if there is a $N \in \Nat$ so that $f$ only depends on the outcomes in the first $N$ rounds. More precisely 
 \[
     \forall \alpha,\beta \in \PI\, \alpha|_N=\beta|_N \implies f(\alpha) = f(\beta) 
 \]
 where $( v_0 v_1 \ldots )|_m = v_0v_1 \ldots v_m$.
 
-If $f$ finitely determined then call $\G=(G,f)$ a finite duration game. We can assume that the game stops after $N$ rounds have been played and the payoff is given by 
+If $f$ is finitely determined then call $\G=(G,f)$ a finite duration game. We can assume that the game stops after $N$ rounds have been played and the payoff is given by 
 \[
     f : \PF[N] \to \Reals
 \]
-where $\PF[N]$ is the set of paths in $G$ of length (number of edges) $N$. This is defined as the payoff for of an arbitrary infinite extension, which is well defined since $G$ has no dead ends and $f$ depends only on first $N$ rounds.
+This is defined as the payoff for an arbitrary infinite extension, which is well defined since $G$ has no dead ends and $f$ depends only on first $N$ rounds.
 
 The following theorem is well known - it's sometimes called the backward induction technique. The backward induction, however, is not very explicit in the proof presented here.\\
 \begin{theorem}
@@ -139,9 +141,8 @@ The following theorem is well known - it's sometimes called the backward inducti
 \begin{proof}
     The proof is by induction on $N$ -- the duration of the game $\G$.
     \begin{description}
-        \item[Base Case] $N=1$: Hence the game ends after the first move. 
+        \item[Base Case] $N=1$: Hence the game ends after the first move. Let
             \begin{align*}
-                \intertext{Let}
                 \eta_u &= \begin{dcases}
                     \min_{ v \in N(u) } f(uv) & \tif u \in V_0\\
                     \max_{ v \in N(u) } f(uv) & \tif u \in V_1
@@ -167,7 +168,7 @@ The following theorem is well known - it's sometimes called the backward inducti
                 \sigma_{k+1}(v_0 v_1 \ldots v_k) = \argmin_{ u \in N(v_k) } f(v_0 v_1 \ldots v_k u) \quad \tif v_k \in V_0 \\
                 \tau_{k+1}(v_0 v_1 \ldots v_k) = \argmax_{ u \in N(v_k) } f(v_0 v_1 \ldots v_k u) \quad \tif v_k \in V_1
             \end{align*}
-            Let $\sigma^*=(\sigma',\sigma_{k+1})$ be the strategy for \Player{0} which plays $\sigma'$ for the first $k$ rounds, and $\sigma_{k+1}$ for the $\nth[k+1]$ round. Analogously define $\tau^*=(\tau',\tau_{k+1})$ for \Player{1}.
+            Let $\sigma^*=[\sigma',\sigma_{k+1}]$ be the strategy for \Player{0} which plays $\sigma'$ for the first $k$ rounds, and $\sigma_{k+1}$ for the $\nth[k+1]$ round. Analogously define $\tau^*=[\tau',\tau_{k+1}]$ for \Player{1}.
             
             The following shows that $\eta$ is the value vector for \G\ and $(\sigma^*,\tau^*)$ are the optimal strategies.
             
