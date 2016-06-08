@@ -1,9 +1,14 @@
 \usepackage[utf8]{inputenc}
 \usepackage{amssymb,amsmath,amsthm}
 \usepackage{mathtools}
+\usepackage[basic]{complexity}
 
 \usepackage[backend=biber]{biblatex}
-\bibliography{references}
+\addbibresource{references.bib}
+
+\usepackage{newunicodechar}
+\newunicodechar{∩}{\ensuremath{\cap}}
+
 
 \usepackage{parskip}
 %\setlength{\parskip}{\baselineskip}
@@ -20,7 +25,7 @@
 \newcommand{\mydef}[1]{\underline{#1}}
 \newcommand{\norm}[1]{\left\lVert#1\right\rVert}
 \newcommand{\normi}[1]{\left\lVert#1\right\rVert_\infty}
-\newcommand{\set}[1]{\ensuremath{\{#1\}}}
+\newcommand{\set}[1]{\ensuremath{\left\{#1\right\}}}
 \newcommand{\defeq}{\mathrel{\overset{\makebox[0pt]{\mbox{\normalfont\tiny\sffamily def}}}{=}}}
 \newcommand{\Reals}{\mathbb{R}}
 \newcommand{\Nat}{\mathbb{N}}
@@ -37,6 +42,8 @@
 \DeclareMathOperator*{\Loop}{Loop}
 \DeclareMathOperator*{\mean}{mean}
 \DeclareMathOperator*{\argmax}{arg\!\max}
+\DeclareMathOperator{\prefix}{Prefix}
+\DeclareMathOperator{\cycle}{Cycle}
 \newcommand\nth[1][n]{\ensuremath{{#1}^\text{th}}}
 \newcommand\tif{\text{ if }}
-
+\newcommand\mip{max-inf-priority}
