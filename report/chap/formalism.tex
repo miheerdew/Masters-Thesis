@@ -62,7 +62,17 @@ and the resulting strategy $\sigma$ is just
 \]
 which only depends on the current state the token is in.
 
-Denote by \ST{i} the set of all strategies of \Player{i}, and by \PST{i} the set of positional strategies. Often $\sigma,\tau$ (and their variants) will be used to denote the strategies for \Player{0} and \Player{1} respectively.
+Let $\rho$ be a positional strategy for \Player{i} in $G$, then $G_{\rho}$ will denote the graph obtained from $G$ by restricting the outgoing edges of every $u\in V_i$ to the unique edge given by $\rho$. Moreover if $\bar{\rho}$ is a strategy for \Player{1-i} then $G_{\rho\bar{\rho}}$ is defined as $(G_\rho)_{\bar{\rho}}$.
+
+An infinite path $\pi$ is called ultimately periodic if for some $k \geq 0$
+\begin{equation}
+    \pi = v_0 v_1 \ldots v_{k-1} (v_k v_{k+1} \ldots v_r)^\omega \label{eqn:periodic}
+\end{equation}
+Denote $\prefix(\pi)=v_0 v_1 \ldots v_{k-1}$ and $\cycle(\pi)=v_k v_{k+1} \ldots v_r$.
+
+Let $(\sigma,\tau)$ be positional strategies for \Player{0} and \Player{1}. Starting any $v_0 \in V$, the path $\pi^{v_0}_{\sigma\tau}$ is ultimately periodic with all $v_i$'s distinct in \eqref{eqn:periodic}.  $\cycle(\pi^{v_0}_{\sigma\tau})$ is the unique cycle reachable from $v_0$ in $G_{\sigma\tau}$, and $\prefix(\pi^{v_0}_{\sigma\tau})$ is the path leading to that cycle.
+
+Denote by \ST{i} the set of all strategies of \Player{i}, and by \PST{i} the set of positional strategies. Often $\sigma,\tau$ (and their variants) will be used to denote the strategies for \Player{0} and \Player{1} respectively. 
 
 \section{Optimal play}
 %TODO: Should I just say that one cannot unilaterally deviate from the optimal.
@@ -105,6 +115,7 @@ For the games to be discussed, \eqref{eq:MinMax} will explicitly be shown. The m
 \end{equation}
 
 \section{Finite Games}
+\label{sec:finitegames}
 
 We will now start with a simple yet important class of payoffs, and show the existence of minimax and optimal strategies for it. 
 
@@ -189,7 +200,7 @@ Win = \set{ \alpha \mid f(\alpha) = 1} \subseteq \PI
 is the set for winning plays for \Player{1}.
 
 \subsection{Determinacy}
-
+\label{subsec:determinacy}
 A strategy $\sigma^*$ for \Player{0} is said to be a winning strategy from $v \in V$ if 
 \[
     \pi^v_{\sigma^*\tau} \not\in Win \quad \forall \tau \in \ST{1}
