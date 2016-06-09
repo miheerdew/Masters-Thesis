@@ -71,7 +71,7 @@ An infinite path $\pi$ is called ultimately periodic if for some $k \geq 0$
 \end{equation}
 Denote $\prefix(\pi)=v_0 v_1 \ldots v_{k-1}$ and $\cycle(\pi)=v_k v_{k+1} \ldots v_r$.
 
-Let $(\sigma,\tau)$ be positional strategies for \Player{0} and \Player{1}. Starting any $v_0 \in V$, the path $\pi^{v_0}_{\sigma\tau}$ is ultimately periodic with all $v_i$'s distinct in \eqref{eqn:periodic}.  $\cycle(\pi^{v_0}_{\sigma\tau})$ is the unique cycle reachable from $v_0$ in $G_{\sigma\tau}$, and $\prefix(\pi^{v_0}_{\sigma\tau})$ is the path leading to that cycle.
+\label{par:ultperiodic} Let $(\sigma,\tau)$ be positional strategies for \Player{0} and \Player{1}. Starting any $v_0 \in V$, the path $\pi^{v_0}_{\sigma\tau}$ is ultimately periodic with all $v_i$'s distinct in \eqref{eqn:periodic}.  $\cycle(\pi^{v_0}_{\sigma\tau})$ is the unique cycle reachable from $v_0$ in $G_{\sigma\tau}$, and $\prefix(\pi^{v_0}_{\sigma\tau})$ is the path leading to that cycle.
 
 Denote by \ST{i} the set of all strategies of \Player{i}. Often $\sigma,\tau$ (and their variants) will be used to denote the strategies for \Player{0} and \Player{1} respectively. 
 
@@ -201,7 +201,6 @@ Win = \set{ \alpha \mid f(\alpha) = 1} \subseteq \PI
 is the set for winning plays for \Player{1}.
 
 \subsection{Determinacy}
-\label{subsec:determinacy}
 A strategy $\sigma^*$ for \Player{0} is said to be a winning strategy from $v \in V$ if 
 \[
     \pi^v_{\sigma^*\tau} \not\in Win \quad \forall \tau \in \ST{1}
@@ -211,9 +210,14 @@ Similarly a strategy $\tau^*$ for \Player{1} is a winning strategy from $v$ if
     \pi^v_{\sigma\tau^*} \in Win \quad \forall \sigma \in \ST{0}
 \]
 
-Call a Win-Lose game $\G=(G,Win)$ \mydef{determined} if from every $v \in V$ either \Player{0} or \Player{1} has a winning strategy. Notice that both the players cannot simultaneously have a winning strategy starting from $v$. It is also possible that neither of them has one, but axiom of choice is required to show this. See \cite{martin_borel_1975} for a very general theorem on determinacy by Martin.
+\begin{definition}
+\label{def:determinacy}
+Call a win-lose game \emph{determined} if from every $v \in V$ either \Player{0} or \Player{1} has a winning strategy.
+\end{definition}
 
-Suppose the game $\G=(G,f)$ (where $f$ is $\set{0,1}$ valued) has a minimax \eqminmax starting from $v$, then $\eta_v \in \set{0,1}$ (because of \eqref{eq:MinMax}). If $\eta=1$ then $\tau^*$ is a winning strategy for \Player{1}, otherwise $\eta=0$ and $\sigma^*$ is a winning strategy \Player{0}. Hence as a corollary of Theorem \ref{thm:finiteMinMax} we have --
+Notice that both the players cannot simultaneously have a winning strategy starting from $v$. It is also possible that neither of them has one, but axiom of choice is required to show this. See \cite{martin_borel_1975} for a very general theorem on determinacy by Martin.
+
+Suppose the game $\G=(G,f)$ (where $f$ is $\set{0,1}$ valued) has a minimax \eqminmax starting from $v$, then $\eta_v \in \set{0,1}$ (because of \eqref{eq:MinMax}). If $\eta=1$ then $\tau^*$ is a winning strategy for \Player{1}, otherwise $\eta=0$ and $\sigma^*$ is a winning strategy \Player{0}. Hence as a corollary of \autoref{thm:finiteMinMax} we have --
 \\
 \begin{corollary}
     \label{cor:finiteDeterminacy}
