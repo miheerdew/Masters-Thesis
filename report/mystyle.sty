@@ -1,6 +1,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{amssymb,amsmath,amsthm}
 \usepackage{mathtools}
+\usepackage{hyperref}
 \usepackage[basic]{complexity}
 
 \usepackage[backend=biber]{biblatex}
@@ -9,14 +10,26 @@
 \usepackage{newunicodechar}
 \newunicodechar{∩}{\ensuremath{\cap}}
 
-
+\usepackage{aliascnt}
 \usepackage{parskip}
+\usepackage{chngcntr}
 %\setlength{\parskip}{\baselineskip}
 %\setlength{\parindent}{0pt}
 
 \newtheorem{theorem}{Theorem}
-\newtheorem{corollary}{Corollary}[theorem]
+
+% From https://gejian.wordpress.com/2010/02/16/autoref-in-latex/
+\counterwithin{theorem}{chapter}
+\newaliascnt{cor}{theorem}
+\newtheorem{corollary}[cor]{Corollary}
+\aliascntresetthe{cor}
+\providecommand*{\corautorefname}{Corollary}
+
 \newtheorem{example}{Example}
+
+\theoremstyle{definition}
+\newtheorem{definition}[section]{Definition}
+
 \newenvironment{claim}[1]{\par\noindent\underline{Claim:}\space#1}{}
 \newenvironment{claimproof}[1]{\par\noindent\underline{Proof of Claim:}\space#1}{\hfill $\blacksquare$}
 
