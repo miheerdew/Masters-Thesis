@@ -2,7 +2,7 @@
 We will look at a class of two player games on graphs. The two players will be called Player 0 and Player 1 (abbreviated as \Player{0}, \Player{1}). Although we will only look at specific games later, all of them fit into a general framework which will be discussed now.
 \section{Formalism}
 \label{sec:formalism}
-The game is played on a directed graph $G=(V_0,V_1,E)$ whose vertices are $V=V_0 \sqcup V_1$ and edges are $E \subseteq V\times V$. The vertices $V$ are partitioned as $(V_0,V_1)$ -- those belonging to P0 and P1 respectively. We will always assume that $G$ has no dead ends ($\forall v \in V \; \exists w \, (v,w) \in E$). For $n \geq 0$, let $\PF[n]$ denote the set of paths in $G$ of length $n$ (in paritcular $\PF[0]=V$, $\PF[1]=E$). $\PF$ will denote the set of all finite paths in $G$, and by $\PI$ the set of all infinite paths. $N(u)=\set{v \mid (u,v) \in E}$ is the set of outgoing neighbours of $u$. 
+The game is played on a directed graph $G=(V_0,V_1,E)$ whose vertices are $V=V_0 \sqcup V_1$ and edges are $E \subseteq V\times V$. The vertices $V$ are partitioned as $(V_0,V_1)$ -- those belonging to P0 and P1 respectively. We will always assume that $G$ has no dead ends ($\forall v \in V \; \exists w \, (v,w) \in E$). For $n \geq 0$, let $\PF[n]$ denote the set of paths in $G$ of length $n$ (in paritcular $\PF[0]=V$, $\PF[1]=E$). $\PF$ will denote the set of all finite paths in $G$, and by $\PI$ the set of all infinite paths. $N(u)=\set{v \mid (u,v) \in E}$ is the set of outgoing neighbours of $u$.
 
 The game starting from $v_0 \in V$ is played as follows
 \begin{itemize}
@@ -73,7 +73,7 @@ Denote $\prefix(\pi)=v_0 v_1 \ldots v_{k-1}$ and $\cycle(\pi)=v_k v_{k+1} \ldots
 
 \label{par:ultperiodic} Let $(\sigma,\tau)$ be positional strategies for \Player{0} and \Player{1}. Starting any $v_0 \in V$, the path $\pi^{v_0}_{\sigma\tau}$ is ultimately periodic with all $v_i$'s distinct in \eqref{eqn:periodic}.  $\cycle(\pi^{v_0}_{\sigma\tau})$ is the unique cycle reachable from $v_0$ in $G_{\sigma\tau}$, and $\prefix(\pi^{v_0}_{\sigma\tau})$ is the path leading to that cycle.
 
-Denote by \ST{i} the set of all strategies of \Player{i}. Often $\sigma,\tau$ (and their variants) will be used to denote the strategies for \Player{0} and \Player{1} respectively. 
+Denote by \ST{i} the set of all strategies of \Player{i}. Often $\sigma,\tau$ (and their variants) will be used to denote the strategies for \Player{0} and \Player{1} respectively.
 
 
 \section{Optimal play}
@@ -84,7 +84,7 @@ For the game $(\G,v)$, if there is an $\eta_v \in \Reals$ and strategies $\sigma
 \begin{equation}
 \begin{aligned}
     f^v(\sigma^*,\tau) \leq \eta_v \qquad & \text{ for all } \tau \in \ST{1} \\
-    f^v(\sigma, \tau^*)  \geq \eta_v \qquad & \text{ for all } \sigma \in \ST{0} 
+    f^v(\sigma, \tau^*)  \geq \eta_v \qquad & \text{ for all } \sigma \in \ST{0}
 \end{aligned} \label{eq:MinMax2}
 \end{equation}
 \newcommand{\eqminmax}{\eqref{eq:MinMax2}\ }
@@ -119,15 +119,15 @@ For the games to be discussed, \eqref{eq:MinMax} will explicitly be shown. The m
 \section{Finite Games}
 \label{sec:finitegames}
 
-We will now start with a simple yet important class of payoffs, and show the existence of minimax and optimal strategies for it. 
+We will now start with a simple yet important class of payoffs, and show the existence of minimax and optimal strategies for it.
 
-A payoff function $f$ is finitely determined if there is a $N \in \Nat$ so that $f$ only depends on the outcomes in the first $N$ rounds. More precisely 
+A payoff function $f$ is finitely determined if there is a $N \in \Nat$ so that $f$ only depends on the outcomes in the first $N$ rounds. More precisely
 \[
-    \forall \alpha,\beta \in \PI\, \alpha|_N=\beta|_N \implies f(\alpha) = f(\beta) 
+    \forall \alpha,\beta \in \PI\, \alpha|_N=\beta|_N \implies f(\alpha) = f(\beta)
 \]
 where $( v_0 v_1 \ldots )|_m = v_0v_1 \ldots v_m$.
 
-If $f$ is finitely determined then call $\G=(G,f)$ a finite duration game. We can assume that the game stops after $N$ rounds have been played and the payoff is given by 
+If $f$ is finitely determined then call $\G=(G,f)$ a finite duration game. We can assume that the game stops after $N$ rounds have been played and the payoff is given by
 \[
     f : \PF[N] \to \Reals
 \]
@@ -154,13 +154,13 @@ The following theorem is well known - it is sometimes called the backward induct
             Then \eqminmax follows for any $v$ by considering the cases $v \in V_0$ and $v \in V_1$ separately. Hence \eqref{eq:vecMinMax} follows with $\eta=(\eta_v)_{v\in V}$
         \item[Inductive Case] $N=k+1$ with $k \geq 1$: \\
             At the $\nth[k+1]$ round what will be the decision of the players? Suppose $v_0v_1\ldots v_k$ has been played. Now if $v_k \in V_1$, since this is the last round, \Player{1} will chose an $u$ which maximizes $f(v_0v_1\ldots v_ku)$. Similarly if $v_k \in V_0$, then \Player{0} will choose an $u$ which minimizes $f(v_0v_1\ldots v_ku)$.
-            
+
         Motivated by this, define the $k$ step game $\G'=(G,f')$ where
             \[
                 f'(v_0v_1 \ldots v_k) = \begin{dcases}
                     \min_{ u \in N(v_k) } f(v_0 v_1 \ldots v_k u) & \tif v_k \in V_0\\
                     \max_{ u \in N(v_k) } f(v_0 v_1 \ldots v_k u) & \tif v_k \in V_1
-                \end{dcases} 
+                \end{dcases}
             \]
             By induction hypothesis $\G'$ has a value vector $\eta$ and optimal strategies $(\sigma',\tau')$.
             Consider the aforementioned strategies for the $\nth[k+1]$ round -
@@ -169,14 +169,14 @@ The following theorem is well known - it is sometimes called the backward induct
                 \tau_{k+1}(v_0 v_1 \ldots v_k) = \argmax_{ u \in N(v_k) } f(v_0 v_1 \ldots v_k u) \quad \tif v_k \in V_1
             \end{align*}
             Let $\sigma^*=[\sigma',\sigma_{k+1}]$ be the strategy for \Player{0} which plays $\sigma'$ for the first $k$ rounds, and $\sigma_{k+1}$ for the $\nth[k+1]$ round. Analogously define $\tau^*=[\tau',\tau_{k+1}]$ for \Player{1}.
-            
+
             The following shows that $\eta$ is the value vector for \G\ and $(\sigma^*,\tau^*)$ are the optimal strategies.
-            
-            To prove the first inequality in \eqref{eq:vecMinMax}, take any path $v_0v_1 \ldots v_{k+1}$ that conforms with $\sigma^*$. Then $v_0v_1 \ldots v_k$ must conform with $\sigma'$. Hence 
+
+            To prove the first inequality in \eqref{eq:vecMinMax}, take any path $v_0v_1 \ldots v_{k+1}$ that conforms with $\sigma^*$. Then $v_0v_1 \ldots v_k$ must conform with $\sigma'$. Hence
             \[
                 f'(v_0 v_1 \ldots v_k) \leq \eta_{v_0}
             \]
-            If $v_k \in V_0$ then $v_{k+1}=\sigma_{k+1}(v_0 v_1 \ldots v_k)$, hence 
+            If $v_k \in V_0$ then $v_{k+1}=\sigma_{k+1}(v_0 v_1 \ldots v_k)$, hence
             \[
                 f(v_0v_1 \ldots v_{k+1}) = f'(v_0v_1 \ldots v_k)
             \]
@@ -201,7 +201,7 @@ Win = \set{ \alpha \mid f(\alpha) = 1} \subseteq \PI
 is the set for winning plays for \Player{1}.
 
 \subsection{Determinacy}
-A strategy $\sigma^*$ for \Player{0} is said to be a winning strategy from $v \in V$ if 
+A strategy $\sigma^*$ for \Player{0} is said to be a winning strategy from $v \in V$ if
 \[
     \pi^v_{\sigma^*\tau} \not\in Win \quad \forall \tau \in \ST{1}
 \]
