@@ -39,7 +39,7 @@ Given $v \in V$ and positional strategies $(\sigma,\tau)$, since $\pi^{v}_{\sigm
 \]
 Hence given $(\sigma,\tau)$, the winner of $\pi^v_{\sigma\tau}$ can easily be decided by analysing the cycle reachable in $G_{\sigma\tau}$.  Then by Theorem \ref{thm:posParity}, one could find the winner of $(\G_p,v)$ by enumerating over all possible positional strategies (which are finitely many) of both the players, and find one which beats all the strategies of the opponent. 
 
-However something better can be done. Given a positional strategy $\sigma$, it's directly possible to check if this strategy is winning for \Player{0} in $(\G_p,v)$ or not. Look at the graph $G_\sigma$. $\sigma$ is winning in $(\G_p,v)$ if and only if no run in $G_\sigma$ starting at $v$ has an odd \mip\ -- this is the emptiness problem for parity word automata and can be solved in in $O\left((|V|+|E|) \log M\right)$ (see \cite{king_complexity_2001}). Hence to check if \Player{0} wins $(\G_p,v)$ one could guess a strategy $\sigma$ (a polynomial size certificate) and check in polynomial time whether it's winning for \Player{0} or not. Hence the decision problem of whether \Player{0} wins $(\G_p,v)$ is in $\NP$. This problem is also in $\coNP$ as one could apply the same procedure for \Player{1} (i.e. for ``no" instances, guess a strategy for \Player{1} and verify it). Hence we have the following theorem from \cite{thomas2002automata}\\
+However something better can be done. Given a positional strategy $\sigma$, it is directly possible to check if this strategy is winning for \Player{0} in $(\G_p,v)$ or not. Look at the graph $G_\sigma$. $\sigma$ is winning in $(\G_p,v)$ if and only if no run in $G_\sigma$ starting at $v$ has an odd \mip\ -- this is the emptiness problem for parity word automata and can be solved in in $O\left((|V|+|E|) \log M\right)$ (see \cite{king_complexity_2001}). Hence to check if \Player{0} wins $(\G_p,v)$ one could guess a strategy $\sigma$ (a polynomial size certificate) and check in polynomial time whether it is winning for \Player{0} or not. Hence the decision problem of whether \Player{0} wins $(\G_p,v)$ is in $\NP$. This problem is also in $\coNP$ as one could apply the same procedure for \Player{1} (i.e. for ``no" instances, guess a strategy for \Player{1} and verify it). Hence we have the following theorem from \cite{thomas2002automata}\\
 \begin{theorem}
     Given a graph $G$, priorities $p$, and $v \in V$. The decision problem of whether \Player{0} can win $(\G_p,v)$ is in $\NP \cap \coNP$
 \end{theorem}
@@ -51,7 +51,7 @@ In the following, we will provide a proof from \cite{bjorklund_memoryless_2004} 
 \section{Finite Game}
 \label{sec:parityFiniteGame}
 
-Now we introduce a finite game $\G^f_p=(G,Win^f_p)$ closely related to the Parity Game $\G_p=(G,Win_p)$. It's played on the same graph $G$ but it stops as soon as a vertex repeats (which will happen within $|V|$ rounds). Assume that the resulting path is 
+Now we introduce a finite game $\G^f_p=(G,Win^f_p)$ closely related to the Parity Game $\G_p=(G,Win_p)$. It is played on the same graph $G$ but it stops as soon as a vertex repeats (which will happen within $|V|$ rounds). Assume that the resulting path is 
 \[
     \pi = v_0v_1 \ldots v_r \ldots v_k v_{k+1}
 \] 
@@ -70,7 +70,7 @@ The following stack based technique will be used to construct the $\tilde{\rho}$
 
 \subsection{Stack based extension} 
 \label{sec:stack}
-Let $\rho$ be a strategy for \Player{i} defined on simple paths. The following describes $ \tilde{\rho}$ -- an extension of $\rho$ to arbitrary plays using finite memory. At each stage \Player{i} maintains a simple path of $G$ in its memory. If the game starts at $v_0$, let $m_0=v_0$. At the \nth[k+1]\ stage, if it's \Player{i}'s turn, play $v_{k+1}=\rho(m_k)$ (otherwise the opponent decides $v_{k+1}$), and update the memory as follows.\\
+Let $\rho$ be a strategy for \Player{i} defined on simple paths. The following describes $ \tilde{\rho}$ -- an extension of $\rho$ to arbitrary plays using finite memory. At each stage \Player{i} maintains a simple path of $G$ in its memory. If the game starts at $v_0$, let $m_0=v_0$. At the \nth[k+1]\ stage, if it is \Player{i}'s turn, play $v_{k+1}=\rho(m_k)$ (otherwise the opponent decides $v_{k+1}$), and update the memory as follows.\\
 Assume
 \begin{align*}
     m_k &=u_0 u_1 \ldots u_r \quad r \geq 0\\

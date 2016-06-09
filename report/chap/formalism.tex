@@ -40,7 +40,7 @@ v_{i+1} = \begin{cases}
 Let $f^{v}(\sigma,\tau)$ denote $f(\pi^v_{\sigma\tau})$.
 
 \subsubsection{Finite memory strategies}
-From a computational perspective it's important to have a finite implementation of a strategy (which is generally an infinite object). Finite memory strategies are a subclass for which this is possible. A finite memory strategy for \Player{i} is a tuple $(M,\delta,g,m_0)$, where $M$ is a finite set (also called as ``the memory"), and $m_0 \in M$. 
+From a computational perspective it is important to have a finite implementation of a strategy (which is generally an infinite object). Finite memory strategies are a subclass for which this is possible. A finite memory strategy for \Player{i} is a tuple $(M,\delta,g,m_0)$, where $M$ is a finite set (also called as ``the memory"), and $m_0 \in M$.
 \[
     \delta : M \times V \to M
 \]
@@ -133,7 +133,7 @@ If $f$ is finitely determined then call $\G=(G,f)$ a finite duration game. We ca
 \]
 This is defined as the payoff for an arbitrary infinite extension, which is well defined since $G$ has no dead ends and $f$ depends only on first $N$ rounds.
 
-The following theorem is well known - it's sometimes called the backward induction technique. The backward induction, however, is not very explicit in the proof presented here.\\
+The following theorem is well known - it is sometimes called the backward induction technique. The backward induction, however, is not very explicit in the proof presented here.\\
 \begin{theorem}
     \label{thm:finiteMinMax}
     Let $\G=(G,f)$ be a finite game. There is a $\eta \in \Reals^V$ and strategies $(\sigma^*, \tau^*)$ which satisfy \eqref{eq:vecMinMax}
