@@ -37,7 +37,10 @@
 \newtheorem*{decision}{Decision Problem}
 
 \newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
-
+\newcommand{\gsup}{\overline{\G_w}}
+\newcommand{\ginf}{\underline{\G_w}}
+\newcommand{\fsup}{\overline{f_w}}
+\newcommand{\finf}{\underline{f_w}}
 \newcommand{\Player}[1]{\ensuremath{P_{#1}}}
 \newcommand{\mydef}[1]{\underline{#1}}
 \newcommand{\norm}[1]{\left\lVert#1\right\rVert}
@@ -46,6 +49,7 @@
 \newcommand{\defeq}{\mathrel{\overset{\makebox[0pt]{\mbox{\normalfont\tiny\sffamily def}}}{=}}}
 \newcommand{\Reals}{\mathbb{R}}
 \newcommand{\Nat}{\mathbb{N}}
+\newcommand{\Int}{\mathbb{Z}}
 \newcommand{\Rat}{\mathbb{Q}}
 \newcommand{\ST}[1]{\ensuremath{\mathcal{S}_#1}}
 \newcommand{\PST}[1]{\ensuremath{\mathcal{S}^\#_#1}}
@@ -61,6 +65,8 @@
 \DeclareMathOperator*{\argmax}{arg\!\max}
 \DeclareMathOperator{\prefix}{Prefix}
 \DeclareMathOperator{\cycle}{Cycle}
+\DeclareMathOperator{\val}{val}
+\DeclareMathOperator{\Sum}{sum}
 \newcommand\nth[1][n]{\ensuremath{{#1}^\text{th}}}
 \newcommand\tif{\text{ if }}
 \newcommand\mip{max-inf-priority}
