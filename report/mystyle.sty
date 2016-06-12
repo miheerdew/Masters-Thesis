@@ -14,6 +14,13 @@
 \usepackage{parskip}
 \usepackage{chngcntr}
 
+%http://tex.stackexchange.com/a/22130/81544
+\makeatletter
+\def\thm@space@setup{%
+  \thm@preskip=\parskip \thm@postskip=0pt
+}
+\makeatother
+
 \newtheorem{theorem}{Theorem}
 
 % From https://gejian.wordpress.com/2010/02/16/autoref-in-latex/

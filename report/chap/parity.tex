@@ -24,7 +24,7 @@ Notice that in contrast with finite games (\autoref{sec:finitegames}), the winni
 
 
 \section{Positional Determinacy}
-From every vertex $v \in V$ the parity game $(\G_p,v)$ is determined (\autoref{def:determinacy}) -- one can invoke the general determinacy theorem by Martin \cite{martin_borel_1975}  to show this. However a stronger result was proved by Emerson \cite{emerson_automata_1985} --\\
+From every vertex $v \in V$ the parity game $(\G_p,v)$ is determined (\autoref{def:determinacy}) -- one can invoke the general determinacy theorem by Martin \cite{martin_borel_1975}  to show this. However a stronger result was proved by Emerson \cite{emerson_automata_1985} --
 
 
 \begin{theorem}
@@ -39,7 +39,7 @@ Given $v \in V$ and positional strategies $(\sigma,\tau)$, since $\pi^{v}_{\sigm
 \]
 Hence given $(\sigma,\tau)$, the winner of $\pi^v_{\sigma\tau}$ can easily be decided by analysing the cycle reachable in $G_{\sigma\tau}$.  Then by \autoref{thm:posParity}, one could find the winner of $(\G_p,v)$ by enumerating over all possible positional strategies (which are finitely many) of both the players, and find one which beats all the strategies of the opponent.
 
-However something better can be done. Given a positional strategy $\sigma$, it is directly possible to check if this strategy is winning for \Player{0} in $(\G_p,v)$ or not. Look at the graph $G_\sigma$. $\sigma$ is winning in $(\G_p,v)$ if and only if no run in $G_\sigma$ starting at $v$ has an odd \mip\ -- this is the emptiness problem for parity word automata and can be solved in in $O\left((|V|+|E|) \log M\right)$ (see \cite{king_complexity_2001}). Hence to check if \Player{0} wins $(\G_p,v)$ one could guess a strategy $\sigma$ (a polynomial size certificate) and check in polynomial time whether it is winning for \Player{0} or not. Hence the decision problem of whether \Player{0} wins $(\G_p,v)$ is in $\NP$. This problem is also in $\coNP$ as one could apply the same procedure for \Player{1} (i.e. for ``no" instances, guess a strategy for \Player{1} and verify it). Hence we have the following theorem from \cite{thomas2002automata}\\
+However something better can be done. Given a positional strategy $\sigma$, it is directly possible to check if this strategy is winning for \Player{0} in $(\G_p,v)$ or not. Look at the graph $G_\sigma$. $\sigma$ is winning in $(\G_p,v)$ if and only if no run in $G_\sigma$ starting at $v$ has an odd \mip\ -- this is the emptiness problem for parity word automata and can be solved in in $O\left((|V|+|E|) \log M\right)$ (see \cite{king_complexity_2001}). Hence to check if \Player{0} wins $(\G_p,v)$ one could guess a strategy $\sigma$ (a polynomial size certificate) and check in polynomial time whether it is winning for \Player{0} or not. Hence the decision problem of whether \Player{0} wins $(\G_p,v)$ is in $\NP$. This problem is also in $\coNP$ as one could apply the same procedure for \Player{1} (i.e. for ``no" instances, guess a strategy for \Player{1} and verify it). Hence we have the following theorem from \cite{thomas2002automata}
 \begin{theorem}
     \label{thm:np}
     Given a graph $G$, priorities $p$, and $v \in V$. The decision problem of whether \Player{0} can win $(\G_p,v)$ is in $\NP \cap \coNP$
@@ -61,7 +61,7 @@ with $v_r = v_{k+1}$ and all $v_i$'s distinct for $i \leq k$. Denote the unique 
     \pi \in Win^f_p \iff \left(\max_{v \in \cycle(\pi)} p(v)\right) \text{ is Odd }
 \]
 
-Notice that this is the same condition as the ultimately periodic path $v_0 \ldots v_{r-1} (v_r \ldots v_k)^\omega$ winning in $\G_p$. Hence $\G^f_p$ is the game that would result from $\G_p$ if both the players decided to play positional strategies. Since $\G^f_p$ is a finite game, by \autoref{cor:finiteDeterminacy} starting at any $v \in V$ one of the players has a winning strategy in $(\G^f_p, v)$. Hindsight from \autoref{thm:posParity} tells us that the same player will also be the winner of $(\G_p,v)$. We will show this without using \autoref{thm:posParity} and hence prove determinacy of $(\G_p,v)$.\\
+Notice that this is the same condition as the ultimately periodic path $v_0 \ldots v_{r-1} (v_r \ldots v_k)^\omega$ winning in $\G_p$. Hence $\G^f_p$ is the game that would result from $\G_p$ if both the players decided to play positional strategies. Since $\G^f_p$ is a finite game, by \autoref{cor:finiteDeterminacy} starting at any $v \in V$ one of the players has a winning strategy in $(\G^f_p, v)$. Hindsight from \autoref{thm:posParity} tells us that the same player will also be the winner of $(\G_p,v)$. We will show this without using \autoref{thm:posParity} and hence prove determinacy of $(\G_p,v)$.
 \begin{theorem}
     \label{thm:parityDet}
     Given a (possibly history dependent) winning strategy $\rho$ for \Player{i} in $(\G^f_p,v)$, there is a finite memory winning strategy $\tilde{\rho}$ for \Player{i} in $(\G_p,v)$.

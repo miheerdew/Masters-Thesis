@@ -133,7 +133,7 @@ If $f$ is finitely determined then call $\G=(G,f)$ a finite duration game. We ca
 \]
 This is defined as the payoff for an arbitrary infinite extension, which is well defined since $G$ has no dead ends and $f$ depends only on first $N$ rounds.
 
-The following theorem is well known - it is sometimes called the backward induction technique. The backward induction, however, is not very explicit in the proof presented here.\\
+The following theorem is well known - it is sometimes called the backward induction technique. The backward induction, however, is not very explicit in the proof presented here.
 \begin{theorem}
     \label{thm:finiteMinMax}
     Let $\G=(G,f)$ be a finite game. There is a $\eta \in \Reals^V$ and strategies $(\sigma^*, \tau^*)$ which satisfy \eqref{eq:vecMinMax}
@@ -218,7 +218,6 @@ Call a win-lose game \emph{determined} if from every $v \in V$ either \Player{0}
 Notice that both the players cannot simultaneously have a winning strategy starting from $v$. It is also possible that neither of them has one, but axiom of choice is required to show this. See \cite{martin_borel_1975} for a very general theorem on determinacy by Martin.
 
 Suppose the game $\G=(G,f)$ (where $f$ is $\set{0,1}$ valued) has a minimax \eqminmax starting from $v$, then $\eta_v \in \set{0,1}$ (because of \eqref{eq:MinMax}). If $\eta=1$ then $\tau^*$ is a winning strategy for \Player{1}, otherwise $\eta=0$ and $\sigma^*$ is a winning strategy \Player{0}. Hence as a corollary of \autoref{thm:finiteMinMax} we have --
-\\
 \begin{corollary}
     \label{cor:finiteDeterminacy}
     If a winning condition $Win$ is finitely determined ($\exists N \, \forall \alpha,\beta \in \PI \, \alpha|_N = \beta|_N \implies \alpha \in Win \iff \beta \in Win$), then the game $\G=(G,Win)$ is determined.
