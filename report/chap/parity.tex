@@ -33,6 +33,12 @@ From every vertex $v \in V$ the parity game $(\G_p,v)$ is determined (\autoref{d
 \end{theorem}
 Hence, not only is the game $(\G_p,v)$ determined, the winner has a positional winning strategy independent of $v$ (in the player's winning region).
 
+We are interested in the following decision problem.
+\begin{decision}[PAR]
+    \label{dec:parity}
+    Given a graph $G$, priorities $p$, and a vertex $v \in V$, determine whether \Player{0} wins $(\G_p,v)$ or not.
+\end{decision}
+
 Given $v \in V$ and positional strategies $(\sigma,\tau)$, since $\pi^{v}_{\sigma\tau}$ is ultimately periodic (\autopageref{par:ultperiodic}) we have
 \[
     \pi^{v}_{\sigma\tau} \in Win_p \iff \left( \max_{v \in \cycle(\pi^v_{\sigma\tau})} p(v)\right) \text{ is odd }
@@ -42,7 +48,7 @@ Hence given $(\sigma,\tau)$, the winner of $\pi^v_{\sigma\tau}$ can easily be de
 However something better can be done. Given a positional strategy $\sigma$, it is directly possible to check if this strategy is winning for \Player{0} in $(\G_p,v)$ or not. Look at the graph $G_\sigma$. $\sigma$ is winning in $(\G_p,v)$ if and only if no run in $G_\sigma$ starting at $v$ has an odd \mip\ -- this is the emptiness problem for parity word automata and can be solved in in $O\left((|V|+|E|) \log M\right)$ (see \cite{king_complexity_2001}). Hence to check if \Player{0} wins $(\G_p,v)$ one could guess a strategy $\sigma$ (a polynomial size certificate) and check in polynomial time whether it is winning for \Player{0} or not. Hence the decision problem of whether \Player{0} wins $(\G_p,v)$ is in $\NP$. This problem is also in $\coNP$ as one could apply the same procedure for \Player{1} (i.e. for ``no" instances, guess a strategy for \Player{1} and verify it). Hence we have the following theorem from \cite{thomas2002automata}
 \begin{theorem}
     \label{thm:np}
-    Given a graph $G$, priorities $p$, and $v \in V$. The decision problem of whether \Player{0} can win $(\G_p,v)$ is in $\NP \cap \coNP$
+    The decision problem \nameref{dec:parity} is in $\NP \cap \coNP$
 \end{theorem}
 
 There are a couple of proofs of \autoref{thm:posParity}, some of which are constructive. In \cite{subexp} the proof due to Zielonka \cite{zielonka_infinite_1998} and McNaughton \cite{mcnaughton_infinite_1993} is used to obtain sub-exponential algorithm $O(n^{\sqrt{n}})$ for deciding the winning regions. However whether a polynomial time algorithm exists is not known.
