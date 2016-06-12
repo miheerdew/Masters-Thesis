@@ -62,7 +62,11 @@ Now we introduce a finite game $\G^f_p=(G,Win^f_p)$ closely related to the Parit
 \[
     \pi = v_0v_1 \ldots v_r \ldots v_k v_{k+1}
 \]
-with $v_r = v_{k+1}$ and all $v_i$'s distinct for $i \leq k$. Denote the unique cycle formed by $\cycle(\pi)=v_r v_{r+1} \ldots v_k$. If the largest priority in $\cycle(\pi)$ is odd then \Player{1} wins the play, otherwise \Player{0} wins. That is
+with $v_r = v_{k+1}$ and all $v_i$'s distinct for $i \leq k$. Denote the unique cycle formed by
+\begin{equation}
+    \cycle(\pi)=v_r v_{r+1} \ldots v_k \label{eq:cyclefinite}
+\end{equation}
+If the largest priority in $\cycle(\pi)$ is odd then \Player{1} wins the play, otherwise \Player{0} wins. That is
 \[
     \pi \in Win^f_p \iff \left(\max_{v \in \cycle(\pi)} p(v)\right) \text{ is Odd }
 \]
@@ -102,5 +106,5 @@ For each $n$, $m_n$ is a simple path from $v_0$ to $v_n$ which conforms with $\r
 \end{proof}
 
 \section{Summary}
-In this chapter we have introduced parity games and an equivalent finite duration game (\autoref{sec:finitegames}). A stack based technique (\autoref{sec:stack}) was used to extend winning strategies in the finite game to the parity game. Observe that if the original strategy is positional this extension will also remain positional. This is used in \cite{bjorklund_memoryless_2004} to give a complete proof of positional determinacy of parity games (\autoref{thm:posParity}). Positional determinacy also shows that the decision problem for parity games is in $\NP \cap \coNP$ (\autoref{thm:np}).
+In this chapter we have introduced parity games and an equivalent finite duration game (\autoref{sec:finitegames}). A stack based technique (\autoref{sec:stack}) was used to extend winning strategies in the finite game to the parity game. Observe that if the original strategy is positional this extension will be the same positional strategy. This is used in \cite{bjorklund_memoryless_2004} to give a complete proof of positional determinacy of parity games (\autoref{thm:posParity}). Positional determinacy also shows that the decision problem for parity games is in $\NP \cap \coNP$ (\autoref{thm:np}).
 
