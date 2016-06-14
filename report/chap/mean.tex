@@ -93,12 +93,14 @@ Notice that $\G^f_w$ is obtained from $\G_w$ when the players restrict to positi
         \Sum(v_1v_2 \ldots v_k) &= \sum_{i=1}^{k-1} w(v_i,v_{i+1}) + w(v_k,v_1)
         \intertext{is the sum of the weights on the cycle. Hence if $|C|$ denotes the number of edges (or vertices) in $|C|$. We have}
         \sum_{i=0}^{n-1} w(v_i,v_{i+1}) &= \sum_{i=0}^{s_n-1} w(u_i,u_{i+1}) + \sum_{j=1}^{r_n} |C_j|\mean(C_j) \numberthis \label{eq:sumcycles}\\
-        & \leq s_n W + \eta_{v_0} \sum_{j=1}^{r_n} |C_j| = s_n W + \eta_{v_0} ( n - s_n ) \\
-        & \leq n \eta_{v_0} + s_n (W - \eta_{v_0})
-        \intertext{since $s_n + \sum_{j=1}^{r_n} C_j = n$. Divide by $n$.}
-        \frac{1}{n} \sum_{i=0}^{n-1} w(v_i,v_{i+1}) &\leq \eta_{v_0} + \frac{s_n}{n} ( W - \eta_{v_0})\\
-        \intertext{Since $m_n$ is a simple path, $|s_n| \leq |V|$. Let $n \to \infty$}
-        \limsup_n \frac{1}{n} \sum_{i=0}^{n-1} w(v_i,v_{i+1}) &\leq \limsup_n \left( \eta_{v_0} + \frac{s_n}{n} ( W - \eta_{v_0})\right) = \eta_{v_0}\\
+        &\leq s_n W + \eta_{v_0} \sum_{j=1}^{r_n} |C_j| \tag*{since $\mean(C_j) \leq \eta_{v_0}$} \\
+        &= s_n W + \eta_{v_0} ( n - s_n ) \tag*{as $s_n + \sum_{j=1}^{r_n} |C_j| = n$}\\
+        &= n \eta_{v_0} + s_n (W - \eta_{v_0})\\
+        \intertext{But as $m_n$ is a simple path, $|s_n| \leq |V|$; also $|\eta_{v_0}| \leq W$. Hence}
+        \sum_{i=0}^{n-1} w(v_i,v_{i+1}) &\leq n \eta_{v_0} + 2|V|W \numberthis \label{eq:sum-upperbound}\\
+        \intertext{Divide by $n$ and let $n \to \infty$}
+        \frac{1}{n} \sum_{i=0}^{n-1} w(v_i,v_{i+1}) &\leq \eta_{v_0} + \frac{2|V|W}{n}\\
+        \limsup_n \left( \frac{1}{n} \sum_{i=0}^{n-1} w(v_i,v_{i+1}) \right) &\leq \limsup_n \left( \eta_{v_0} + \frac{2|V|W}{n} \right) = \eta_{v_0}\\
         \intertext{This shows}
         \fsup(v_0 v_1 \ldots) & \leq \eta_{v_0}\\
         \intertext{Since $v_0 v_1 \ldots$ was any path that conformed with $\sigma^*$ we have}
@@ -109,10 +111,10 @@ Notice that $\G^f_w$ is obtained from $\G_w$ when the players restrict to positi
     \begin{align*}
         \sum_{i=0}^{n-1} w(v_i,v_{i+1}) &\geq s_n (-W) + \eta_{v_0}(\sum_{j=1}^{r_n} |C_j|)\\
         &\geq n \eta_{v_0} - s_n (\eta_{v_0}+W)\\
-        \intertext{Dividing by $n$}
-        \frac{1}{n} \sum_{i=0}^{n-1} w(v_i,v_{i+1}) &\geq \eta_{v_0} - \frac{s_n}{n}(\eta_{v_0}+W)\\
-        \intertext{Letting $n \to \infty$}
-        \liminf \left( \frac{1}{n} \sum_{i=0}^{n-1} w(v_i,v_{i+1}) \right) &\geq \liminf \left( \eta_{v_0} - \frac{s_n}{n}(\eta_{v_0}+W) \right) = \eta_{v_0}\\
+        &\geq n \eta_{v_0} - 2|V|W \numberthis \label{eq:sum-lowerbound}\\
+        \intertext{Dividing by $n$ and letting $n \to \infty$}
+        \frac{1}{n} \sum_{i=0}^{n-1} w(v_i,v_{i+1}) &\geq \eta_{v_0} - \frac{2|V|W}{n}\\
+        \liminf_n \left( \frac{1}{n} \sum_{i=0}^{n-1} w(v_i,v_{i+1}) \right) &\geq \liminf_n \left( \eta_{v_0} - \frac{2|V|W}{n} \right) = \eta_{v_0}\\
         \intertext{Hence for any $v_0 v_1 \ldots$ that conforms with $\tau^*$}
         \finf(v_0 v_1 \ldots ) &\geq \eta_{v_0}\\
         \intertext{This shows that}
@@ -120,7 +122,7 @@ Notice that $\G^f_w$ is obtained from $\G_w$ when the players restrict to positi
     \end{align*}
 \end{proof}
 
-In the above proof when $(\sigma,\tau)$ are positional strategies, $(\sigma^*,\tau^*)$ is just $(\sigma,\tau)$. The proof shows that when all the cycles reachable from $v$ in $G_{\sigma}$ have mean weight $\leq v$, then any infinite path $\pi$ from $v$ in $G_{\sigma}$ will have $\fsup(\pi) \leq v$. Similarly if all the cycles reachable from $v$ in $G_\tau$ have mean weight $\geq v$ then any infinite path $\pi$ in $G_{\tau}$ from $v$ will have $\finf(\pi) \geq v$. This shows that if $(\sigma,\tau)$ are postional optimal strategies of $\gsup$ (or $\ginf$), they continue to be optimal strategies for $\G_w$. This argument can also be extended to the case when $(\sigma,\tau)$ are finite memory optimal strategies in $\gsup$ (or $\ginf$) by embedding the memory inside $G$.
+In the above proof when $(\sigma,\tau)$ are positional strategies, $(\sigma^*,\tau^*)$ is just $(\sigma,\tau)$. The proof shows that when all the cycles reachable from $v$ in $G_{\sigma}$ have mean weight $\leq v$, then any infinite path $\pi$ from $v$ in $G_{\sigma}$ will have $\fsup(\pi) \leq v$. Similarly if all the cycles reachable from $v$ in $G_\tau$ have mean weight $\geq v$ then any infinite path $\pi$ in $G_{\tau}$ from $v$ will have $\finf(\pi) \geq v$. This shows that if $(\sigma,\tau)$ are positional optimal strategies of $\gsup$ (or $\ginf$), they continue to be optimal strategies for $\G_w$. This argument can also be extended to the case when $(\sigma,\tau)$ are finite memory optimal strategies in $\gsup$ (or $\ginf$) by embedding the memory inside $G$.
 
 \section{Parity to Mean payoff}
 
@@ -138,7 +140,7 @@ Now look at the finite games $(\G^f_p,v)$ and $(\G^f_w,v)$. \Player{1} wins $(\G
 Hence if we define the following decision problem for the mean payoff game
 \begin{decision}[MP]
     \label{dec:meanpayoff}
-Given $G$, edge weights $w$ and a $v \in V$, let $\eta_v$ be the value of the game $(\G_w,v)$. Determine whether $\eta_v > 0$ or not.
+Given $G$, edge weights $w$ and a $v \in V$, determine whether $val(\G_w,v) > 0$ or not.
 \end{decision}
 Then this gives a reduction from \nameref{dec:parity} to \nameref{dec:meanpayoff}. Notice that we can assume that
 \[
