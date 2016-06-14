@@ -19,17 +19,39 @@ Since $w$ is bounded and $|\lambda|<1$, the series converges absolutely.
 
 $\G^\lambda_w$ has an interpretation in terms of a stopping game -- after each round (for instance after the $\nth$ round) a coin (of bias $\lambda$) is tossed. With probability $(1-\lambda)$ the game stops and the payoff is $w(v_{n-1},v_n)$, otherwise with probability $\lambda$ the game proceeds to the next round. Then $f^\lambda_w(v_0v_1 \ldots)$ is the expected payoff for the path.
 
+%TODO: f^\lambda_{w+M} = f^\lambda_w + M, and give the discounted interpretation and $M (1-\lambda)$ is added so that sum of weights is $W$.
+
 $f^\lambda_w$ satisfies the following recursive equation
 \begin{equation}
     f^\lambda_w(v_0 v_1 \ldots ) = (1-\lambda) w(v_0, v_1) + \lambda f^\lambda_w(v_1 v_2 \ldots) \label{eqn:disc-recursive}
 \end{equation}
 \section{Optimal strategies}
-Now we will show that $\G^\lambda_w$ satisfies the minimax equilibrium \eqref{eq:vecMinMax} with value vector $\eta \in \Reals^V$ and optimal positional strategies $(\sigma^*, \tau^*)$. Fix $w$ and $\lambda$ for the rest of this section -- their dependency might be suppressed at some places.
+Fix $w$ and $\lambda$ for the rest of this section -- their dependency might be suppressed at some places. The following presentation is adopted from the original proof by Shapely in \cite{shapley_stochastic} and can also be found in \cite{zwick_meanpayoff}.
 
+\begin{theorem}
+    \label{thm:disc-minimax}
+$\G^\lambda_w$ satisfies the minimax equilibrium \eqref{eq:vecMinMax}. Moreover the value vector $\eta \in \Reals^V$ is the unique fixed point of
+\begin{align}
+    F : \Reals^V &\mapsto \Reals^V \label{eq:aux-disc-func}\\
+    (F(x))_u &= \begin{dcases}
+    \min_{v \in N(u)} (1-\lambda) w(u,v) + \lambda \eta_v & \text{ if } u \in V_0\\
+    \max_{v \in N(u)} (1-\lambda) w(u,v) + \lambda \eta_v & \text{ if } u \in V_1\\
+    \end{dcases}\nonumber
+\end{align}
+and
+\begin{equation}
+\begin{aligned}
+    \sigma_\eta(u) &= \argmin_{ v \in N(u)}\; (1-\lambda) w(u,v) + \lambda x_v \quad \text{ if } u \in V_0\\
+    \tau_\eta(u) &= \argmax_{ v \in N(u)}\; (1-\lambda) w(u,v) + \lambda x_v   \quad \text{ if } u \in V_1
+\end{aligned} \label{eq:opt-strategies-disc}
+\end{equation}
+are positional optimal strategies.
+\end{theorem}
+\begin{proof}
 For any $x \in \Reals^V$ and every $n \in \Nat$, consider the $n$  step game $\mc{H}_x^n=(G,h^n_x)$ where
 \begin{align*}
     h^n_x : \PF[n] &\mapsto \Reals\\
-    h^n_x(v_0v_1 \ldots v_n) &= (1-\lambda)\left(\sum_{i=0}^{n-1} \lambda^i w(v_i,v_{i+1})\right) + \lambda^n x_{v_n} \label{eqn:fn}
+    h^n_x(v_0v_1 \ldots v_n) &= (1-\lambda)\left(\sum_{i=0}^{n-1} \lambda^i w(v_i,v_{i+1})\right) + \lambda^n x_{v_n}
 \end{align*}
 For a fixed $x$, $\mc{H}_x^n$ approximates the game $\G^\lambda_w$ for large $n$. Moreover there is a simple recursion to find the value and optimal strategies for $\mc{H}_x^n$.
 
@@ -41,15 +63,10 @@ For a fixed $x$, $\mc{H}_x^n$ approximates the game $\G^\lambda_w$ for large $n$
 \end{align*}
 Define
 \begin{align*}
-    F : \Reals^V &\mapsto \Reals^V \\
-    (F(x))_u &= \begin{dcases}
-    \min_{v \in N(u)} (1-\lambda) w(u,v) + \lambda x_v & \text{ if } u \in V_0\\
-    \max_{v \in N(u)} (1-\lambda) w(u,v) + \lambda x_v & \text{ if } u \in V_1\\
-    \end{dcases}
-    \intertext{and}
     \sigma_x(u) &= \argmin_{ v \in N(u)}\; (1-\lambda) w(u,v) + \lambda x_v \quad \text{ if } u \in V_0\\
     \tau_x(u) &= \argmax_{ v \in N(u)}\; (1-\lambda) w(u,v) + \lambda x_v   \quad \text{ if } u \in V_1
 \end{align*}
+
 It is straightforward to check that $F(x)$ is the value vector and $(\sigma_x,\tau_x)$ are the optimal strategies for $\mc{H}_x^1$.
 
 \item[For $n \geq 2$] We have
@@ -70,7 +87,7 @@ To show this, let $v_0 v_1 \ldots v_n$ be a path conforming with $\sigma^*$. Sin
 The last inequality follows as $v_0v_1$ conforms with $\sigma_y$. Similarly if $v_0 v_1\ldots v_n$ conforms with $\tau^*$, $h^n_x(v_0v_1 \ldots v_n) \geq F(y)_{v_0}$. Hence $F(y)$ is the value vector for $\mc{H}^n_x$.
 \end{description}
 
-Hence by using induction this shows that $F^n(x)$ is the value vector for $\mc{H}^n_x$, and $\sigma^*=[\sigma_{F^n(y)},\ldots \sigma_{F(y)},\sigma_y]$ and $\tau^*=[\tau_{F^n(y)},\ldots \tau_{F(y)},\tau_y]$ are the optimal strategies. Since $\mc{H}^n_x$ approximates $\G^\lambda_w$ as $n \to \infty$, we expect $F^n(x)$ to converge to the value vector for $G^\lambda_w$.
+Hence by using induction this shows that $F^n(x)$ is the value vector for $\mc{H}^n_x$. Let $\sigma^*=[\sigma_{F^{n-1}(y)},\ldots \sigma_{F(y)},\sigma_y]$ be the strategy that plays $\sigma_{F^{n-1}(y)}$ in the first round, $\sigma_{F^{n-2}(y)}$ in the second round and so on. Similarly let $\tau^*=[\tau_{F^{n-1}(y)},\ldots \tau_y]$. Then $(\sigma^*,\tau^*)$ are optimal strategies for $\mc{H}^n_x$. Since $\mc{H}^n_x$ approximates $\G^\lambda_w$ as $n \to \infty$, we expect $F^n(x)$ to converge to the value vector for $G^\lambda_w$.
 
 Now we will use this to show that $\G^\lambda_w$ has a minimax equilibrium. Consider the norm $\normi{.}$ on $\Reals^V$ by
 \[
@@ -80,9 +97,9 @@ Then (using $|\max_{i\in I} a_i - \max_{i \in I} b_i| \leq \max_{i \in I} |a_i-b
 \[
     \normi{F(x)-F(y)} \leq \lambda \normi{x-y}
 \]
-Hence $F$ is a contraction mapping with coefficient $\lambda \in (0,1)$. Hence it follows that for any $x$, $\lim_n F^n(x) = \eta$ where $F(\eta)=\eta$ is the unique fixed point of $F$. Since $F^m(\eta)=\eta$ for any $m$, $\mc{H}^m_\eta$ has value $\eta$ and $\sigma^*=\sigma_\eta, \tau^*=\tau_\eta$ are positional optimal strategies.
+Hence $F$ is a contraction mapping with coefficient $\lambda \in (0,1)$. It follows that (see \cite{baby_rudin}) for any $x$, $\lim_n F^n(x) = \eta$ where $F(\eta)=\eta$ is the unique fixed point of $F$. Since $F^m(\eta)=\eta$ for any $m$, $\mc{H}^m_\eta$ has value $\eta$ and $\sigma^*=\sigma_\eta, \tau^*=\tau_\eta$ are positional optimal strategies.
 
-Let $v_0v_1 \ldots$ be a path which conforms with $\sigma_\eta$ then
+Let $v_0v_1 \ldots$ be a path in $G$ which conforms with $\sigma_\eta$ then
 \[
     h^n_x(v_0 v_1 \ldots v_n) = (1-\lambda) \left( \sum_{i=0}^{n-1} \lambda^i w(v_i,v_{i+1}) \right) + \lambda^n \eta_{v_n} \leq \eta_{v_0}
 \]
@@ -90,11 +107,33 @@ for every $n$. Letting $n \to \infty$
 \[
     f^\lambda_w(v_0 v_1 \ldots) \leq \eta_{v_0}
 \]
-Similarly when $v_0 v_1 \ldots$ comforms with $\tau_\eta$
+Similarly when $v_0 v_1 \ldots$ conforms with $\tau_\eta$
 \[
     f^\lambda_w(v_0 v_1 \ldots) \geq \eta_{v_0}
 \]
 This shows that $\eta$ is the value vector for $\G^\lambda_w$ and $(\sigma_\eta,\tau_\eta)$ are positional optimal strategies.
+\end{proof}
+
+Like in the Mean payoff case, positional determinacy gives us constraints on the optimal value.
+
+\begin{corollary}
+    \label{cor:disc-value-bounds}
+    Suppose $w$ is integer valued. Let $\eta$ be the payoff vector for the game $\G^\lambda_w$ and let $v \in V$.
+    Then $\eta_v = p(\lambda)/q(\lambda)$ for polynomials $p,q$  of degree $\leq |V|+1$ with integer coefficients bounded by $4|W|$.
+\end{corollary}
+\begin{proof}
+    Let $\eta$ be the value vector for $\G^\lambda_w$. Since $(\sigma_\eta,\tau_\eta)$ are positional optimal
+    \[
+        \pi^v_{\sigma_\eta\tau_\eta}=v_0v_1 \ldots v_{r-1} (v_r v_{r+1} \ldots v_k)^\omega
+    \] for some $k \leq |V|$ and $f^\lambda_w(\pi^v_{\sigma_\eta\tau_\eta})=\eta_v$. But
+    \begin{align*}
+        f^\lambda_w(\pi^v_{\sigma_\eta\tau_\eta}) &= (1-\lambda) \sum_{i=0}^\infty \lambda^i w(v_i,v_{i+1})\\
+        &= (1-\lambda) \left[ \sum_{i=0}^{r-1} \lambda^i w(v_i,v_{i+1}) + \left( \sum_{i=r}^k \lambda^i w(v_i,v_{i+1}) \right) (1+\lambda^{k-r+1}+\lambda^{2(k-r+1)} \ldots) \right]\\
+        &= (1-\lambda) \left[ \sum_{i=0}^{r-1} \lambda^i w(v_i,v_{i+1}) + \left( \sum_{i=r}^k \lambda^i w(v_i,v_{i+1}) \right) \frac{1}{1- \lambda^{k-r+1}} \right]\\
+        &= \frac{p(\lambda)}{q(\lambda)}
+    \end{align*}
+    $p,q$ are polynomial of degree $\leq |V|+1$ (take $q(\lambda)=1-\lambda^{k-r+1}$) and all the coefficients are integers bounded modulus by $4W$. Note that coefficients not only depend on $v,w$ but even on $\lambda$ (via $(\sigma_\eta,\tau_\eta)$).
+\end{proof}
 
 \section{Mean payoff to Discounted payoff}
 
@@ -126,60 +165,81 @@ Hence as $\lambda \to 1^-$ we expect the discounted game $\G^\lambda_w$ to appro
     \[
         \normi{\eta - \eta_{\lambda}} \leq 2|V|W (1-\lambda)
     \]
-
 \end{theorem}
-%Using this
-%Hence if $\frac{\sum_{i=0}^n a_i}{n+1} \to \alpha$ -- i.e. $\sum_{i=0}^n a_i = (n+1)(\alpha + d_n)$ with $\lim d_n = 0$ then
-%\begin{align*}
-    %u_\lambda((a_i)) &= (1-\lambda)^2 \sum_{k=0}^\infty (k+1)(\alpha + d_k) \lambda^k\\
-    %&= \alpha + (1-\lambda)^2 \sum_{k=0}^\infty (k+1) d_k \lambda^k \qquad \text{ using \eqref{eqn:series} }\\
-    %&= \alpha + \delta_\lambda((d_k))
-%\end{align*}
-%Pick an $\epsilon > 0$. Observe that if $\forall n \; |d_n| \leq \epsilon$ then because of \eqref{eqn:series}  $|\delta_\lambda((d_k))| \leq \epsilon$.\\
-%Since we have $\lim d_n = 0$ we have a $N$ so that $\forall n\geq N \; |d_n| \leq \frac{\epsilon}{2}$. We can choose a $\lambda_0$ close enough to $1$ so that $\forall \lambda \geq \lambda_0$ sum of the first $N$ terms of $\delta_\lambda((d_k))$ is  $\leq \frac{\epsilon}{2}$. And hence $\forall \lambda \geq \lambda_0$
-%\[
-    %|u_\lambda((a_i)) - \alpha| = |\delta_\lambda((d_k))| \leq \frac{\epsilon}{2} + \frac{\epsilon}{2} \leq \epsilon
-%\]
+\begin{proof} From \eqref{eq:disc-to-sum}
+\begin{align*}
+    f^\lambda_w(v_0 v_1 \ldots) &= (1-\lambda) \sum_{i=0}^\infty \lambda^i w(v_i,v_{i+1})\\
+    &= (1-\lambda)^2 \sum_{k=0}^\infty \left( \sum_{i=0}^k w(v_i,v_{i+1}) \right) \lambda^k \numberthis \label{eq:disc-payoff-as-sum}
+\end{align*}
+Let $(\sigma^*,\tau^*)$ be the stack based optimal strategies for $\G_w$ and let $(\sigma_\lambda,\tau_\lambda)$ be the optimal strategies for $\G^\lambda_w$.
 
-Hence if $\lim_n \frac{1}{n+1} \sum_{i=0}^n a_i = \alpha$, then $\alpha = \lim_{\lambda \to 1^-} (1-\lambda) \sum_{i=0}^\infty a_i \lambda^i$. This shows why we expect $\G_\lambda$ to approximate the mean payoff game $\G_m$ as $\lambda \to 1$.
+    Let $\pi=v_0v_1 \ldots$ be an infinite path in $G$ that conforms with $\sigma^*$. Then using the same argument as used in the proof of \autoref{thm:meanEquilibrium} we have from \eqref{eq:sum-upperbound}
+    \begin{align*}
+        \sum_{i=0}^k w(v_i,v_{i+1}) \leq (k+1) \eta_{v_0} + 2|V|W
+    \end{align*}
+    Combining this with \eqref{eq:disc-payoff-as-sum}
+    \begin{align*}
+        f^\lambda_w(\pi) &\leq (1-\lambda)^2 \sum_{k=0}^\infty \left( (k+1)\eta_{v_0} + 2|V|W \right) \lambda^k \\
+        &= \eta_{v_0}(1-\lambda)^2 \sum_{k=0}^\infty (k+1) \lambda^k + 2|V|W(1-\lambda)^2(\sum_{k=0}^\infty \lambda^k)\\
+        &= \eta_{v_0} + 2|V|W(1-\lambda) \tag{Using \eqref{eq:series} and $\sum_{i=0}^\infty \lambda^i = \frac{1}{1-\lambda}$}
+    \end{align*}
+    Since $\pi$ was any path that conformed with $\sigma^*$, consider $\pi^v_{\sigma^*\tau_\lambda}$. This shows
+    \begin{equation}
+        \label{eq:diffvalue1}
+        (\eta_\lambda)_v \leq f^\lambda_w(\pi^v_{\sigma^*\tau_\lambda}) \leq \eta_v + 2|V|W(1-\lambda)
+    \end{equation}
+    for every $v \in V$.
 
-Now we will show that the values of $\G_\lambda$ will converge to the value for the mean payoff game $\G_m$. Let $\eta_\lambda$ be the values for $\G_\lambda$, and let $\eta$ be for $\G_m$. Consider the stack based optimal strategy $\sigma_m$ in $\G_m$ for player 0. How will this strategy fare in $\G_\lambda$? Let $\tau^\lambda$ be the optimal strategy for player 1 in $\G_\lambda$. Let $\pi^{v_0}_{\sigma_m\tau_\lambda}=v_0v_1 \ldots$, then
-\begin{align}
-    f_\lambda(\pi^{v_0}_{\sigma_m\tau_\lambda}) &= u_\lambda((w(v_i,v_{i+1}))\\
-    &= (1-\lambda)^2 \sum_{k=0}^\infty (\sum_{i=0}^k w(v_i,v_{i+1})) \lambda^k \label{eq:sumdisc}
-\end{align}
-Now suppose that at the $nth$ stage there are $r(n)$ edges on the stack. Then
-\begin{align}
-    \sum_{i=0}^{n-1} w(v_i,v_{i+1}) &\leq (n-r(n)) \eta_{v_0} + M r(n)\\
-    &\leq n \eta_{v_0} + r(n)(M-\eta_{v_0})\\
-    &\leq n \eta_{v_0} + 2|V|M
-\end{align}
-Hence
-\begin{align}
-    f_\lambda(\pi^{v_0}_{\sigma_m\tau_\lambda}) &\leq (1-\lambda)^2 \sum_{k=0}^\infty ((k+1)\eta_{v_0} + 2|V|M)\lambda^k\\
-    &\leq \eta_{v_0} + 2|V|M (1-\lambda)
-\end{align}
-But since $\tau_\lambda$ is optimal for player 1 in $\G_\lambda$, we have $f_\lambda(\pi^{v_0}_{\sigma_m\tau_\lambda}) \geq (\eta_\lambda)_{v_0}$. Hence -
-\begin{align}
-    (\eta_\lambda)_{v_0} \leq \eta_{v_0} + 2|V|M (1-\lambda) \label{ineq:close1}
-\end{align}
+    Similarly if $\pi=v_0v_1 \ldots$ is an infinite path in $G$ that conforms with $\tau^*$, from \eqref{eq:sum-lowerbound}
+    \begin{align*}
+        \sum_{i=0}^k w(v_i,v_{i+1}) \geq (k+1) \eta_{v_0} - 2|V|W
+    \end{align*}
+    Similar to the above, this combined with \eqref{eq:disc-payoff-as-sum} for $\pi^v_{\sigma_\lambda\tau^*}$ will give
+    \begin{equation}
+        \label{eq:diffvalue2}
+        (\eta_\lambda)_v \geq f^\lambda_w(\pi^v_{\sigma_\lambda\tau^*}) \geq \eta_v - 2|V|W (1-\lambda)
+    \end{equation}
 
-Similarly start with an optimal strategy $\tau^m$ for player 1 in $\G_m$ and play it against the optimal strategy $\sigma_\lambda$ for player 0 in $\G_\lambda$. Then the resulting path $\pi^{v_0}_{\sigma_\lambda\tau^*}=v_0v_1\ldots$ will satisfy (similar to \eqref{eq:sumdisc}) -
-\[
-    f_\lambda(\pi^{v_0}_{\sigma_\lambda\tau_m}) = (1-\lambda)^2 \sum_{k=0}^\infty (\sum_{i=0}^k w(v_i,v_{i+1})) \lambda^k  \\
-\]
-And using the stack argument,
-\begin{align}
-    \sum_{i=0}^{n-1} w(v_i,v_{i+1}) &\geq (n-r(n)) \eta_{v_0} - M r(n)\\
-    &\geq n \eta_{v_0} - r(n)(M+\eta_{v_0})\\
-    &\geq n \eta_{v_0} - 2|V|M
-\end{align}
-Hence
-\begin{equation}
-    (\eta_\lambda)_{v_0} \geq f_\lambda(\pi^{v_0}_{\sigma_\lambda\tau_m}) \geq \eta_{v_0} - 2|V|M (1-\lambda) \label{ineq:close2}
-\end{equation}
+    \eqref{eq:diffvalue1} and \eqref{eq:diffvalue2} together show that
+    \[
+        \normi{\eta - \eta_\lambda} \leq 2|V|W(1-\lambda)
+    \]
+\end{proof}
 
-Now using \eqref{ineq:close1} and \eqref{ineq:close2} from every $v_0 \in V$,
-\begin{equation}
-    \normi{\eta_\lambda - \eta_m} \leq 2|V|M(1-\lambda)
-\end{equation}
+
+Consider the following decision problem for Discounted payoff games
+\begin{decision}[DISC]
+    \label{dec:disc}
+    Given a graph $G$, vertex $v$, edge weights $w$, a discount $\lambda$ and threshold a $t$. Determine whether $\val(\G^\lambda_w,v) \geq t$\footnote{We can assume $t=0$ by considering $w'(e)=w(e)-t$ instead of $w$} or not.
+\end{decision}
+
+\begin{corollary}
+    \label{cor:mean2disc}
+    Given $(G,v)$ with an integer valued $w$, \nameref{dec:meanpayoff} can be reduced to an instance of \nameref{dec:disc} in polynomial time.
+\end{corollary}
+\begin{proof}
+    Let $W$ be the maximum modulus among all the edge-weights in $w$. Set $\lambda=1 -\frac{1}{8|V|^2W}$ and $t=\frac{3}{4|V|}$. For this choice of $\lambda$ by \autoref{thm:mean-to-discounted}, $|\val(\G_w, v) - \val(\G^\lambda_w,v)| \leq \frac{1}{4|V|}$. Combine this with \autoref{cor:valMeanPayoff} to obtain
+    \[
+        \val(\G_w,v) > 0 \implies \val(\G_w,v) \geq \frac{1}{|V|} \implies \val(\G^\lambda_w,v) \geq \frac{3}{4|V|}
+    \]
+    and
+    \[
+        \val(\G^\lambda_w,v) \geq \frac{3}{4|V|} \implies \val(\G_w,v) \geq \frac{1}{2|V|} > 0
+    \]
+    this shows that $\val(\G_w,v) > 0 \iff \val(\G^\lambda_w) \geq t$. Computing $W$, $\lambda$ and $t$ can be done time polynomial in the input size -- hence this is a polynomial time reduction.
+\end{proof}
+
+\section{Complexity}
+
+By \autoref{thm:disc-minimax}, once the unique fixed point $\eta=F(\eta)$ is found, finding the optimal strategies $(\sigma_\eta,\tau_\eta)$ is easy. Hence to solve $\G^\lambda_w$ one  has to find the fixed point of $F$.
+
+By \autoref{cor:disc-value-bounds}, the value vector has a polynomial representation in the input size. Hence one case guess a possible value $\eta'$ (a polynomial size certificate) for the value vector and verify that $F(\eta')=\eta'$. Since $F$ has a unique fixed point there will be a unique guess which works. Hence this shows that
+
+\begin{theorem}
+    \label{thm:disc-in-up}
+    \nameref{dec:disc} is in $\UP \cap \coUP$.
+\end{theorem}
+Here $\UP$ is the class of problems accepted by a polynomial time unambiguous turing Machine. An unambiguous turing machine is a nondererministic turing machine which has at most one accepting run. Hence $P \subseteq \UP \subseteq \NP$.
+
+\section{Summary}
+We have defined Discounted Payoff games and shown that they have postional optimal strategies (\autoref{thm:disc-minimax}). The value vector is a fixed point an operator $F$ and can be computed by taking repreated iterates. Next we show how the Discounted payoff value vector approximates the value vector for the corresponding Mean payoff game (\autoref{thm:mean-to-discounted}). This is used to give a polynomial time reduction from the decision problem for Mean payoff \nameref{dec:meanpayoff} to that for Discounted payoff \nameref{dec:disc} (\autoref{cor:mean2disc}). Finally we show that \nameref{dec:disc} is in $\UP \cap \coUP$ (\autoref{thm:disc-in-up}).
