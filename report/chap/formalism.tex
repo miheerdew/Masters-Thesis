@@ -3,7 +3,7 @@
 We will look at a class of two player games on graphs. The two players will be called Player 0 and Player 1 (abbreviated as \Player{0}, \Player{1}). Although we will only look at specific games later, all of them fit into a general framework which will be discussed now.
 \section{Formalism}
 \label{sec:formalism}
-The game is played on a directed graph $G=(V_0,V_1,E)$ whose vertices are $V=V_0 \sqcup V_1$ and edges are $E \subseteq V\times V$. The vertices $V$ are partitioned as $(V_0,V_1)$ -- those belonging to P0 and P1 respectively. We will always assume that $G$ has no dead ends ($\forall v \in V \; \exists w \, (v,w) \in E$). For $n \geq 0$, let $\PF[n]$ denote the set of paths in $G$ of length $n$ (in paritcular $\PF[0]=V$, $\PF[1]=E$). $\PF$ will denote the set of all finite paths in $G$, and by $\PI$ the set of all infinite paths. $N(u)=\set{v \mid (u,v) \in E}$ is the set of outgoing neighbours of $u$.
+The game is played on a directed graph $G=(V_0,V_1,E)$ whose vertices are $V=V_0 \sqcup V_1$ and edges are $E \subseteq V\times V$. The vertices $V$ are partitioned as $(V_0,V_1)$ -- those belonging to P0 and P1 respectively. We will always assume that $G$ has no dead ends ($\forall v \in V \; \exists w \, (v,w) \in E$). For $n \geq 0$, let $\PF[n]$ denote the set of paths in $G$ of length $n$ (in particular $\PF[0]=V$, $\PF[1]=E$). $\PF$ will denote the set of all finite paths in $G$, and by $\PI$ the set of all infinite paths. $N(u)=\set{v \mid (u,v) \in E}$ is the set of outgoing neighbours of $u$.
 
 The game starting from $v_0 \in V$ is played as follows
 \begin{itemize}
@@ -25,7 +25,7 @@ $ is the payoff function. When $f(\pi) < 0$ this is interpreted as \Player{1} pa
 This game will be denoted by $\G=(G,f)$. And in particular, the game  starting at $v_0$ by $(\G,v_0)$.
 
 \subsection{Strategy}
-A strategy for \Player{i} is a function $\sigma : \PF \cap V^*V_{i} \mapsto V$, which assigns to each possible finite path $\alpha u$ ending in $ u \in V_i$ a neighbor $\sigma(\alpha u) \in N(u)$.
+A strategy for \Player{i} is a function $\sigma : \PF \cap V^*V_{i} \mapsto V$, which assigns to each possible finite path $\alpha u$ ending in $ u \in V_i$ a neighbour $\sigma(\alpha u) \in N(u)$.
 
 Intuitively this is a recipe for \Player{i} to make his moves in the game. If at the \nth\ stage it is \Player{i}'s turn, and the token has been moved to $v_0v_1 \ldots v_{n-1}$ so far (with $v_{n-1} \in V_i$), the strategy recommends playing $v_n=\sigma(v_0v_1 \ldots v_{n-1})$
 
@@ -79,7 +79,7 @@ Denote by \ST{i} the set of all strategies of \Player{i}. Often $\sigma,\tau$ (a
 
 \section{Optimal play}
 %TODO: Should I just say that one cannot unilaterally deviate from the optimal.
-How should \Player{i} play so as to best fulfill his objective of minimizing/maximizing the payoff? Generally this depends on the opponents play - so it is not exactly a standard optimization problem. Instead (whenever it exists) the following concept for optimal play is used.
+How should \Player{i} play so as to best fulfil his objective of minimizing/maximizing the payoff? Generally this depends on the opponents play - so it is not exactly a standard optimization problem. Instead (whenever it exists) the following concept for optimal play is used.
 \subsection{Minimax equilibrium}
 For the game $(\G,v)$, if there is an $\eta_v \in \Reals$ and strategies $\sigma^*,\tau^*$ for player 0 and 1 respectively so that
 \begin{equation}

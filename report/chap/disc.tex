@@ -158,7 +158,7 @@ Using \eqref{eq:disc-to-sum} and \eqref{eq:series} one can prove the following.
     Let $u_\lambda=(1-\lambda) \sum_{i=0}^\infty a_i \lambda^i$ and assume $\lim_{n \to \infty} \frac{1}{n+1}\sum_{i=0}^n a_i = \alpha$. Then $\lim_{\lambda \to 1^-} u_\lambda = \alpha$.
 \end{theorem}
 
-Hence as $\lambda \to 1^-$ we expect the discounted game $\G^\lambda_w$ to approximate the mean payoff game $\G_w$. Now we will show this.
+Hence as $\lambda \to 1$ we expect the discounted game $\G^\lambda_w$ to approximate the mean payoff game $\G_w$. Now we will show this.
 
 \begin{theorem}
     \label{thm:mean-to-discounted}
@@ -234,13 +234,18 @@ Consider the following decision problem for Discounted payoff games
 
 By \autoref{thm:disc-minimax}, once the unique fixed point $\eta=F(\eta)$ is found, finding the optimal strategies $(\sigma_\eta,\tau_\eta)$ is easy. Hence to solve $\G^\lambda_w$ one  has to find the fixed point of $F$.
 
-By \autoref{cor:disc-value-bounds}, the value vector has a polynomial representation in the input size. Hence one case guess a possible value $\eta'$ (a polynomial size certificate) for the value vector and verify that $F(\eta')=\eta'$. Since $F$ has a unique fixed point there will be a unique guess which works. Hence this shows that
-
+By \autoref{cor:disc-value-bounds}, the value vector has a polynomial representation in the input size. Hence one can guess a possible value $\eta'$ (a polynomial size certificate) for the value vector and verify that $F(\eta')=\eta'$. Since $F$ has a unique fixed point there will be a unique guess which works. Hence this shows that
 \begin{theorem}
     \label{thm:disc-in-up}
     \nameref{dec:disc} is in $\UP \cap \coUP$.
 \end{theorem}
-Here $\UP$ is the class of problems accepted by a polynomial time unambiguous turing Machine. An unambiguous turing machine is a nondererministic turing machine which has at most one accepting run. Hence $P \subseteq \UP \subseteq \NP$.
+\begin{flushright}
+\begin{boxedminipage}{0.95\textwidth}
+$\UP$ is the class of problems accepted by a polynomial time unambiguous Turing Machine. An unambiguous Turing machine is a nondeterministic Turing machine which has at most one accepting run. Hence $P \subseteq \UP \subseteq \NP$.
+\end{boxedminipage}
+\end{flushright}
+
+As mentioned already, for any $x$, $\lim_n F^n(x)=\eta$. Hence another way to compute $\eta$ is to compute $F^n(0)$ for large $n$ to get to the desired accuracy.
 
 \section{Summary}
-We have defined Discounted Payoff games and shown that they have postional optimal strategies (\autoref{thm:disc-minimax}). The value vector is a fixed point an operator $F$ and can be computed by taking repreated iterates. Next we show how the Discounted payoff value vector approximates the value vector for the corresponding Mean payoff game (\autoref{thm:mean-to-discounted}). This is used to give a polynomial time reduction from the decision problem for Mean payoff \nameref{dec:meanpayoff} to that for Discounted payoff \nameref{dec:disc} (\autoref{cor:mean2disc}). Finally we show that \nameref{dec:disc} is in $\UP \cap \coUP$ (\autoref{thm:disc-in-up}).
+We have defined Discounted payoff games and shown that they have positional optimal strategies (\autoref{thm:disc-minimax}). The value vector is the fixed point of the operator $F$ and can be computed by taking repeated iterates. Next we show that the Discounted payoff value vector approximates the value vector for the corresponding Mean payoff game as $\lambda \to 1$ (\autoref{thm:mean-to-discounted}). This is used to give a polynomial time reduction from the decision problem for Mean payoff \nameref{dec:meanpayoff} to that for Discounted payoff \nameref{dec:disc} (\autoref{cor:mean2disc}). Finally we show that \nameref{dec:disc} is in $\UP \cap \coUP$ (\autoref{thm:disc-in-up}).

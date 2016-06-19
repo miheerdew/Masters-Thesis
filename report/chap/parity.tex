@@ -5,8 +5,6 @@ Parity games were introduced in \cite{emersonjutla} to solve the $\mu$-calculus 
 Apart from Parity, the following chapters will also introduce Mean and Discounted Payoff Games. Although seemingly unrelated, each game can be reduced to the successive one. This is used in \cite{parityup} to show that the decision problems for all of them are in $\UP \cap \coUP$ (here $\UP$ is the class of decision problems that have a unique polynomial size certificate, hence $\P \subseteq \UP \subseteq \NP$). Whether any of these games (i.e. their respective decision problems) has a polynomial time solution or not is again an open question.
 
 \section{Definition}
-%TODO: Make this consitent with notation in Chapter 1
-%Idea: Call it G instead of \G like done in Mean Payoff
 Let $G=(V_0,V_1,E)$ be a graph and let (for some $M \in \Nat$)
 \[
     p : V \mapsto \set{0,1,2 \ldots M}
@@ -20,7 +18,7 @@ Parity game $\G_p=(G,Win_p)$ is a Win-Lose game (\autoref{sec:winlose}) with
 
 Let the largest priority seen infinitely often, on a path $\pi$, be denoted by \mip\ of $\pi$. If \mip\ of $\pi$ is odd then \Player{1} wins $\pi$; if the \mip\ is even then \Player{0} wins. Since $V$ is finite, there's a vertex $v$ which is visited infinitely often by $\pi$, and has the same priority as the \mip.
 
-Notice that in contrast with finite games (\autoref{sec:finitegames}), the winning condition \eqref{cond:parity} only depends on long run behavior. This property is also called prefix independence -- for $w \in \PF$ and $\alpha \in \PI$ if $w \cdot \alpha \in \PI$ then $\alpha \in Win_p \iff w \cdot \alpha \in Win_p$. However, due to path constraints in the graph $G$, the prefix might still be important as it can enable or disable certain long term behaviors.
+Notice that in contrast with finite games (\autoref{sec:finitegames}), the winning condition \eqref{cond:parity} only depends on long run behaviour. This property is also called prefix independence -- for $w \in \PF$ and $\alpha \in \PI$ if $w \cdot \alpha \in \PI$ then $\alpha \in Win_p \iff w \cdot \alpha \in Win_p$. However, due to path constraints in the graph $G$, the prefix might still be important as it can enable or disable certain long term behaviours.
 
 
 \section{Positional Determinacy}
